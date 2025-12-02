@@ -4,7 +4,6 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PostResource\Pages;
 use App\Models\Post;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -24,9 +23,9 @@ class PostResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
-    protected static ?string $navigationLabel = 'Posts';
+    protected static ?string $navigationLabel = 'Postingan';
 
-    protected static ?string $pluralModelLabel = 'Posts';
+    protected static ?string $pluralModelLabel = 'Postingan';
 
     protected static ?string $modelLabel = 'Post';
 
@@ -88,10 +87,15 @@ class PostResource extends Resource
             ->columns([
                 TextColumn::make('title')->label('Judul')->searchable()->sortable(),
                 TextColumn::make('type')->label('Tipe')->sortable(),
-                TextColumn::make('status')->label('Status')->sortable()->enum([
-                    'draft' => 'Draft',
-                    'published' => 'Published',
-                ]),
+                TextColumn::make('status')
+                    ->label('Status')
+                    ->sortable()
+                    ->formatStateUsing(function ($state) {
+                        return [
+                            'draft' => 'Draft',
+                            'published' => 'Published',
+                        ][$state] ?? $state;
+                    }),
                 TextColumn::make('published_at')->label('Published')->dateTime('d M Y H:i')->sortable(),
                 ImageColumn::make('cover_image')->label('Cover')->square(),
             ])

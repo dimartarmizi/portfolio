@@ -10,27 +10,18 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
+            $table->integer('year')->nullable();
             $table->string('title');
             $table->string('slug')->unique();
-
-            $table->enum('category', ['Website', 'Mobile App', 'Design', 'Video', 'Other'])
-                  ->default('Other');
-
-            $table->string('client')->nullable();
+            $table->string('made_at')->nullable();
             $table->text('description')->nullable();
-
-            $table->integer('year')->nullable();
-
-            $table->string('project_url')->nullable();
+            $table->string('link')->nullable();
             $table->string('thumbnail')->nullable();
             $table->json('gallery')->nullable();
-
             $table->json('technologies')->nullable();
             $table->json('features')->nullable();
             $table->json('results')->nullable();
-
             $table->enum('status', ['ongoing', 'completed'])->default('completed');
-
             $table->timestamps();
         });
     }

@@ -3,9 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProjectResource\Pages;
-use App\Filament\Resources\ProjectResource\RelationManagers;
 use App\Models\Project;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -17,7 +15,6 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select as FormSelect;
-use Illuminate\Support\Str;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\IconColumn;
 
@@ -39,42 +36,33 @@ class ProjectResource extends Resource
             ->schema([
                 Grid::make(2)
                     ->schema([
-                        TextInput::make('title')
-                            ->label('Judul')
-                            ->placeholder('Masukkan judul proyek')
-                            ->required(),
-                        TextInput::make('slug')
-                            ->label('Slug')
-                            ->placeholder('otomatis-diisi-dari-judul')
-                            ->required()
-                            ->unique(ignoreRecord: true),
-
-                        Select::make('category')
-                            ->label('Kategori')
-                            ->options([
-                                'Website' => 'Website',
-                                'Mobile App' => 'Aplikasi Mobile',
-                                'Design' => 'Desain',
-                                'Video' => 'Video',
-                                'Other' => 'Lainnya',
-                            ])
-                            ->placeholder('Pilih kategori')
-                            ->required(),
-
-                        TextInput::make('client')
-                            ->label('Klien')
-                            ->placeholder('Nama klien (opsional)'),
-
                         TextInput::make('year')
                             ->label('Tahun')
                             ->numeric()
                             ->placeholder('Contoh: 2025')
                             ->nullable(),
 
-                        TextInput::make('project_url')
-                            ->label('URL Proyek')
+                        TextInput::make('title')
+                            ->label('Judul')
+                            ->placeholder('Masukkan judul proyek')
+                            ->required(),
+
+                        TextInput::make('slug')
+                            ->label('Slug')
+                            ->placeholder('otomatis-diisi-dari-judul')
+                            ->required()
+                            ->unique(ignoreRecord: true),
+
+                        TextInput::make('made_at')
+                            ->label('Dibuat Di')
+                            ->placeholder('Tempat/pembuat (opsional)')
+                            ->nullable(),
+
+                        TextInput::make('link')
+                            ->label('Link')
                             ->url()
-                            ->placeholder('https://contoh.com'),
+                            ->placeholder('https://contoh.com')
+                            ->nullable(),
                     ]),
 
                 Textarea::make('description')
@@ -95,7 +83,7 @@ class ProjectResource extends Resource
                         FileUpload::make('image')
                             ->label('Gambar')
                             ->image()
-                            ->required(),
+                            ->nullable(),
 
                         TextInput::make('caption')
                             ->label('Keterangan')
@@ -154,11 +142,12 @@ class ProjectResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
-                TextColumn::make('title')->label('Judul')->searchable()->sortable(),
-                TextColumn::make('category')->label('Kategori')->sortable(),
-                TextColumn::make('client')->label('Klien')->toggleable()->sortable(),
+                ->columns([
                 TextColumn::make('year')->label('Tahun')->sortable(),
+                TextColumn::make('title')->label('Judul')->searchable()->sortable(),
+                TextColumn::make('slug')->label('Slug')->toggleable()->sortable(),
+                TextColumn::make('made_at')->label('Made At')->toggleable()->sortable(),
+                TextColumn::make('link')->label('Link')->url(fn ($record): ?string => $record->link)->toggleable()->sortable(),
                 IconColumn::make('status')
                     ->label('Selesai')
                     ->boolean()
@@ -166,15 +155,7 @@ class ProjectResource extends Resource
                     ->falseIcon('heroicon-o-clock'),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('category')
-                    ->label('Kategori')
-                    ->options([
-                        'Website' => 'Aplikasi Web',
-                        'Mobile App' => 'Aplikasi Mobile',
-                        'Design' => 'Desain',
-                        'Video' => 'Video',
-                        'Other' => 'Lainnya',
-                    ]),
+                // No category filter in migration; keep filters minimal
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

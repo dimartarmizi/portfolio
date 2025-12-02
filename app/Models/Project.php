@@ -10,13 +10,12 @@ class Project extends Model
     use HasFactory;
 
     protected $fillable = [
+        'year',
         'title',
         'slug',
-        'category',
-        'client',
+        'made_at',
         'description',
-        'year',
-        'project_url',
+        'link',
         'thumbnail',
         'gallery',
         'technologies',
