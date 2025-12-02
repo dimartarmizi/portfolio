@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
-@section('title', 'Portofolio - PT Agra Mitra Dinamika')
+@section('title', 'Proyek - PT Agra Mitra Dinamika')
 
 @section('content')
 <!-- Hero -->
 <section class="bg-gradient-to-r from-blue-600 to-blue-400 text-white py-20">
     <div class="max-w-7xl mx-auto px-6 text-center">
-        <h1 class="text-4xl md:text-5xl font-bold">Portofolio Proyek</h1>
+        <h1 class="text-4xl md:text-5xl font-bold">Proyek Proyek</h1>
         <p class="mt-3 text-blue-100 max-w-2xl mx-auto">Showcase proyek teknologi yang telah kami selesaikan dengan pendekatan sistematis</p>
         <div class="mt-8 flex items-center justify-center gap-2 flex-wrap">
-            <a href="{{ route('portfolio') }}" class="px-4 py-2 rounded-full font-medium {{ empty($selectedCategory) ? 'bg-white text-blue-600' : 'bg-white bg-opacity-10 text-white' }}">
+            <a href="{{ route('project') }}" class="px-4 py-2 rounded-full font-medium {{ empty($selectedCategory) ? 'bg-white text-blue-600' : 'bg-white bg-opacity-10 text-white' }}">
                 Semua Kategori <span class="ml-2 bg-blue-100 text-blue-600 text-xs px-2 py-0.5 rounded">{{ $categories->firstWhere('name', 'Semua')['count'] ?? 0 }}</span>
             </a>
 
@@ -17,7 +17,7 @@
             @foreach($categories as $cat)
             @if($cat['name'] !== 'Semua')
             @php $isActive = (isset($selectedCategory) && $selectedCategory === $cat['name']); @endphp
-            <a href="{{ route('portfolio', ['category' => $cat['name']]) }}" class="px-4 py-2 rounded-full {{ $isActive ? 'bg-white text-blue-600' : 'bg-white bg-opacity-10 text-white' }}">
+            <a href="{{ route('project', ['category' => $cat['name']]) }}" class="px-4 py-2 rounded-full {{ $isActive ? 'bg-white text-blue-600' : 'bg-white bg-opacity-10 text-white' }}">
                 {{ $cat['name'] }} <span class="ml-2 bg-blue-100 text-blue-600 text-xs px-2 py-0.5 rounded">{{ $cat['count'] }}</span>
             </a>
             @endif
@@ -30,10 +30,10 @@
 <section class="py-12">
     <div class="max-w-7xl mx-auto px-6">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            @if(isset($portfolios) && $portfolios->isNotEmpty())
-            @foreach($portfolios as $p)
+            @if(isset($projects) && $projects->isNotEmpty())
+            @foreach($projects as $p)
             <div class="bg-white rounded-lg shadow overflow-hidden">
-                <a href="{{ route('portfolio.show', ['slug' => $p->slug]) }}" class="block">
+                <a href="{{ route('project.show', ['slug' => $p->slug]) }}" class="block">
                     <div class="w-full bg-gray-100" style="position:relative;">
                         <div style="width:100%;padding-bottom:31.5789%;overflow:hidden;">
                             @if(!empty($p->thumbnail))
@@ -50,7 +50,7 @@
                         <div class="flex items-start space-x-3">
                             <div>
                                 <div class="flex items-center space-x-2">
-                                    <a href="{{ route('portfolio.show', ['slug' => $p->slug]) }}" class="font-semibold text-gray-900 hover:text-blue-600">{{ $p->title }}</a>
+                                    <a href="{{ route('project.show', ['slug' => $p->slug]) }}" class="font-semibold text-gray-900 hover:text-blue-600">{{ $p->title }}</a>
                                     <span class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded">{{ $p->category }}</span>
                                 </div>
                                 <p class="text-sm text-gray-500 mt-2">{{ $p->description ?? 'Deskripsi singkat proyek dan capaian yang relevan untuk menunjukkan nilai bisnis.' }}</p>
@@ -112,7 +112,7 @@
             </div>
             @endforeach
             @else
-            <div class="col-span-full text-center text-gray-500">Belum ada portofolio untuk kategori ini.</div>
+            <div class="col-span-full text-center text-gray-500">Belum ada proyek untuk kategori ini.</div>
             @endif
         </div>
     </div>

@@ -8,17 +8,9 @@
             </div>
 
             <nav class="hidden md:flex items-center space-x-6">
-                <a href="{{ route('beranda') }}" class="text-gray-600 hover:text-blue-600 font-bold">Beranda</a>
-                <a href="{{ route('layanan') }}" class="text-gray-600 hover:text-blue-600 font-bold">Layanan</a>
-                <a href="{{ route('tentang') }}" class="text-gray-600 hover:text-blue-600 font-bold">Tentang Kami</a>
-                <a href="{{ route('portfolio') }}" class="text-gray-600 hover:text-blue-600 font-bold">Portofolio</a>
-                <a href="{{ route('kontak') }}" class="text-gray-600 hover:text-blue-600 font-bold">Kontak</a>
+                <a href="{{ route('index') }}" class="text-gray-600 hover:text-blue-600 font-bold">Beranda</a>
+                <a href="{{ route('project') }}" class="text-gray-600 hover:text-blue-600 font-bold">Proyek</a>
             </nav>
-
-            <div class="hidden md:flex items-center">
-                <a href="{{ route('kontak') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Hubungi Kami</a>
-            </div>
-
             <div class="md:hidden">
                 <button id="nav-toggle" class="p-2 rounded-md focus:outline-none">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -30,11 +22,8 @@
     </div>
 
     <div id="mobile-nav" class="md:hidden hidden px-4 pb-6">
-        <a href="{{ route('beranda') }}" class="block py-2">Beranda</a>
-        <a href="{{ route('layanan') }}" class="block py-2">Layanan</a>
-        <a href="{{ route('tentang') }}" class="block py-2">Tentang Kami</a>
-        <a href="{{ route('portfolio') }}" class="block py-2">Portofolio</a>
-        <a href="{{ route('kontak') }}" class="block py-2">Kontak</a>
+        <a href="{{ route('index') }}" class="block py-2">Beranda</a>
+        <a href="{{ route('project') }}" class="block py-2">Proyek</a>
     </div>
 
     <style>

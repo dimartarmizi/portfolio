@@ -16,10 +16,7 @@
             <h4 class="font-semibold">Tautan Cepat</h4>
             <ul class="mt-3 space-y-2 text-sm">
                 <li><a href="{{ url('/') }}" class="hover:underline">Beranda</a></li>
-                <li><a href="{{ route('layanan') }}" class="hover:underline">Layanan</a></li>
-                <li><a href="{{ route('portfolio') }}" class="hover:underline">Portofolio</a></li>
-                <li><a href="{{ route('tentang') }}" class="hover:underline">Tentang Kami</a></li>
-                <li><a href="{{ route('kontak') }}" class="hover:underline">Kontak</a></li>
+                <li><a href="{{ route('project') }}" class="hover:underline">Proyek</a></li>
             </ul>
         </div>
 

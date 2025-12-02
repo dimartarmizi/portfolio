@@ -17,11 +17,6 @@
                 <li>• Riset & Konsultansi Profesional</li>
                 <li>• Perdagangan, Distribusi & Produksi Kreatif</li>
             </ul>
-
-            <div class="mt-8 flex flex-col sm:flex-row sm:space-x-4 space-y-3 sm:space-y-0">
-                <a href="{{ route('tentang') }}" class="inline-flex items-center px-5 py-3 bg-white text-blue-700 rounded-md font-semibold">Tentang Kami</a>
-                <a href="{{ route('kontak') }}" class="inline-flex items-center px-5 py-3 border border-white bg-white/10 rounded-md">Hubungi Kami</a>
-            </div>
         </div>
 
         <div class="space-y-4">
@@ -58,11 +53,6 @@
                 <p class="text-sm text-gray-500 mt-2">
                     Pembuatan website, aplikasi mobile, dan software custom yang dirancang sesuai kebutuhan operasional perusahaan dengan teknologi modern dan standar keamanan tinggi.
                 </p>
-                <div class="mt-auto pt-4">
-                    <a href="{{ route('kontak') }}" class="inline-flex px-4 py-2 border border-gray-200 rounded-md text-sm hover:bg-gray-50">
-                        Pelajari Layanan →
-                    </a>
-                </div>
             </div>
 
             <!-- 2. Digital Platforms -->
@@ -74,11 +64,6 @@
                 <p class="text-sm text-gray-500 mt-2">
                     Pengembangan dan pengelolaan portal digital, platform komersial, marketplace, serta sistem layanan otomatis yang mendukung transformasi digital bisnis Anda.
                 </p>
-                <div class="mt-auto pt-4">
-                    <a href="{{ route('kontak') }}" class="inline-flex px-4 py-2 border border-gray-200 rounded-md text-sm hover:bg-gray-50">
-                        Pelajari Layanan →
-                    </a>
-                </div>
             </div>
 
             <!-- 3. IT Consulting -->
@@ -90,11 +75,6 @@
                 <p class="text-sm text-gray-500 mt-2">
                     Konsultasi strategi teknologi, integrasi sistem, audit IT, otomatisasi proses bisnis, serta solusi digitalisasi yang meningkatkan efisiensi perusahaan.
                 </p>
-                <div class="mt-auto pt-4">
-                    <a href="{{ route('kontak') }}" class="inline-flex px-4 py-2 border border-gray-200 rounded-md text-sm hover:bg-gray-50">
-                        Pelajari Layanan →
-                    </a>
-                </div>
             </div>
 
             <!-- 4. Media & Production -->
@@ -106,11 +86,6 @@
                 <p class="text-sm text-gray-500 mt-2">
                     Produksi video, fotografi, iklan, manajemen sosial media, publikasi majalah/jurnal, dan kampanye pemasaran digital maupun cetak untuk kebutuhan branding.
                 </p>
-                <div class="mt-auto pt-4">
-                    <a href="{{ route('kontak') }}" class="inline-flex px-4 py-2 border border-gray-200 rounded-md text-sm hover:bg-gray-50">
-                        Pelajari Layanan →
-                    </a>
-                </div>
             </div>
 
             <!-- 5. Research & Engineering -->
@@ -122,11 +97,6 @@
                 <p class="text-sm text-gray-500 mt-2">
                     Penelitian ilmiah, riset pengembangan (R&D), konsultasi keinsinyuran, hingga perancangan solusi berbasis data untuk mendukung inovasi dan efisiensi operasional.
                 </p>
-                <div class="mt-auto pt-4">
-                    <a href="{{ route('kontak') }}" class="inline-flex px-4 py-2 border border-gray-200 rounded-md text-sm hover:bg-gray-50">
-                        Pelajari Layanan →
-                    </a>
-                </div>
             </div>
 
             <!-- 6. Trading & Distribution -->
@@ -138,11 +108,6 @@
                 <p class="text-sm text-gray-500 mt-2">
                     Perdagangan besar software, hardware komputer, barang konsumsi, bahan makanan, serta pengelolaan platform e-commerce dan retail multi-produk.
                 </p>
-                <div class="mt-auto pt-4">
-                    <a href="{{ route('kontak') }}" class="inline-flex px-4 py-2 border border-gray-200 rounded-md text-sm hover:bg-gray-50">
-                        Pelajari Layanan →
-                    </a>
-                </div>
             </div>
 
             <!-- 7. Creative Industry -->
@@ -154,11 +119,6 @@
                 <p class="text-sm text-gray-500 mt-2">
                     Layanan kreatif meliputi produksi film, animasi, komik, penjahitan pakaian custom, hingga industri makanan olahan yang mendukung kebutuhan bisnis dan hiburan.
                 </p>
-                <div class="mt-auto pt-4">
-                    <a href="{{ route('kontak') }}" class="inline-flex px-4 py-2 border border-gray-200 rounded-md text-sm hover:bg-gray-50">
-                        Pelajari Layanan →
-                    </a>
-                </div>
             </div>
 
             <!-- 8. Umroh & Haji -->
@@ -170,19 +130,7 @@
                 <p class="text-sm text-gray-500 mt-2">
                     Layanan perjalanan umroh dan haji khusus dengan pendampingan profesional, manajemen perjalanan yang aman, serta fasilitas lengkap bagi jamaah.
                 </p>
-                <div class="mt-auto pt-4">
-                    <a href="{{ route('kontak') }}" class="inline-flex px-4 py-2 border border-gray-200 rounded-md text-sm hover:bg-gray-50">
-                        Pelajari Layanan →
-                    </a>
-                </div>
             </div>
-
-        </div>
-
-        <div class="mt-10 text-center">
-            <a href="{{ route('layanan') }}" class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-md">
-                Lihat Semua Layanan
-            </a>
         </div>
     </div>
 </section>

@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PortfolioResource\Pages;
-use App\Filament\Resources\PortfolioResource\RelationManagers;
-use App\Models\Portfolio;
+use App\Filament\Resources\ProjectResource\Pages;
+use App\Filament\Resources\ProjectResource\RelationManagers;
+use App\Models\Project;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -21,17 +21,17 @@ use Illuminate\Support\Str;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\IconColumn;
 
-class PortfolioResource extends Resource
+class ProjectResource extends Resource
 {
-    protected static ?string $model = Portfolio::class;
+    protected static ?string $model = Project::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationLabel = 'Portofolio';
+    protected static ?string $navigationLabel = 'Proyek';
 
-    protected static ?string $pluralModelLabel = 'Portofolio';
+    protected static ?string $pluralModelLabel = 'Proyek';
 
-    protected static ?string $modelLabel = 'Portofolio';
+    protected static ?string $modelLabel = 'Proyek';
 
     public static function form(Form $form): Form
     {
@@ -196,7 +196,7 @@ class PortfolioResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPortfolios::route('/'),
+            'index' => Pages\ListProjects::route('/'),
         ];
     }
 }

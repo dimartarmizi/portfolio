@@ -3,27 +3,25 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Portfolio;
+use App\Models\Project;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class LandingController extends Controller
 {
-    public function portfolio(Request $request)
+    public function project(Request $request)
     {
         $selected = $request->query('category');
 
-        $query = Portfolio::query()->orderBy('year', 'desc')->orderBy('created_at', 'desc');
+        $query = Project::query()->orderBy('year', 'desc')->orderBy('created_at', 'desc');
 
         if ($selected) {
             $query->where('category', $selected);
         }
 
-        $portfolios = $query->get();
+        $projects = $query->get();
 
-        // build distinct categories from model records (preserve order by count)
-        $categories = Portfolio::query()
+        $categories = Project::query()
             ->select('category', DB::raw('COUNT(*) as count'))
             ->groupBy('category')
             ->orderByDesc('count')
@@ -35,29 +33,25 @@ class LandingController extends Controller
                 ];
             });
 
-        // Add "Semua" category with total count
-        $totalCount = Portfolio::count();
+        $totalCount = Project::count();
         $categories->prepend([
             'name' => 'Semua',
             'count' => $totalCount,
         ]);
 
-        return view('portfolio', [
-            'portfolios' => $portfolios,
+        return view('project', [
+            'projects' => $projects,
             'categories' => $categories,
             'selectedCategory' => $selected,
         ]);
     }
 
-    /**
-     * Show a single portfolio by slug
-     */
-    public function showPortfolio($slug)
+    public function showProject($slug)
     {
-        $portfolio = Portfolio::where('slug', $slug)->firstOrFail();
+        $project = Project::where('slug', $slug)->firstOrFail();
 
-        return view('portfolio-show', [
-            'portfolio' => $portfolio,
+        return view('project-show', [
+            'project' => $project,
         ]);
     }
 }
