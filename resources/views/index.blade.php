@@ -1,176 +1,143 @@
-@extends('layouts.app')
+<!doctype html>
+<html lang="en">
 
-@section('title', 'Beranda - PT Agra Mitra Dinamika')
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Portfolio — Brittany Chiang style</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg: #071223;
+            --panel: #071a2a;
+            --muted: #8aa0b0;
+            --accent: #13f7d3;
+        }
 
-@section('content')
-<section class="bg-gradient-to-r from-blue-700 to-blue-500 text-white">
-    <div class="max-w-7xl mx-auto px-4 py-20 lg:py-28 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-        <div>
-            <h1 class="text-4xl lg:text-5xl font-extrabold leading-tight">PT Agra Mitra Dinamika</h1>
-            <p class="mt-2 text-blue-100 font-semibold">“Inovasi - Kolaborasi - Transformasi”</p>
+        body {
+            background: linear-gradient(180deg, var(--bg) 0%, #041826 100%);
+            font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+        }
+    </style>
+</head>
 
-            <p class="mt-6 text-blue-100 max-w-xl">PT Agra Mitra Dinamika adalah perusahaan multi bidang yang bergerak di sektor media, periklanan, teknologi, penelitian, perdagangan, dan industri kreatif. Berkomitmen menghadirkan solusi teknologi dan layanan kreatif yang berdampak bagi masyarakat dan mitra usaha.</p>
-
-            <ul class="mt-6 text-blue-100 space-y-2">
-                <li>• Pengembangan Website & Aplikasi</li>
-                <li>• Media, Publikasi & Periklanan</li>
-                <li>• Riset & Konsultansi Profesional</li>
-                <li>• Perdagangan, Distribusi & Produksi Kreatif</li>
-            </ul>
-        </div>
-
-        <div class="space-y-4">
-            <div class="bg-white/10 p-6 rounded-lg">
-                <h3 class="font-semibold">Solusi Teknologi</h3>
-                <p class="text-sm mt-2">Pengembangan perangkat lunak, platform digital, dan integrasi sistem.</p>
-            </div>
-            <div class="bg-white/10 p-6 rounded-lg">
-                <h3 class="font-semibold">Media & Kreatif</h3>
-                <p class="text-sm mt-2">Produksi konten, kampanye periklanan, dan publikasi profesional.</p>
-            </div>
-            <div class="bg-white/10 p-6 rounded-lg">
-                <h3 class="font-semibold">Riset & Konsultansi</h3>
-                <p class="text-sm mt-2">R&D, studi kelayakan, dan konsultasi teknis untuk berbagai sektor.</p>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="py-16">
-    <div class="max-w-7xl mx-auto px-4">
-        <h2 class="text-2xl font-bold text-center">Layanan Utama Kami</h2>
-        <p class="text-center text-gray-500 mt-2">
-            Solusi terintegrasi dari teknologi hingga layanan profesional, dirancang untuk mendukung pertumbuhan bisnis dan kebutuhan operasional Anda.
-        </p>
-
-        <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-
-            <!-- 1. Software Development -->
-            <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-200 p-6 flex flex-col text-center h-full">
-                <div class="flex items-center justify-center w-16 h-16 rounded-full bg-gray-50 mx-auto">
-                    <i class="ti ti-device-desktop-code text-blue-700 text-3xl"></i>
+<body class="antialiased text-slate-100">
+    <div class="min-h-screen max-w-6xl mx-auto px-6 py-12 lg:py-20">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <aside class="lg:col-span-3 flex flex-col items-start gap-8 lg:sticky lg:top-20 lg:max-h-[calc(100vh-10rem)] lg:overflow-auto">
+                <div class="w-full">
+                    <h1 class="text-3xl font-extrabold tracking-tight">Brittany Chiang</h1>
+                    <p class="mt-2 text-slate-400">Front End Engineer</p>
                 </div>
-                <h4 class="mt-4 font-semibold text-lg">Pengembangan Software</h4>
-                <p class="text-sm text-gray-500 mt-2">
-                    Pembuatan website, aplikasi mobile, dan software custom yang dirancang sesuai kebutuhan operasional perusahaan dengan teknologi modern dan standar keamanan tinggi.
-                </p>
-            </div>
 
-            <!-- 2. Digital Platforms -->
-            <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-200 p-6 flex flex-col text-center h-full">
-                <div class="flex items-center justify-center w-16 h-16 rounded-full bg-gray-50 mx-auto">
-                    <i class="ti ti-world text-teal-700 text-3xl"></i>
-                </div>
-                <h4 class="mt-4 font-semibold text-lg">Portal Digital & Platform</h4>
-                <p class="text-sm text-gray-500 mt-2">
-                    Pengembangan dan pengelolaan portal digital, platform komersial, marketplace, serta sistem layanan otomatis yang mendukung transformasi digital bisnis Anda.
-                </p>
-            </div>
+                <nav class="w-full mt-6">
+                    <ul class="space-y-3 text-slate-300">
+                        <li class="flex items-center gap-3">
+                            <span class="w-2 h-0.5 bg-slate-600 inline-block"></span>
+                            <a href="#about" class="hover:text-white">About</a>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="w-2 h-0.5 bg-slate-600 inline-block"></span>
+                            <a href="#experience" class="hover:text-white">Experience</a>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="w-2 h-0.5 bg-slate-600 inline-block"></span>
+                            <a href="#projects" class="hover:text-white">Projects</a>
+                        </li>
+                    </ul>
+                </nav>
 
-            <!-- 3. IT Consulting -->
-            <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-200 p-6 flex flex-col text-center h-full">
-                <div class="flex items-center justify-center w-16 h-16 rounded-full bg-gray-50 mx-auto">
-                    <i class="ti ti-gizmo text-indigo-700 text-3xl"></i>
+                <div class="w-full mt-auto">
+                    <div class="flex items-center gap-3 text-slate-400">
+                        <!-- Simple social icon placeholders -->
+                        <a href="#" aria-label="github" class="hover:text-white">GitHub</a>
+                        <a href="#" aria-label="linkedin" class="hover:text-white">LinkedIn</a>
+                        <a href="#" aria-label="instagram" class="hover:text-white">Dribbble</a>
+                    </div>
                 </div>
-                <h4 class="mt-4 font-semibold text-lg">Konsultasi IT & Digitalisasi</h4>
-                <p class="text-sm text-gray-500 mt-2">
-                    Konsultasi strategi teknologi, integrasi sistem, audit IT, otomatisasi proses bisnis, serta solusi digitalisasi yang meningkatkan efisiensi perusahaan.
-                </p>
-            </div>
+            </aside>
+            <main class="lg:col-span-9 text-slate-300">
+                <section id="about" class="mb-10">
+                    <div class="prose prose-invert max-w-none">
+                        <p class="text-slate-400">I'm a developer passionate about crafting accessible, pixel-perfect user interfaces that blend thoughtful design with robust engineering. My favorite work lies at the intersection of design and development, creating experiences that not only look great but are meticulously built for performance and usability.</p>
+                    </div>
+                </section>
 
-            <!-- 4. Media & Production -->
-            <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-200 p-6 flex flex-col text-center h-full">
-                <div class="flex items-center justify-center w-16 h-16 rounded-full bg-gray-50 mx-auto">
-                    <i class="ti ti-camera text-orange-600 text-3xl"></i>
-                </div>
-                <h4 class="mt-4 font-semibold text-lg">Media & Produksi Konten</h4>
-                <p class="text-sm text-gray-500 mt-2">
-                    Produksi video, fotografi, iklan, manajemen sosial media, publikasi majalah/jurnal, dan kampanye pemasaran digital maupun cetak untuk kebutuhan branding.
-                </p>
-            </div>
+                <section id="experience" class="mb-12">
+                    <h2 class="text-slate-200 font-semibold mb-6">Experience</h2>
+                    <div class="space-y-8">
+                        <article class="grid grid-cols-12 gap-4">
+                            <div class="col-span-2 text-slate-500 text-sm">2024 — Present</div>
+                            <div class="col-span-10">
+                                <h3 class="text-slate-100 font-medium">Senior Frontend Engineer, Accessibility — Klaviyo</h3>
+                                <p class="text-sm text-slate-400 mt-2">Build and maintain critical components used to construct Klaviyo's frontend across the whole product. Work closely with cross-functional teams to ensure accessibility and performance.</p>
+                                <div class="mt-3 flex flex-wrap gap-2">
+                                    <span class="inline-block bg-slate-800 text-xs text-accent px-2 py-1 rounded">JavaScript</span>
+                                    <span class="inline-block bg-slate-800 text-xs text-accent px-2 py-1 rounded">TypeScript</span>
+                                    <span class="inline-block bg-slate-800 text-xs text-accent px-2 py-1 rounded">React</span>
+                                </div>
+                            </div>
+                        </article>
 
-            <!-- 5. Research & Engineering -->
-            <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-200 p-6 flex flex-col text-center h-full">
-                <div class="flex items-center justify-center w-16 h-16 rounded-full bg-gray-50 mx-auto">
-                    <i class="ti ti-microscope text-purple-700 text-3xl"></i>
-                </div>
-                <h4 class="mt-4 font-semibold text-lg">Riset & Konsultasi Teknis</h4>
-                <p class="text-sm text-gray-500 mt-2">
-                    Penelitian ilmiah, riset pengembangan (R&D), konsultasi keinsinyuran, hingga perancangan solusi berbasis data untuk mendukung inovasi dan efisiensi operasional.
-                </p>
-            </div>
+                        <article class="grid grid-cols-12 gap-4">
+                            <div class="col-span-2 text-slate-500 text-sm">2018 — 2024</div>
+                            <div class="col-span-10">
+                                <h3 class="text-slate-100 font-medium">Lead Engineer — Upstatement</h3>
+                                <p class="text-sm text-slate-400 mt-2">Lead, build, style, and ship high-quality websites, design systems, and mobile apps for a diverse array of clients.</p>
+                                <div class="mt-3 flex flex-wrap gap-2">
+                                    <span class="inline-block bg-slate-800 text-xs text-accent px-2 py-1 rounded">React</span>
+                                    <span class="inline-block bg-slate-800 text-xs text-accent px-2 py-1 rounded">Node</span>
+                                    <span class="inline-block bg-slate-800 text-xs text-accent px-2 py-1 rounded">PHP</span>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+                
+                <section id="projects" class="mb-12">
+                    <h2 class="text-slate-200 font-semibold mb-6">Projects</h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-slate-800 p-4 rounded">
+                            <div class="h-28 bg-slate-700 rounded mb-3"></div>
+                            <h4 class="text-white font-medium">Build a Spotify Connected App</h4>
+                            <p class="text-sm text-slate-400 mt-2">Video course that teaches how to build a web app with the Spotify Web API.</p>
+                        </div>
 
-            <!-- 6. Trading & Distribution -->
-            <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-200 p-6 flex flex-col text-center h-full">
-                <div class="flex items-center justify-center w-16 h-16 rounded-full bg-gray-50 mx-auto">
-                    <i class="ti ti-truck-delivery text-red-600 text-3xl"></i>
-                </div>
-                <h4 class="mt-4 font-semibold text-lg">Perdagangan & Distribusi</h4>
-                <p class="text-sm text-gray-500 mt-2">
-                    Perdagangan besar software, hardware komputer, barang konsumsi, bahan makanan, serta pengelolaan platform e-commerce dan retail multi-produk.
-                </p>
-            </div>
+                        <div class="bg-slate-800 p-4 rounded">
+                            <div class="h-28 bg-slate-700 rounded mb-3"></div>
+                            <h4 class="text-white font-medium">Spotify Profile</h4>
+                            <p class="text-sm text-slate-400 mt-2">Web app for visualizing personalized Spotify data.</p>
+                        </div>
+                    </div>
+                </section>
 
-            <!-- 7. Creative Industry -->
-            <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-200 p-6 flex flex-col text-center h-full">
-                <div class="flex items-center justify-center w-16 h-16 rounded-full bg-gray-50 mx-auto">
-                    <i class="ti ti-palette text-pink-700 text-3xl"></i>
-                </div>
-                <h4 class="mt-4 font-semibold text-lg">Industri Kreatif & Produksi</h4>
-                <p class="text-sm text-gray-500 mt-2">
-                    Layanan kreatif meliputi produksi film, animasi, komik, penjahitan pakaian custom, hingga industri makanan olahan yang mendukung kebutuhan bisnis dan hiburan.
-                </p>
-            </div>
+                <section id="blog" class="mb-12">
+                    <h2 class="text-slate-200 font-semibold mb-6">Selected Writing</h2>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-4">
+                            <div class="w-24 h-12 bg-slate-700 rounded"></div>
+                            <div>
+                                <a href="#" class="text-white font-medium">6 Common Accessibility Pitfalls and How to Avoid Them</a>
+                                <p class="text-sm text-slate-400 mt-1">2024</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <div class="w-24 h-12 bg-slate-700 rounded"></div>
+                            <div>
+                                <a href="#" class="text-white font-medium">Integrating Algolia Search with WordPress Multisite</a>
+                                <p class="text-sm text-slate-400 mt-1">2020</p>
+                            </div>
+                        </li>
+                    </ul>
+                </section>
 
-            <!-- 8. Umroh & Haji -->
-            <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-200 p-6 flex flex-col text-center h-full">
-                <div class="flex items-center justify-center w-16 h-16 rounded-full bg-gray-50 mx-auto">
-                    <i class="ti ti-building-mosque text-green-700 text-3xl"></i>
-                </div>
-                <h4 class="mt-4 font-semibold text-lg">Perjalanan Umroh & Haji</h4>
-                <p class="text-sm text-gray-500 mt-2">
-                    Layanan perjalanan umroh dan haji khusus dengan pendampingan profesional, manajemen perjalanan yang aman, serta fasilitas lengkap bagi jamaah.
-                </p>
-            </div>
-        </div>
-    </div>
-</section>
-
-    
-<section class="bg-gray-50 py-16">
-    <div class="max-w-7xl mx-auto px-4">
-        <h3 class="text-xl font-bold text-center">Testimoni Klien</h3>
-        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-white p-6 rounded-lg shadow">
-                <div class="text-yellow-400">★★★★★</div>
-                <p class="mt-4 text-sm text-gray-600">
-                    "Tim Agra Mitra Dinamika merekomendasikan solusi yang tepat, implementasinya cepat dan lancar. Banyak aplikasi yang dibuat sudah diterapkan harian secara efektif."
-                </p>
-                <div class="mt-4 text-sm font-semibold">
-                    Yayasan Indra Education College
-                </div>
-            </div>
-
-            <div class="bg-white p-6 rounded-lg shadow">
-                <div class="text-yellow-400">★★★★★</div>
-                <p class="mt-4 text-sm text-gray-600">
-                    "Kerja profesional, komunikasi jelas, dan hasilnya sangat membantu aktivitas di kampus kami."
-                </p>
-                <div class="mt-4 text-sm font-semibold">
-                    Universitas Islam Indragiri
-                </div>
-            </div>
-
-            <div class="bg-white p-6 rounded-lg shadow">
-                <div class="text-yellow-400">★★★★★</div>
-                <p class="mt-4 text-sm text-gray-600">
-                    "Sistem yang dibangun sangat sesuai kebutuhan riset kami dan mempermudah publikasi ilmiah."
-                </p>
-                <div class="mt-4 text-sm font-semibold">
-                    Indra Institute Research & Publication
-                </div>
-            </div>
+                <footer class="pt-8 border-t border-slate-700 text-slate-500 text-sm">
+                    <p>Loosely designed in Figma and coded in Visual Studio Code by yours truly. Built with Next.js and Tailwind CSS.</p>
+                </footer>
+            </main>
         </div>
     </div>
-</section>
+</body>
 
-@endsection
+</html>
