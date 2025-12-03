@@ -19,6 +19,39 @@
             background: linear-gradient(180deg, var(--bg) 0%, #041826 100%);
             font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
         }
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+        }
+
+        .nav-indicator {
+            width: .5rem;
+            height: 2px;
+            background-color: #334155;
+            display: inline-block;
+            transition: width 220ms ease, background-color 220ms ease;
+            width: 8px;
+        }
+
+        .nav-link {
+            transition: color 160ms ease;
+        }
+
+        .nav-item:hover .nav-indicator,
+        .nav-item:focus-within .nav-indicator,
+        .nav-item.active .nav-indicator {
+            width: 48px;
+            background-color: #13f7d3;
+        }
+
+        .nav-item.active .nav-link {
+            color: #ffffff;
+        }
     </style>
 </head>
 
@@ -33,17 +66,17 @@
 
                 <nav class="w-full mt-6">
                     <ul class="space-y-3 text-slate-300">
-                        <li class="flex items-center gap-3">
-                            <span class="w-2 h-0.5 bg-slate-600 inline-block"></span>
-                            <a href="#about" class="hover:text-white">About</a>
+                        <li class="nav-item">
+                            <span class="nav-indicator" aria-hidden="true"></span>
+                            <a href="#about" class="nav-link hover:text-white">About</a>
                         </li>
-                        <li class="flex items-center gap-3">
-                            <span class="w-2 h-0.5 bg-slate-600 inline-block"></span>
-                            <a href="#experience" class="hover:text-white">Experience</a>
+                        <li class="nav-item">
+                            <span class="nav-indicator" aria-hidden="true"></span>
+                            <a href="#experience" class="nav-link hover:text-white">Experience</a>
                         </li>
-                        <li class="flex items-center gap-3">
-                            <span class="w-2 h-0.5 bg-slate-600 inline-block"></span>
-                            <a href="#projects" class="hover:text-white">Projects</a>
+                        <li class="nav-item">
+                            <span class="nav-indicator" aria-hidden="true"></span>
+                            <a href="#projects" class="nav-link hover:text-white">Projects</a>
                         </li>
                     </ul>
                 </nav>
@@ -138,6 +171,66 @@
             </main>
         </div>
     </div>
+    <script>
+        (function () {
+            const navItems = document.querySelectorAll('.nav-item');
+            const sections = document.querySelectorAll('section');
+
+            function updateActiveFromHash() {
+                const hash = window.location.hash || '#about';
+                navItems.forEach(item => {
+                    const link = item.querySelector('.nav-link');
+                    if (!link) return;
+                    if (link.getAttribute('href') === hash) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+            }
+
+            function updateActiveOnScroll() {
+                let currentSection = sections[0];
+
+                sections.forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top <= 100 && rect.bottom >= 100) {
+                        currentSection = section;
+                    }
+                });
+
+                const id = currentSection.getAttribute('id');
+                navItems.forEach(item => {
+                    const link = item.querySelector('.nav-link');
+                    if (!link) return;
+                    if (link.getAttribute('href') === `#${id}`) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+            }
+
+            // Initial state
+            updateActiveFromHash();
+
+            // Update on hash change
+            window.addEventListener('hashchange', updateActiveFromHash);
+
+            // Update on scroll
+            window.addEventListener('scroll', updateActiveOnScroll);
+
+            // If user clicks a nav link, give it active state immediately
+            navItems.forEach(item => {
+                const link = item.querySelector('.nav-link');
+                if (!link) return;
+                link.addEventListener('click', () => {
+                    // small timeout to allow hash to update
+                    setTimeout(updateActiveFromHash, 10);
+                });
+            });
+        })();
+    </script>
 </body>
 
 </html>
