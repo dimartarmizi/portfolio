@@ -45,21 +45,66 @@
         main {
             flex: 1;
         }
+
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fade-out {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fade-in 0.3s ease-out;
+        }
+
+        .animate-fade-out {
+            animation: fade-out 0.3s ease-in;
+        }
     </style>
 </head>
 
 <body class="antialiased text-slate-100">
     <header class="py-8">
         <div class="container grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-            <div class="lg:col-span-4">
-                <a href="{{ route('index') }}" class="text-2xl font-extrabold tracking-tight">Brittany Chiang</a>
-                <div class="text-slate-400 mt-1">Front End Engineer</div>
+            <div class="lg:col-span-4 flex items-center justify-between">
+                <div>
+                    <a href="{{ route('index') }}" class="text-2xl font-extrabold tracking-tight">Brittany Chiang</a>
+                    <div class="text-slate-400 mt-1">Front End Engineer</div>
+                </div>
+                <button id="mobile-menu-button" class="lg:hidden text-slate-300 hover:text-white focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
             </div>
-            <nav class="lg:col-span-8 text-right hidden lg:block">
+            <nav id="desktop-menu" class="lg:col-span-8 text-right hidden lg:block">
                 <a href="{{ route('index') }}" class="text-slate-300 hover:text-white mx-3">Home</a>
                 <a href="{{ route('projects.index') }}" class="text-slate-300 hover:text-white mx-3">Projects</a>
                 <a href="{{ route('blogs.index') }}" class="text-slate-300 hover:text-white mx-3">Blog</a>
                 <a href="{{ route('experiences.index') }}" class="text-slate-300 hover:text-white mx-3">Experience</a>
+            </nav>
+            <nav id="mobile-menu" class="lg:hidden hidden flex flex-col text-center bg-panel p-4 rounded-md gap-4 card">
+                <a href="{{ route('index') }}" class="text-slate-300 hover:text-white">Home</a>
+                <a href="{{ route('projects.index') }}" class="text-slate-300 hover:text-white">Projects</a>
+                <a href="{{ route('blogs.index') }}" class="text-slate-300 hover:text-white">Blog</a>
+                <a href="{{ route('experiences.index') }}" class="text-slate-300 hover:text-white">Experience</a>
             </nav>
         </div>
     </header>
@@ -73,6 +118,22 @@
     <footer class="py-8 text-center text-slate-500 text-sm">
         <div class="container">© {{ date('Y') }} — Built with Tailwind</div>
     </footer>
+
+    <script>
+        document.getElementById('mobile-menu-button').addEventListener('click', function () {
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.remove('hidden');
+                mobileMenu.classList.add('animate-fade-in');
+            } else {
+                mobileMenu.classList.add('animate-fade-out');
+                mobileMenu.addEventListener('animationend', () => {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenu.classList.remove('animate-fade-out');
+                }, { once: true });
+            }
+        });
+    </script>
 </body>
 
 </html>
