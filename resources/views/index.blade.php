@@ -19,6 +19,7 @@
             background: linear-gradient(180deg, var(--bg) 0%, #041826 100%);
             font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
         }
+
         html {
             scroll-behavior: smooth;
         }
@@ -52,13 +53,39 @@
         .nav-item.active .nav-link {
             color: #ffffff;
         }
+
+
+        .hover-box {
+            position: relative;
+        }
+
+        .hover-box::before {
+            content: '';
+            position: absolute;
+            top: -0.5rem;
+            left: -0.5rem;
+            right: -0.5rem;
+            bottom: -0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .hover-box:hover::before {
+            opacity: 1;
+        }
     </style>
 </head>
 
 <body class="antialiased text-slate-100">
     <div class="min-h-screen max-w-6xl mx-auto px-6 py-12 lg:py-20">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <aside class="lg:col-span-3 flex flex-col items-start gap-8 lg:sticky lg:top-20 lg:max-h-[calc(100vh-10rem)] lg:overflow-auto">
+            <aside class="lg:col-span-3 flex flex-col items-start gap-8 lg:sticky lg:top-20 lg:max-h-[calc(100vh-10rem)] lg:overflow-auto">
                 <div class="w-full">
                     <h1 class="text-3xl font-extrabold tracking-tight">Brittany Chiang</h1>
                     <p class="mt-2 text-slate-400">Front End Engineer</p>
@@ -100,7 +127,7 @@
                 <section id="experience" class="mb-12">
                     <h2 class="text-slate-200 font-semibold mb-6">Experience</h2>
                     <div class="space-y-8">
-                        <article class="grid grid-cols-12 gap-4">
+                        <article class="grid grid-cols-12 gap-4 hover-box">
                             <div class="col-span-2 text-slate-500 text-sm">2024 — Present</div>
                             <div class="col-span-10">
                                 <h3 class="text-slate-100 font-medium">Senior Frontend Engineer, Accessibility — Klaviyo</h3>
@@ -113,7 +140,7 @@
                             </div>
                         </article>
 
-                        <article class="grid grid-cols-12 gap-4">
+                        <article class="grid grid-cols-12 gap-4 hover-box">
                             <div class="col-span-2 text-slate-500 text-sm">2018 — 2024</div>
                             <div class="col-span-10">
                                 <h3 class="text-slate-100 font-medium">Lead Engineer — Upstatement</h3>
@@ -127,17 +154,22 @@
                         </article>
                     </div>
                 </section>
-                
+
                 <section id="projects" class="mb-12">
                     <h2 class="text-slate-200 font-semibold mb-6">Projects</h2>
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div class="bg-slate-800 p-4 rounded">
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="hover-box">
                             <div class="h-28 bg-slate-700 rounded mb-3"></div>
                             <h4 class="text-white font-medium">Build a Spotify Connected App</h4>
                             <p class="text-sm text-slate-400 mt-2">Video course that teaches how to build a web app with the Spotify Web API.</p>
                         </div>
 
-                        <div class="bg-slate-800 p-4 rounded">
+                        <div class="hover-box">
+                            <div class="h-28 bg-slate-700 rounded mb-3"></div>
+                            <h4 class="text-white font-medium">Spotify Profile</h4>
+                            <p class="text-sm text-slate-400 mt-2">Web app for visualizing personalized Spotify data.</p>
+                        </div>
+                        <div class="hover-box">
                             <div class="h-28 bg-slate-700 rounded mb-3"></div>
                             <h4 class="text-white font-medium">Spotify Profile</h4>
                             <p class="text-sm text-slate-400 mt-2">Web app for visualizing personalized Spotify data.</p>
@@ -146,16 +178,16 @@
                 </section>
 
                 <section id="blog" class="mb-12">
-                    <h2 class="text-slate-200 font-semibold mb-6">Selected Writing</h2>
+                    <h2 class="text-slate-200 font-semibold mb-6">Blog</h2>
                     <ul class="space-y-4">
-                        <li class="flex items-start gap-4">
+                        <li class="flex items-start gap-4 hover-box">
                             <div class="w-24 h-12 bg-slate-700 rounded"></div>
                             <div>
                                 <a href="#" class="text-white font-medium">6 Common Accessibility Pitfalls and How to Avoid Them</a>
                                 <p class="text-sm text-slate-400 mt-1">2024</p>
                             </div>
                         </li>
-                        <li class="flex items-start gap-4">
+                        <li class="flex items-start gap-4 hover-box">
                             <div class="w-24 h-12 bg-slate-700 rounded"></div>
                             <div>
                                 <a href="#" class="text-white font-medium">Integrating Algolia Search with WordPress Multisite</a>
