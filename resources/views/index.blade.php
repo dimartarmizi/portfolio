@@ -168,6 +168,12 @@
                             </div>
                         </article>
                     </div>
+                    <a href="#" class="flex items-center text-accent hover:text-white mt-4">
+                        <span>View Full Resume</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-2" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1.5 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 1 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H2a.5.5 0 0 1-.5-.5z" />
+                        </svg>
+                    </a>
                 </section>
 
                 <section id="projects" class="mb-12">
@@ -190,6 +196,12 @@
                             <p class="text-sm text-slate-400 mt-2">Web app for visualizing personalized Spotify data.</p>
                         </div>
                     </div>
+                    <a href="#" class="flex items-center text-accent hover:text-white mt-4">
+                        <span>View Full Projects</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-2" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1.5 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 1 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H2a.5.5 0 0 1-.5-.5z" />
+                        </svg>
+                    </a>
                 </section>
 
                 <section id="blog" class="mb-12">
@@ -210,6 +222,12 @@
                             </div>
                         </li>
                     </ul>
+                    <a href="#" class="flex items-center text-accent hover:text-white mt-4">
+                        <span>View More Posts</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-2" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1.5 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 1 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H2a.5.5 0 0 1-.5-.5z" />
+                        </svg>
+                    </a>
                 </section>
 
                 <footer class="pt-8 border-t border-slate-700 text-slate-500 text-sm">
