@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\LandingController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
-Route::view('/', 'index')->name('index');
+Route::get('/', [LandingController::class, 'index'])->name('index');
 
 // Blogs (static/demo for now)
 Route::get('/blogs', function () { return view('blogs.index'); })->name('blogs.index');
