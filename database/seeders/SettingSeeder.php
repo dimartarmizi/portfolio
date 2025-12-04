@@ -12,7 +12,7 @@ class SettingSeeder extends Seeder
         $settings = [
             [
                 'key' => 'owner_name',
-                'value' => 'John Doe',
+                'value' => 'Dimar Tarmizi',
             ],
             [
                 'key' => 'profile_picture',
@@ -20,19 +20,19 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key' => 'headline',
-                'value' => 'Full Stack Developer',
+                'value' => 'Software Engineer',
             ],
             [
                 'key' => 'description',
-                'value' => 'Experienced developer specializing in web applications.',
+                'value' => 'I am a full-stack web software engineer with extensive experience in designing, developing, and maintaining scalable web applications. I specialize in building robust back-end systems and dynamic front-end interfaces, while managing the full web development lifecycle, including deployment, server configuration, and ongoing maintenance. I also have hands-on expertise with VPS and IaaS environments to ensure high performance, reliability, and smooth delivery of web projects. My work focuses on scalable web architecture, maintainable code, and seamless end-to-end web solutions.',
             ],
             [
                 'key' => 'contact_phone',
-                'value' => '+62 812-3456-7890',
+                'value' => '+62 822-8422-0085',
             ],
             [
                 'key' => 'contact_email',
-                'value' => 'email@contoh.com',
+                'value' => 'dimartarmizi@gmail.com',
             ],
             [
                 'key' => 'social_links',
@@ -51,15 +51,15 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key' => 'footer',
-                'value' => '© 2025 John Doe. All rights reserved.',
+                'value' => 'Built with Laravel, Filament, Inertia, Vue, and Tailwind CSS.',
             ],
             [
                 'key' => 'show_blog',
-                'value' => true,
+                'value' => false,
             ],
             [
                 'key' => 'show_profile_picture',
-                'value' => true,
+                'value' => false,
             ],
         ];
 
