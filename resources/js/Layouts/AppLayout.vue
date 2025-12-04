@@ -1,5 +1,8 @@
 <template>
-    <div class="antialiased text-slate-100">
+    <div class="antialiased text-slate-100 relative z-10">
+        <div class="mouse-gradient" aria-hidden="true">
+            <div class="g g1"></div>
+        </div>
         <header class="py-8">
             <div class="container grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
                 <div class="lg:col-span-4 flex items-center justify-between">
@@ -43,7 +46,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { Link, usePage } from '@inertiajs/inertia-vue3';
 
 const mobileOpen = ref(false);
@@ -64,6 +67,27 @@ function isActive(path) {
 
     return url === path || url.startsWith(path + '/');
 }
+
+let _appMouseHandler = null;
+onMounted(() => {
+    const root = document.documentElement;
+    const onMove = (e) => {
+        const x = e.clientX || (e.touches && e.touches[0] && e.touches[0].clientX) || 0;
+        const y = e.clientY || (e.touches && e.touches[0] && e.touches[0].clientY) || 0;
+        root.style.setProperty('--mx1', x + 'px');
+        root.style.setProperty('--my1', y + 'px');
+        root.style.setProperty('--mx2', (x * 0.6) + 'px');
+        root.style.setProperty('--my2', (y * 0.6) + 'px');
+    };
+    _appMouseHandler = onMove;
+    window.addEventListener('mousemove', onMove, { passive: true });
+    window.addEventListener('touchmove', onMove, { passive: true });
+});
+
+onBeforeUnmount(() => {
+    try { window.removeEventListener('mousemove', _appMouseHandler); } catch (e) {}
+    try { window.removeEventListener('touchmove', _appMouseHandler); } catch (e) {}
+});
 </script>
 
 <style>
@@ -135,5 +159,34 @@ main {
 
 .animate-fade-out {
     animation: fade-out 0.3s ease-in;
+}
+
+.mouse-gradient {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+.mouse-gradient .g {
+    position: absolute;
+    left: var(--mx1, 50%);
+    top: var(--my1, 50%);
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    filter: blur(80px);
+    will-change: transform, left, top;
+    transition: transform 160ms linear;
+}
+.mouse-gradient .g1 {
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle at center, rgba(19,247,211,0.18) 0%, rgba(19,247,211,0.06) 30%, rgba(19,247,211,0.02) 50%, transparent 70%);
+    mix-blend-mode: screen;
+    opacity: 0.9;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mouse-gradient { display: none !important; }
 }
 </style>

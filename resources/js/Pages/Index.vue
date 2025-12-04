@@ -1,5 +1,8 @@
 <template>
-    <div class="antialiased text-slate-100">
+    <div class="antialiased text-slate-100 relative z-10" ref="root">
+        <div class="mouse-gradient" ref="mouseGradient" aria-hidden="true">
+            <div class="g g1"></div>
+        </div>
         <div class="min-h-screen max-w-6xl mx-auto px-6 py-12 lg:py-20">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 <aside class="lg:col-span-4 flex flex-col items-start gap-8 lg:sticky lg:top-20 lg:max-h-[calc(100vh-10rem)] lg:overflow-auto">
@@ -99,7 +102,7 @@
 
                     <section id="projects" class="mb-12">
                         <h2 class="text-slate-200 font-semibold mb-6">Projects</h2>
-                        <div class="grid md:grid-cols-3 gap-6">
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
                             <div class="hover-box">
                                 <a href="#" class="contents">
                                     <img src="https://placehold.co/1920x1080" alt="Project Thumbnail" class="rounded mb-3 img-fixed-ratio" />
@@ -155,7 +158,7 @@
 
                     <section id="blog" class="mb-12">
                         <h2 class="text-slate-200 font-semibold mb-6">Blog</h2>
-                        <ul class="space-y-4">
+                        <ul class="space-y-5">
                             <li class="flex items-start gap-4 hover-box">
                                 <a href="#" class="contents">
                                     <img src="https://placehold.co/100x500" alt="Blog Thumbnail" class="rounded img-fixed-ratio img-thumb" />
@@ -168,6 +171,14 @@
                             <li class="flex items-start gap-4 hover-box">
                                 <a href="#" class="contents">
                                     <img src="https://placehold.co/96x48" alt="Blog Thumbnail" class="rounded img-fixed-ratio img-thumb" />
+                                    <div>
+                                        <h4 class="text-white font-medium">Integrating Algolia Search with WordPress Multisite</h4>
+                                        <p class="text-sm text-slate-400 mt-1">2020</p>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="flex items-start gap-4 hover-box">
+                                <a href="#" class="contents">
                                     <div>
                                         <h4 class="text-white font-medium">Integrating Algolia Search with WordPress Multisite</h4>
                                         <p class="text-sm text-slate-400 mt-1">2020</p>
@@ -192,83 +203,98 @@
     </div>
 </template>
 
-<script>
-export default {
-    name: 'LandingPage',
-    mounted() {
-        const root = this.$el;
-        const navItems = Array.from(root.querySelectorAll('.nav-item'));
-        const sections = Array.from(root.querySelectorAll('section'));
+<script setup>
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 
-        const updateActiveFromHash = () => {
-            const hash = window.location.hash || '#about';
-            navItems.forEach(item => {
-                const link = item.querySelector('.nav-link');
-                if (!link) return;
-                if (link.getAttribute('href') === hash) {
-                    item.classList.add('active');
-                } else {
-                    item.classList.remove('active');
-                }
-            });
-        };
+const root = ref(null);
 
-        const updateActiveOnScroll = () => {
-            if (!sections.length) return;
-            let currentSection = sections[0];
+let landing = null;
 
-            sections.forEach(section => {
-                const rect = section.getBoundingClientRect();
-                if (rect.top <= 100 && rect.bottom >= 100) {
-                    currentSection = section;
-                }
-            });
+onMounted(() => {
+    const mgRoot = root.value;
+    const onMove = (e) => {
+        const x = e.clientX || (e.touches && e.touches[0] && e.touches[0].clientX) || 0;
+        const y = e.clientY || (e.touches && e.touches[0] && e.touches[0].clientY) || 0;
+        mgRoot.style.setProperty('--mx1', x + 'px');
+        mgRoot.style.setProperty('--my1', y + 'px');
+        mgRoot.style.setProperty('--mx2', (x * 0.6) + 'px');
+        mgRoot.style.setProperty('--my2', (y * 0.6) + 'px');
+    };
 
-            const id = currentSection.getAttribute('id');
-            navItems.forEach(item => {
-                const link = item.querySelector('.nav-link');
-                if (!link) return;
-                if (link.getAttribute('href') === `#${id}`) {
-                    item.classList.add('active');
-                } else {
-                    item.classList.remove('active');
-                }
-            });
-        };
+    const rootEl = root.value;
+    const navItems = Array.from(rootEl.querySelectorAll('.nav-item'));
+    const sections = Array.from(rootEl.querySelectorAll('section'));
 
-        // store handlers for cleanup
-        this._landing = {
-            updateActiveFromHash,
-            updateActiveOnScroll,
-            clickHandlers: [],
-        };
-
-        // Initial state
-        updateActiveFromHash();
-
-        // Update on hash change and scroll
-        window.addEventListener('hashchange', updateActiveFromHash);
-        window.addEventListener('scroll', updateActiveOnScroll);
-
-        // If user clicks a nav link, give it active state immediately
+    const updateActiveFromHash = () => {
+        const hash = window.location.hash || '#about';
         navItems.forEach(item => {
             const link = item.querySelector('.nav-link');
             if (!link) return;
-            const handler = () => setTimeout(updateActiveFromHash, 10);
-            link.addEventListener('click', handler);
-            this._landing.clickHandlers.push({ link, handler });
+            if (link.getAttribute('href') === hash) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
         });
-    },
-    beforeUnmount() {
-        if (!this._landing) return;
-        window.removeEventListener('hashchange', this._landing.updateActiveFromHash);
-        window.removeEventListener('scroll', this._landing.updateActiveOnScroll);
-        this._landing.clickHandlers.forEach(({ link, handler }) => {
-            try { link.removeEventListener('click', handler); } catch (e) { /* ignore */ }
+    };
+
+    const updateActiveOnScroll = () => {
+        if (!sections.length) return;
+        let currentSection = sections[0];
+
+        sections.forEach(section => {
+            const rect = section.getBoundingClientRect();
+            if (rect.top <= 100 && rect.bottom >= 100) {
+                currentSection = section;
+            }
         });
-        delete this._landing;
-    },
-};
+
+        const id = currentSection.getAttribute('id');
+        navItems.forEach(item => {
+            const link = item.querySelector('.nav-link');
+            if (!link) return;
+            if (link.getAttribute('href') === `#${id}`) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
+        });
+    };
+
+    landing = {
+        updateActiveFromHash,
+        updateActiveOnScroll,
+        clickHandlers: [],
+        mouseMoveHandler: onMove,
+    };
+
+    updateActiveFromHash();
+
+    window.addEventListener('hashchange', updateActiveFromHash);
+    window.addEventListener('scroll', updateActiveOnScroll);
+    window.addEventListener('mousemove', onMove, { passive: true });
+    window.addEventListener('touchmove', onMove, { passive: true });
+
+    navItems.forEach(item => {
+        const link = item.querySelector('.nav-link');
+        if (!link) return;
+        const handler = () => setTimeout(updateActiveFromHash, 10);
+        link.addEventListener('click', handler);
+        landing.clickHandlers.push({ link, handler });
+    });
+});
+
+onBeforeUnmount(() => {
+    if (!landing) return;
+    window.removeEventListener('hashchange', landing.updateActiveFromHash);
+    window.removeEventListener('scroll', landing.updateActiveOnScroll);
+    try { window.removeEventListener('mousemove', landing.mouseMoveHandler); } catch (e) { }
+    try { window.removeEventListener('touchmove', landing.mouseMoveHandler); } catch (e) { }
+    landing.clickHandlers.forEach(({ link, handler }) => {
+        try { link.removeEventListener('click', handler); } catch (e) { }
+    });
+    landing = null;
+});
 </script>
 
 <style>
@@ -357,5 +383,43 @@ html {
     aspect-ratio: 2 / 1;
     object-fit: cover;
     display: inline-block;
+}
+
+.mouse-gradient {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.mouse-gradient .g {
+    position: absolute;
+    left: var(--mx1, 50%);
+    top: var(--my1, 50%);
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    filter: blur(80px);
+    will-change: transform, left, top;
+    transition: transform 160ms linear;
+}
+
+.mouse-gradient .g1 {
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle at center, rgba(19, 247, 211, 0.18) 0%, rgba(19, 247, 211, 0.06) 30%, rgba(19, 247, 211, 0.02) 50%, transparent 70%);
+    mix-blend-mode: screen;
+    opacity: 0.9;
+}
+
+.antialiased.relative.z-10 {
+    position: relative;
+    z-index: 10;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mouse-gradient {
+        display: none !important;
+    }
 }
 </style>
