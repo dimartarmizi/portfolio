@@ -29,14 +29,4 @@
 
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import { withDefaults, defineProps } from 'vue';
-
-const props = withDefaults(defineProps({
-  id: {
-    type: [String, Number],
-    required: false
-  }
-}), {
-  id: null
-});
 </script>

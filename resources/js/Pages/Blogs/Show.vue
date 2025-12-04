@@ -22,14 +22,4 @@
 
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import { withDefaults, defineProps } from 'vue';
-
-const props = withDefaults(defineProps({
-  slug: {
-    type: String,
-    required: false
-  }
-}), {
-  slug: ''
-});
 </script>
