@@ -18,7 +18,7 @@ class Settings extends Page implements Forms\Contracts\HasForms
     public ?string $owner_name = null;
     public $profile_picture = null;
     public ?string $description = null;
-    public ?string $headline = null; // Kolom baru untuk headline
+    public ?string $headline = null;
     public ?array $social_links = null;
 
     protected static ?string $title = 'Pengaturan Portofolio';
@@ -41,24 +41,24 @@ class Settings extends Page implements Forms\Contracts\HasForms
                 ->nullable()
                 ->helperText('Unggah foto profil. File akan disimpan di disk `public`.'),
 
-            TextInput::make('headline') // Kolom baru untuk headline
+            TextInput::make('headline')
                 ->label('Headline')
                 ->placeholder('Masukkan headline singkat, mis. Full Stack Developer')
                 ->required(),
 
-            Textarea::make('description') // Mengganti bio dengan description
+            Textarea::make('description')
                 ->label('Deskripsi')
                 ->placeholder('Deskripsi singkat tentang Anda')
                 ->rows(3)
                 ->nullable(),
 
-            TextInput::make('contact_phone') // Menambahkan nomor telepon
+            TextInput::make('contact_phone')
                 ->label('Nomor Telepon')
                 ->placeholder('Masukkan nomor telepon, mis. +62 812-3456-7890')
                 ->tel()
                 ->nullable(),
 
-            TextInput::make('contact_email') // Menambahkan email
+            TextInput::make('contact_email')
                 ->label('Email')
                 ->placeholder('Masukkan email, mis. email@contoh.com')
                 ->email()

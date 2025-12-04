@@ -36,31 +36,38 @@ class ExperienceResource extends Resource
                     ->schema([
                         TextInput::make('position')
                             ->label('Posisi')
+                            ->placeholder('Masukkan posisi Anda')
                             ->required(),
 
                         TextInput::make('company')
                             ->label('Perusahaan')
+                            ->placeholder('Masukkan nama perusahaan')
                             ->required(),
 
                         TextInput::make('company_link')
                             ->label('Link Perusahaan')
+                            ->placeholder('Masukkan link perusahaan')
                             ->url()
                             ->nullable(),
 
                         TextInput::make('location')
                             ->label('Lokasi')
+                            ->placeholder('Masukkan lokasi')
                             ->nullable(),
 
                         DatePicker::make('start_date')
                             ->label('Tanggal Mulai')
+                            ->placeholder('Pilih tanggal mulai')
                             ->required(),
 
                         DatePicker::make('end_date')
                             ->label('Tanggal Selesai')
+                            ->placeholder('Pilih tanggal selesai')
                             ->nullable(),
 
                         Select::make('employment_type')
                             ->label('Tipe Pekerjaan')
+                            ->placeholder('Pilih tipe pekerjaan')
                             ->options([
                                 'Full-time' => 'Full-time',
                                 'Part-time' => 'Part-time',
@@ -74,14 +81,17 @@ class ExperienceResource extends Resource
 
                 Textarea::make('description')
                     ->label('Deskripsi')
+                    ->placeholder('Masukkan deskripsi')
                     ->rows(4)
-                    ->nullable(),
+                    ->nullable()
+                    ->columnSpanFull(),
 
                 Repeater::make('highlights')
                     ->label('Highlight')
                     ->schema([
                         TextInput::make('highlight')
                             ->label('Highlight')
+                            ->placeholder('Masukkan highlight')
                             ->required(),
                     ])
                     ->columns(1)
@@ -92,6 +102,7 @@ class ExperienceResource extends Resource
                     ->schema([
                         TextInput::make('tech')
                             ->label('Teknologi')
+                            ->placeholder('Masukkan teknologi')
                             ->required(),
                     ])
                     ->columns(1)
