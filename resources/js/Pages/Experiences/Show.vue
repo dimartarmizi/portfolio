@@ -11,7 +11,7 @@
         <p>{{ experience.description }}</p>
 
         <h3 class="mt-4 text-slate-100">Highlights</h3>
-        <ul class="list-disc list-inside mt-2 text-slate-300">
+        <ul class="list-disc pl-5 mt-2 text-slate-300">
           <li v-for="(h, i) in (experience.highlights || [])" :key="i">{{ h.highlight || h }}</li>
         </ul>
 

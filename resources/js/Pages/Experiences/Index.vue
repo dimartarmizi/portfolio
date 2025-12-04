@@ -7,7 +7,7 @@
         <div class="text-slate-400 text-sm">{{ exp.location }} · {{ exp.employment_type }} · {{ exp.date_range }}</div>
         <p class="text-slate-300 mt-3">{{ exp.description }}</p>
         <div v-if="exp.highlights && exp.highlights.length" class="mt-3">
-          <ul class="list-disc list-inside text-slate-300">
+          <ul class="list-disc pl-5 text-slate-300">
             <li v-for="(h, i) in exp.highlights" :key="i">{{ h.highlight || h }}</li>
           </ul>
         </div>

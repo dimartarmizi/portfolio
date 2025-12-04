@@ -4,8 +4,10 @@
     <div class="space-y-6">
       <div v-for="proj in projects" :key="proj.id" class="card">
         <div class="flex items-start gap-4">
-          <div class="w-24 h-24 bg-slate-800 rounded overflow-hidden">
-            <img v-if="proj.thumbnail_url" :src="proj.thumbnail_url" class="w-full h-full object-cover" alt="" />
+          <div class="flex-shrink-0 w-24 sm:w-24 md:w-28 bg-slate-800 rounded overflow-hidden">
+            <div class="relative" style="aspect-ratio:1/1;">
+              <img v-if="proj.thumbnail_url" :src="proj.thumbnail_url" class="absolute inset-0 w-full h-full object-cover" alt="" />
+            </div>
           </div>
           <div>
             <h3 class="text-lg font-semibold text-white">{{ proj.title }}</h3>

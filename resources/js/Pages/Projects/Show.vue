@@ -2,8 +2,10 @@
   <AppLayout>
     <article class="card">
       <header class="flex items-start gap-6">
-        <div class="w-28 h-28 bg-slate-800 rounded overflow-hidden">
-          <img v-if="project.thumbnail_url" :src="project.thumbnail_url" alt="" class="w-full h-full object-cover" />
+        <div class="flex-shrink-0 w-28 sm:w-28 md:w-32 bg-slate-800 rounded overflow-hidden">
+          <div class="relative" style="aspect-ratio:1/1;">
+            <img v-if="project.thumbnail_url" :src="project.thumbnail_url" alt="" class="absolute inset-0 w-full h-full object-cover" />
+          </div>
         </div>
         <div>
           <h1 class="text-2xl font-bold text-white">{{ project.title }}</h1>
@@ -18,7 +20,7 @@
         <p v-if="project.description">{{ project.description }}</p>
 
         <h3 class="mt-4 text-slate-100">Features</h3>
-        <ul class="list-disc list-inside mt-2 text-slate-300">
+        <ul class="list-disc pl-5 mt-2 text-slate-300">
           <li v-for="(f, i) in (project.features || [])" :key="i">{{ f.feature || f }}</li>
         </ul>
 
