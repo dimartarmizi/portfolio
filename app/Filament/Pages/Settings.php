@@ -9,6 +9,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use App\Models\Setting;
+use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
 
 class Settings extends Page implements Forms\Contracts\HasForms
@@ -20,8 +21,11 @@ class Settings extends Page implements Forms\Contracts\HasForms
     public ?string $description = null;
     public ?string $headline = null;
     public ?array $social_links = null;
+    public ?string $footer = null;
+    public ?bool $show_blog = null;
+    public ?bool $show_profile_picture = null;
 
-    protected static ?string $title = 'Pengaturan Portofolio';
+    protected static ?string $title = 'Pengaturan';
     protected static string $view = 'filament.pages.settings';
     protected static bool $shouldRegisterNavigation = false;
 
@@ -87,6 +91,20 @@ class Settings extends Page implements Forms\Contracts\HasForms
                 ->addActionLabel('Tambah Tautan')
                 ->columns(2)
                 ->nullable(),
+
+            Textarea::make('footer')
+                ->label('Footer')
+                ->placeholder('Masukkan teks footer')
+                ->rows(2)
+                ->nullable(),
+
+            Toggle::make('show_blog')
+                ->label('Tampilkan Blog')
+                ->nullable(),
+
+            Toggle::make('show_profile_picture')
+                ->label('Tampilkan Foto Profil')
+                ->nullable(),
         ];
     }
 
@@ -100,6 +118,9 @@ class Settings extends Page implements Forms\Contracts\HasForms
             'contact_phone',
             'contact_email',
             'social_links',
+            'footer',
+            'show_blog',
+            'show_profile_picture',
         ];
 
         $data = [];
