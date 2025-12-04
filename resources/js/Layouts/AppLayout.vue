@@ -7,7 +7,7 @@
             <div class="container grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
                 <div class="lg:col-span-4 flex items-center justify-between">
                     <div>
-                        <a href="/" class="text-2xl font-extrabold tracking-tight">{{ ownerName }}</a>
+                        <Link href="/" class="text-2xl font-extrabold tracking-tight">{{ ownerName }}</Link>
                         <div class="text-slate-400 mt-1">{{ headline }}</div>
                     </div>
                     <button @click="mobileOpen = !mobileOpen" id="mobile-menu-button" class="lg:hidden text-slate-300 hover:text-white focus:outline-none">

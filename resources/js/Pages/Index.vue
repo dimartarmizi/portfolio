@@ -56,14 +56,14 @@
                                             <span v-for="(t, ti) in exp.tech_stack" :key="ti" class="inline-block bg-emerald-800 text-xs text-accent px-2 py-1 rounded">{{ t.tech || t }}</span>
                                         </div>
 
-                                        <ul v-if="exp.highlights && exp.highlights.length" class="mt-3 list-disc pl-5 space-y-1 text-sm text-slate-400">
+                                        <ul v-if="exp.highlights && exp.highlights.length" class="mt-3 list-disc pl-4 space-y-1 text-sm text-slate-400">
                                             <li v-for="(h, hi) in exp.highlights" :key="hi">{{ h.highlight || h }}</li>
                                         </ul>
                                     </div>
                                 </a>
                             </div>
                         </div>
-                        <a :href=resume_file  class="flex items-center text-accent hover:text-white mt-5">
+                        <a :href=resume_file class="flex items-center text-accent hover:text-white mt-5">
                             <span>View Full Resume</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-2" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M1.5 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 1 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H2a.5.5 0 0 1-.5-.5z" />
@@ -75,19 +75,19 @@
                         <h2 class="text-slate-200 font-semibold mb-6">Projects</h2>
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
                             <div v-for="project in projects" :key="project.id" class="hover-box">
-                                <a :href="project.link || '#'" class="contents" target="_blank" rel="noopener noreferrer">
-                                    <img :src="project.thumbnail_url || 'https://placehold.co/1280x720?text=No+Image'" :alt="project.title" class="rounded mb-3 img-fixed-ratio" />
-                                    <h4 class="text-white font-medium">{{ project.title }}</h4>
-                                    <p class="text-sm text-slate-400 mt-2">{{ project.short_description }}</p>
-                                </a>
+                                <Link :href="`/projects/${project.slug}` || '#'" class="contents" target="_blank" rel="noopener noreferrer">
+                                <img :src="project.thumbnail_url || 'https://placehold.co/1280x720?text=No+Image'" :alt="project.title" class="rounded mb-3 img-fixed-ratio" />
+                                <h4 class="text-white font-medium">{{ project.title }}</h4>
+                                <p class="text-sm text-slate-400 mt-2">{{ project.short_description }}</p>
+                                </Link>
                             </div>
                         </div>
-                        <a href="/projects" class="flex items-center text-accent hover:text-white mt-5">
-                            <span>View Full Projects</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-2" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M1.5 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 1 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H2a.5.5 0 0 1-.5-.5z" />
-                            </svg>
-                        </a>
+                        <Link href="/projects" class="flex items-center text-accent hover:text-white mt-5">
+                        <span>View Full Projects</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-2" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1.5 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 1 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H2a.5.5 0 0 1-.5-.5z" />
+                        </svg>
+                        </Link>
                     </section>
 
                     <section id="blog" v-if="show_blog" class="mb-12">
@@ -111,7 +111,7 @@
                         </a>
                     </section>
 
-                    <footer class="pt-8 border-t border-slate-700 text-slate-500 text-sm">
+                    <footer class="pt-8 border-t border-slate-700 text-slate-500 text-sm text-center sm:text-left">
                         <p>{{ footer }}</p>
                     </footer>
                 </main>
@@ -121,6 +121,7 @@
 </template>
 
 <script setup>
+import { Link } from '@inertiajs/inertia-vue3';
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 const { owner_name, headline, profile_picture, resume_file, description, social_links, footer, experiences, projects, posts, show_blog } = defineProps({
