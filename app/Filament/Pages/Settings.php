@@ -18,7 +18,10 @@ class Settings extends Page implements Forms\Contracts\HasForms
 
     public ?string $owner_name = null;
     public $profile_picture = null;
+    public $resume_file = null;
     public ?string $description = null;
+    public ?string $contact_phone = null;
+    public ?string $contact_email = null;
     public ?string $headline = null;
     public ?array $social_links = null;
     public ?string $footer = null;
@@ -41,9 +44,14 @@ class Settings extends Page implements Forms\Contracts\HasForms
                 ->label('Foto Profil')
                 ->disk('public')
                 ->image()
-                ->directory('settings')
                 ->nullable()
                 ->helperText('Unggah foto profil. File akan disimpan di disk `public`.'),
+
+            FileUpload::make('resume_file')
+                ->label('Resume (File)')
+                ->disk('public')
+                ->nullable()
+                ->helperText('Unggah Resume (PDF/DOC/DOCX). File akan disimpan di disk `public`.'),
 
             TextInput::make('headline')
                 ->label('Headline')
@@ -113,6 +121,7 @@ class Settings extends Page implements Forms\Contracts\HasForms
         $keys = [
             'owner_name',
             'profile_picture',
+            'resume_file',
             'headline',
             'description',
             'contact_phone',

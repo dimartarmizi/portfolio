@@ -10,7 +10,7 @@ class ExperienceSeeder extends Seeder
     public function run(): void
     {
         Experience::create([
-            'position'        => 'Web Programmer',
+            'position'        => 'Software Engineer',
             'company'         => 'Universitas Islam Indragiri',
             'company_link'    => 'https://unisi.ac.id',
             'location'        => 'Riau, Indonesia',
@@ -18,12 +18,12 @@ class ExperienceSeeder extends Seeder
             'end_date'        => null,
             'employment_type' => 'Full-time',
             'description'     => "Responsible for architecture, platform ownership and delivery of university web systems, SSO design, and operational reliability improvements.",
-            // Filament Repeater expects an array of objects matching the field keys
             'highlights'      => [
-                ['highlight' => 'Manage and develop university websites supporting digital transformation using Laravel (backend) and Vue.js (frontend).'],
-                ['highlight' => 'Deploy and maintain applications on VPS with Infrastructure-as-a-Service (IaaS) for scalability and reliability.'],
-                ['highlight' => 'Oversee integration and maintenance of third-party applications.'],
-                ['highlight' => 'Sole developer of the university’s Single Sign-On (SSO) system and integrated web apps (HR management, correspondence, employee performance). Platform: https://sso.unisi.ac.id.']
+                ['highlight' => 'Sole developer of a fully integrated ecosystem of university web applications (SSO, API Gateway, E-Office, HR System, Academic System), centralizing data, automating workflows, and improving operational efficiency.'],
+                ['highlight' => 'Contributed to the university’s paperless campus vision by digitizing administrative and academic processes.'],
+                ['highlight' => 'Managed full server lifecycle, including VPS setup, domain, Cloudflare, SSL/TLS, and ongoing infrastructure maintenance.'],
+                ['highlight' => 'Strengthened digital infrastructure and service accessibility while integrating third-party applications.'],
+                ['highlight' => 'Implemented Google Workspace for Education to enhance collaboration and digital communication for faculty, staff, and students.'],
             ],
             'tech_stack' => [
                 ['tech' => 'Ubuntu'],
@@ -34,8 +34,13 @@ class ExperienceSeeder extends Seeder
                 ['tech' => 'Javascript'],
                 ['tech' => 'Laravel'],
                 ['tech' => 'Vue.js'],
+                ['tech' => 'Tailwind'],
+                ['tech' => 'Bootstrap'],
                 ['tech' => 'Git'],
                 ['tech' => 'Wordpress'],
+                ['tech' => 'Open Journal Systems (OJS)'],
+                ['tech' => 'EPrints'],
+                ['tech' => 'Google Workspace Management'],
             ],
         ]);
 
@@ -55,11 +60,14 @@ class ExperienceSeeder extends Seeder
             ],
             'tech_stack' => [
                 ['tech' => 'PHP'],
+                ['tech' => 'CodeIgniter'],
                 ['tech' => 'Laravel'],
                 ['tech' => 'MySQL'],
+                ['tech' => 'Postgre'],
                 ['tech' => 'HTML'],
                 ['tech' => 'CSS'],
                 ['tech' => 'JavaScript'],
+                ['tech' => 'jQuery'],
                 ['tech' => 'Git']
             ],
         ]);
@@ -75,8 +83,8 @@ class ExperienceSeeder extends Seeder
             'description'     => "Operated and customized the OJS-based journal platform, improving availability and user experience while delivering OJS services to partner institutions.",
             'highlights'      => [
                 ['highlight' => 'Manage the academic journal platform using Open Journal Systems (OJS), including server setup, hosting, UI design, and theme customization.'],
-                ['highlight' => 'Ensure reliable journal service: https://ejournal.indrainstitute.id.'],
-                ['highlight' => 'Provide OJS setup and customization services to other institutions. Portfolio: https://indrainstitute.id/jasa-ojs.']
+                ['highlight' => 'Maintained reliable journal services, improving accessibility and consistency of academic publications.'],
+                ['highlight' => 'Provided OJS setup and customization services to other institutions, supporting digital transformation and knowledge dissemination beyond the organization.']
             ],
             'tech_stack' => [
                 ['tech' => 'PHP'],

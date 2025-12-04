@@ -10,10 +10,6 @@ class Setting extends Model
 
     public $timestamps = true;
 
-    protected $casts = [
-        'value' => 'array',
-    ];
-
     public function getValueAttribute($value)
     {
         if ($this->key === 'social_links') {

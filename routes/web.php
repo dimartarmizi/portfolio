@@ -16,4 +16,4 @@ Route::get('/experiences/{id}', [LandingController::class, 'experiencesShow'])->
 
 // Projects (static/demo for now)
 Route::get('/projects', [LandingController::class, 'projectsIndex'])->name('projects.index');
-Route::get('/projects/{id}', [LandingController::class, 'projectsShow'])->name('projects.show');
+Route::get('/projects/{slug}', [LandingController::class, 'projectsShow'])->name('projects.show');

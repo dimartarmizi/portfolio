@@ -1,5 +1,5 @@
 <template>
-    <div class="antialiased text-slate-100 relative z-10">
+    <div class="antialiased text-slate-100 relative z-10 min-h-screen flex flex-col">
         <div class="mouse-gradient" aria-hidden="true">
             <div class="g g1"></div>
         </div>
@@ -7,8 +7,8 @@
             <div class="container grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
                 <div class="lg:col-span-4 flex items-center justify-between">
                     <div>
-                        <a href="/" class="text-2xl font-extrabold tracking-tight">Brittany Chiang</a>
-                        <div class="text-slate-400 mt-1">Front End Engineer</div>
+                        <a href="/" class="text-2xl font-extrabold tracking-tight">{{ ownerName }}</a>
+                        <div class="text-slate-400 mt-1">{{ headline }}</div>
                     </div>
                     <button @click="mobileOpen = !mobileOpen" id="mobile-menu-button" class="lg:hidden text-slate-300 hover:text-white focus:outline-none">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -19,16 +19,16 @@
 
                 <nav id="desktop-menu" class="lg:col-span-8 text-right hidden lg:block">
                     <Link href="/" class="text-slate-300 hover:text-white mx-3" :class="{ 'text-white': isActive('/') }">Home</Link>
-                    <Link href="/projects" class="text-slate-300 hover:text-white mx-3" :class="{ 'text-white': isActive('/projects') }">Projects</Link>
-                    <Link href="/blogs" class="text-slate-300 hover:text-white mx-3" :class="{ 'text-white': isActive('/blogs') }">Blog</Link>
                     <Link href="/experiences" class="text-slate-300 hover:text-white mx-3" :class="{ 'text-white': isActive('/experiences') }">Experience</Link>
+                    <Link href="/projects" class="text-slate-300 hover:text-white mx-3" :class="{ 'text-white': isActive('/projects') }">Projects</Link>
+                    <Link v-if="showBlog" href="/blogs" class="text-slate-300 hover:text-white mx-3" :class="{ 'text-white': isActive('/blogs') }">Blog</Link>
                 </nav>
 
                 <nav id="mobile-menu" :class="['lg:hidden', mobileOpen ? '' : 'hidden', 'flex', 'flex-col', 'text-center', 'bg-panel', 'p-4', 'rounded-md', 'gap-4', 'card']">
                     <Link href="/" class="text-slate-300 hover:text-white">Home</Link>
-                    <Link href="/projects" class="text-slate-300 hover:text-white">Projects</Link>
-                    <Link href="/blogs" class="text-slate-300 hover:text-white">Blog</Link>
                     <Link href="/experiences" class="text-slate-300 hover:text-white">Experience</Link>
+                    <Link href="/projects" class="text-slate-300 hover:text-white">Projects</Link>
+                    <Link v-if="showBlog" href="/blogs" class="text-slate-300 hover:text-white">Blog</Link>
                 </nav>
             </div>
         </header>
@@ -40,18 +40,36 @@
         </main>
 
         <footer class="py-8 text-center text-slate-500 text-sm">
-            <div class="container">© {{ new Date().getFullYear() }} — Built with Tailwind</div>
+            <div class="container">{{ footer }}</div>
         </footer>
     </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
 import { Link, usePage } from '@inertiajs/inertia-vue3';
 
 const mobileOpen = ref(false);
 
 const page = usePage();
+const props = page.props;
+
+const ownerName = computed(() => {
+    try { return props.value.app?.owner_name ?? 'Your Name'; } catch (e) { return 'Your Name'; }
+});
+
+const headline = computed(() => {
+    try { return props.value.app?.headline ?? ''; } catch (e) { return ''; }
+});
+
+const showBlog = computed(() => {
+    try { return !!props.value.app?.show_blog; } catch (e) { return false; }
+});
+
+const footer = computed(() => {
+    try { return props.value.app?.footer ?? ''; } catch (e) { return false; }
+});
+
 function isActive(path) {
     let url = null;
     try {
@@ -85,8 +103,8 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-    try { window.removeEventListener('mousemove', _appMouseHandler); } catch (e) {}
-    try { window.removeEventListener('touchmove', _appMouseHandler); } catch (e) {}
+    try { window.removeEventListener('mousemove', _appMouseHandler); } catch (e) { }
+    try { window.removeEventListener('touchmove', _appMouseHandler); } catch (e) { }
 });
 </script>
 
@@ -168,6 +186,7 @@ main {
     pointer-events: none;
     overflow: hidden;
 }
+
 .mouse-gradient .g {
     position: absolute;
     left: var(--mx1, 50%);
@@ -178,15 +197,18 @@ main {
     will-change: transform, left, top;
     transition: transform 160ms linear;
 }
+
 .mouse-gradient .g1 {
     width: 700px;
     height: 700px;
-    background: radial-gradient(circle at center, rgba(19,247,211,0.18) 0%, rgba(19,247,211,0.06) 30%, rgba(19,247,211,0.02) 50%, transparent 70%);
+    background: radial-gradient(circle at center, rgba(19, 247, 211, 0.18) 0%, rgba(19, 247, 211, 0.06) 30%, rgba(19, 247, 211, 0.02) 50%, transparent 70%);
     mix-blend-mode: screen;
     opacity: 0.9;
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .mouse-gradient { display: none !important; }
+    .mouse-gradient {
+        display: none !important;
+    }
 }
 </style>
