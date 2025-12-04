@@ -26,10 +26,6 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
-    protected static ?string $navigationGroup = 'Pelindung';
-
-    protected static ?int $navigationSort = 2;
-
     public static function getNavigationLabel(): string
     {
         return trans('filament-users::user.resource.label');
