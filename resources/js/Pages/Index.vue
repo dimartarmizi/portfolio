@@ -89,7 +89,7 @@
                                 </a>
                             </div>
                         </div>
-                        <a href="#" class="flex items-center text-accent hover:text-white mt-4">
+                        <a href="#" class="flex items-center text-accent hover:text-white mt-5">
                             <span>View Full Resume</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-2" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M1.5 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 1 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H2a.5.5 0 0 1-.5-.5z" />
@@ -102,7 +102,7 @@
                         <div class="grid md:grid-cols-3 gap-6">
                             <div class="hover-box">
                                 <a href="#" class="contents">
-                                    <div class="h-28 bg-slate-700 rounded mb-3"></div>
+                                    <img src="https://placehold.co/1920x1080" alt="Project Thumbnail" class="rounded mb-3 img-fixed-ratio" />
                                     <h4 class="text-white font-medium">Build a Spotify Connected App</h4>
                                     <p class="text-sm text-slate-400 mt-2">Video course that teaches how to build a web app with the Spotify Web API.</p>
                                 </a>
@@ -110,20 +110,42 @@
 
                             <div class="hover-box">
                                 <a href="#" class="contents">
-                                    <div class="h-28 bg-slate-700 rounded mb-3"></div>
+                                    <img src="https://placehold.co/1920x1080" alt="Project Thumbnail" class="rounded mb-3 img-fixed-ratio" />
                                     <h4 class="text-white font-medium">Spotify Profile</h4>
                                     <p class="text-sm text-slate-400 mt-2">Web app for visualizing personalized Spotify data.</p>
                                 </a>
                             </div>
                             <div class="hover-box">
                                 <a href="#" class="contents">
-                                    <div class="h-28 bg-slate-700 rounded mb-3"></div>
+                                    <img src="https://placehold.co/1920x1080" alt="Project Thumbnail" class="rounded mb-3 img-fixed-ratio" />
+                                    <h4 class="text-white font-medium">Spotify Profile</h4>
+                                    <p class="text-sm text-slate-400 mt-2">Web app for visualizing personalized Spotify data.</p>
+                                </a>
+                            </div>
+                            <div class="hover-box">
+                                <a href="#" class="contents">
+                                    <img src="https://placehold.co/1920x1080" alt="Project Thumbnail" class="rounded mb-3 img-fixed-ratio" />
+                                    <h4 class="text-white font-medium">Build a Spotify Connected App</h4>
+                                    <p class="text-sm text-slate-400 mt-2">Video course that teaches how to build a web app with the Spotify Web API.</p>
+                                </a>
+                            </div>
+
+                            <div class="hover-box">
+                                <a href="#" class="contents">
+                                    <img src="https://placehold.co/1920x1080" alt="Project Thumbnail" class="rounded mb-3 img-fixed-ratio" />
+                                    <h4 class="text-white font-medium">Spotify Profile</h4>
+                                    <p class="text-sm text-slate-400 mt-2">Web app for visualizing personalized Spotify data.</p>
+                                </a>
+                            </div>
+                            <div class="hover-box">
+                                <a href="#" class="contents">
+                                    <img src="https://placehold.co/1920x1080" alt="Project Thumbnail" class="rounded mb-3 img-fixed-ratio" />
                                     <h4 class="text-white font-medium">Spotify Profile</h4>
                                     <p class="text-sm text-slate-400 mt-2">Web app for visualizing personalized Spotify data.</p>
                                 </a>
                             </div>
                         </div>
-                        <a href="#" class="flex items-center text-accent hover:text-white mt-4">
+                        <a href="#" class="flex items-center text-accent hover:text-white mt-5">
                             <span>View Full Projects</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-2" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M1.5 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 1 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H2a.5.5 0 0 1-.5-.5z" />
@@ -136,7 +158,7 @@
                         <ul class="space-y-4">
                             <li class="flex items-start gap-4 hover-box">
                                 <a href="#" class="contents">
-                                    <div class="w-24 h-12 bg-slate-700 rounded"></div>
+                                    <img src="https://placehold.co/100x500" alt="Blog Thumbnail" class="rounded img-fixed-ratio img-thumb" />
                                     <div>
                                         <h4 class="text-white font-medium">6 Common Accessibility Pitfalls and How to Avoid Them</h4>
                                         <p class="text-sm text-slate-400 mt-1">2024</p>
@@ -145,7 +167,7 @@
                             </li>
                             <li class="flex items-start gap-4 hover-box">
                                 <a href="#" class="contents">
-                                    <div class="w-24 h-12 bg-slate-700 rounded"></div>
+                                    <img src="https://placehold.co/96x48" alt="Blog Thumbnail" class="rounded img-fixed-ratio img-thumb" />
                                     <div>
                                         <h4 class="text-white font-medium">Integrating Algolia Search with WordPress Multisite</h4>
                                         <p class="text-sm text-slate-400 mt-1">2020</p>
@@ -153,7 +175,7 @@
                                 </a>
                             </li>
                         </ul>
-                        <a href="#" class="flex items-center text-accent hover:text-white mt-4">
+                        <a href="#" class="flex items-center text-accent hover:text-white mt-5">
                             <span>View More Posts</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-2" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M1.5 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 1 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H2a.5.5 0 0 1-.5-.5z" />
@@ -320,5 +342,20 @@ html {
 
 .hover-box:hover::before {
     opacity: 1;
+}
+
+.img-fixed-ratio {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.img-thumb {
+    width: 96px;
+    max-width: 96px;
+    aspect-ratio: 2 / 1;
+    object-fit: cover;
+    display: inline-block;
 }
 </style>
