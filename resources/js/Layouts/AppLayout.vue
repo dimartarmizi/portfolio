@@ -15,17 +15,17 @@
                 </div>
 
                 <nav id="desktop-menu" class="lg:col-span-8 text-right hidden lg:block">
-                    <a href="/" class="text-slate-300 hover:text-white mx-3">Home</a>
-                    <a href="/projects" class="text-slate-300 hover:text-white mx-3">Projects</a>
-                    <a href="/blogs" class="text-slate-300 hover:text-white mx-3">Blog</a>
-                    <a href="/experiences" class="text-slate-300 hover:text-white mx-3">Experience</a>
+                    <Link href="/" class="text-slate-300 hover:text-white mx-3" :class="{ 'text-white': isActive('/') }">Home</Link>
+                    <Link href="/projects" class="text-slate-300 hover:text-white mx-3" :class="{ 'text-white': isActive('/projects') }">Projects</Link>
+                    <Link href="/blogs" class="text-slate-300 hover:text-white mx-3" :class="{ 'text-white': isActive('/blogs') }">Blog</Link>
+                    <Link href="/experiences" class="text-slate-300 hover:text-white mx-3" :class="{ 'text-white': isActive('/experiences') }">Experience</Link>
                 </nav>
 
                 <nav id="mobile-menu" :class="['lg:hidden', mobileOpen ? '' : 'hidden', 'flex', 'flex-col', 'text-center', 'bg-panel', 'p-4', 'rounded-md', 'gap-4', 'card']">
-                    <a href="/" class="text-slate-300 hover:text-white">Home</a>
-                    <a href="/projects" class="text-slate-300 hover:text-white">Projects</a>
-                    <a href="/blogs" class="text-slate-300 hover:text-white">Blog</a>
-                    <a href="/experiences" class="text-slate-300 hover:text-white">Experience</a>
+                    <Link href="/" class="text-slate-300 hover:text-white">Home</Link>
+                    <Link href="/projects" class="text-slate-300 hover:text-white">Projects</Link>
+                    <Link href="/blogs" class="text-slate-300 hover:text-white">Blog</Link>
+                    <Link href="/experiences" class="text-slate-300 hover:text-white">Experience</Link>
                 </nav>
             </div>
         </header>
@@ -44,7 +44,26 @@
 
 <script setup>
 import { ref } from 'vue';
+import { Link, usePage } from '@inertiajs/inertia-vue3';
+
 const mobileOpen = ref(false);
+
+const page = usePage();
+function isActive(path) {
+    let url = null;
+    try {
+        url = page.url ?? (page.value && page.value.url) ?? null;
+    } catch (e) {
+        url = null;
+    }
+
+    if (typeof url !== 'string') {
+        const win = typeof window !== 'undefined' ? window : null;
+        url = win ? (win.location.pathname + (win.location.search || '')) : '';
+    }
+
+    return url === path || url.startsWith(path + '/');
+}
 </script>
 
 <style>
