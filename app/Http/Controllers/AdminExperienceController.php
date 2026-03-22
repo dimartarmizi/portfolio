@@ -79,7 +79,7 @@ class AdminExperienceController extends Controller
         $this->fillExperience($experience, $data);
         $experience->save();
 
-        return redirect()->route('admin.experiences.index')->with('success', 'Experience updated successfully.');
+        return redirect()->route('admin.experiences.edit', $experience)->with('success', 'Experience updated successfully.');
     }
 
     public function destroy(Experience $experience): RedirectResponse

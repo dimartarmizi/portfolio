@@ -36,13 +36,10 @@
                         <p v-if="form.errors.link" class="mt-2 text-sm text-rose-300">{{ form.errors.link }}</p>
                     </div>
 
-                    <div>
-                        <label class="mb-2 block text-sm font-medium text-slate-300">Status</label>
-                        <select v-model="form.status" class="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/20">
-                            <option value="completed">completed</option>
-                            <option value="ongoing">ongoing</option>
-                        </select>
-                    </div>
+                    <SelectField v-model="form.status" label="Status">
+                        <option value="completed">Completed</option>
+                        <option value="ongoing">Ongoing</option>
+                    </SelectField>
                 </div>
             </div>
 
@@ -52,46 +49,31 @@
 
                 <div class="mt-6 space-y-5">
                     <div>
-                        <label class="mb-2 block text-sm font-medium text-slate-300">Thumbnail</label>
-                        <input type="file" accept="image/*" class="w-full rounded-2xl border border-dashed border-white/15 bg-slate-950/70 px-4 py-3 text-sm text-slate-300" @change="event => handleFile(event, 'thumbnail')" />
-                        <div class="mt-4 overflow-hidden rounded-2xl border border-white/10 bg-slate-950/50">
-                            <div class="aspect-[16/9] bg-slate-900">
-                                <img v-if="thumbnailPreview" :src="thumbnailPreview" :alt="`${project.title || 'Project'} thumbnail preview`" class="h-full w-full object-cover" />
-                                <div v-else-if="project.thumbnail_url" class="flex h-full w-full items-center justify-center text-sm text-slate-500">Current thumbnail preview</div>
-                                <div v-else class="flex h-full w-full items-center justify-center text-sm text-slate-500">No thumbnail selected</div>
-                            </div>
-                        </div>
-                        <p class="mt-2 text-xs text-slate-500">Current file: <a v-if="project.thumbnail_url" :href="project.thumbnail_url" target="_blank" rel="noopener noreferrer" class="text-amber-300 hover:text-amber-200">open file</a><span v-else>none</span></p>
+                        <FileUploadField
+                            label="Thumbnail"
+                            accept="image/*"
+                            :existing-url="project.thumbnail_url"
+                            :existing-name="project.thumbnail_name || ''"
+                            :allow-existing-removal="!!project.thumbnail_url"
+                            button-label="Upload thumbnail"
+                            helper-text="Recommended size is 16:9 for the best preview on cards and detail pages."
+                            @change="file => handleFile(file, 'thumbnail')"
+                            @existing-remove="removeThumbnail"
+                        />
                     </div>
 
                     <div>
-                        <label class="mb-2 block text-sm font-medium text-slate-300">Gallery images</label>
-                        <input multiple type="file" accept="image/*" class="w-full rounded-2xl border border-dashed border-white/15 bg-slate-950/70 px-4 py-3 text-sm text-slate-300" @change="handleGalleryChange" />
-                        <p class="mt-2 text-xs text-slate-500">Upload multiple images at once. New uploads will be added to the current gallery.</p>
-
-                        <div v-if="existingGallery.length" class="mt-4 grid gap-3 sm:grid-cols-2">
-                            <div v-for="(image, index) in existingGallery" :key="`${image}-${index}`" class="overflow-hidden rounded-2xl border border-white/10 bg-slate-950/50">
-                                <div class="aspect-[4/3] bg-slate-900">
-                                    <img :src="image" :alt="`${project.title} gallery ${index + 1}`" class="h-full w-full object-cover" />
-                                </div>
-                                <div class="px-3 py-2 text-xs text-slate-400">Current image {{ index + 1 }}</div>
-                            </div>
-                        </div>
-
-                        <div v-if="selectedGalleryPreviews.length" class="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-                            <div v-for="(item, index) in selectedGalleryPreviews" :key="`${item.file.name}-${index}`" class="overflow-hidden rounded-2xl border border-white/10 bg-slate-950/50">
-                                <div class="aspect-[4/3] bg-slate-900">
-                                    <img :src="item.previewUrl" :alt="item.file.name" class="h-full w-full object-cover" />
-                                </div>
-                                <div class="flex items-center justify-between gap-3 px-3 py-2 text-xs text-slate-400">
-                                    <span class="truncate">{{ item.file.name }}</span>
-                                    <button type="button" class="inline-flex items-center gap-1.5 text-rose-300 transition hover:text-rose-200" @click="removeGalleryFile(index)">
-                                        <IconTrash class="h-3.5 w-3.5" />
-                                        <span>Remove</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                        <FileUploadField
+                            label="Gallery images"
+                            accept="image/*"
+                            multiple
+                            :existing-items="existingGalleryItems"
+                            :allow-existing-removal="true"
+                            button-label="Upload gallery images"
+                            helper-text="Upload multiple images at once. New uploads will be added to the current gallery."
+                            @change="files => handleGalleryChange(files)"
+                            @existing-remove="removeGalleryItem"
+                        />
                     </div>
 
                     <div>
@@ -99,11 +81,11 @@
                         <textarea v-model="form.description" rows="6" placeholder="Describe the project, goals, scope, and outcome." class="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/20"></textarea>
                     </div>
 
-                    <MultiTextListInput v-model="form.technologies" label="Technologies" hint="Add one technology per row, such as Laravel, Vue, or Tailwind." placeholder="Technology name" add-label="Add technology" />
+                    <MultiTextListInput v-model="form.technologies" label="Technologies" />
 
-                    <MultiTextListInput v-model="form.features" label="Features" hint="Use this for feature bullets shown on the project detail page." placeholder="Feature text" add-label="Add feature" />
+                    <MultiTextListInput v-model="form.features" label="Features" />
 
-                    <MultiTextListInput v-model="form.results" label="Results" hint="Use this for outcome or impact bullets." placeholder="Result text" add-label="Add result" />
+                    <MultiTextListInput v-model="form.results" label="Results" />
                 </div>
             </div>
         </section>
@@ -122,10 +104,11 @@
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, ref } from 'vue';
 import { useForm, Link } from '@inertiajs/vue3';
 import MultiTextListInput from '@/Components/Admin/MultiTextListInput.vue';
-import { IconArrowLeft, IconDeviceFloppy, IconTrash } from '@tabler/icons-vue';
+import FileUploadField from '@/Components/Form/FileUploadField.vue';
+import SelectField from '@/Components/Form/SelectField.vue';
+import { IconArrowLeft, IconDeviceFloppy } from '@tabler/icons-vue';
 
 const props = defineProps({
     project: { type: Object, required: true },
@@ -136,6 +119,7 @@ const props = defineProps({
 });
 
 const form = useForm({
+    _method: props.method === 'put' ? 'put' : '',
     title: props.project.title ?? '',
     slug: props.project.slug ?? '',
     year: props.project.year ?? '',
@@ -144,75 +128,159 @@ const form = useForm({
     link: props.project.link ?? '',
     status: props.project.status ?? 'completed',
     thumbnail: null,
+    thumbnail_remove: false,
     gallery_files: [],
+    gallery_remove: [],
     technologies: normalizeList(props.project.technologies ?? []),
     features: normalizeList(props.project.features ?? []),
     results: normalizeList(props.project.results ?? []),
 });
 
-const existingGallery = computed(() => props.project.gallery_urls ?? []);
-const thumbnailPreview = ref(null);
-const selectedGalleryPreviews = ref([]);
+const existingGalleryItems = (props.project.gallery ?? []).map((item, index) => {
+    const path = resolveStoredPath(item);
+    const previewUrl = props.project.gallery_urls?.[index] ?? '';
+    const name = resolveDisplayName(item, index, path);
 
-function handleFile(event, field) {
-    const file = event.target.files && event.target.files[0] ? event.target.files[0] : null;
-
-    if (field === 'thumbnail') {
-        if (thumbnailPreview.value) {
-            URL.revokeObjectURL(thumbnailPreview.value);
-            thumbnailPreview.value = null;
-        }
-
-        form[field] = file;
-
-        if (file) {
-            thumbnailPreview.value = URL.createObjectURL(file);
-        }
-
-        return;
-    }
-
-    form[field] = file;
-}
-
-function handleGalleryChange(event) {
-    const files = Array.from(event.target.files ?? []);
-
-    if (!files.length) {
-        return;
-    }
-
-    const previewItems = files.map((file) => ({
-        file,
-        previewUrl: URL.createObjectURL(file),
-    }));
-
-    form.gallery_files = [...form.gallery_files, ...files];
-    selectedGalleryPreviews.value = [...selectedGalleryPreviews.value, ...previewItems];
-    event.target.value = '';
-}
-
-function removeGalleryFile(index) {
-    const [removed] = selectedGalleryPreviews.value.splice(index, 1);
-
-    if (removed?.previewUrl) {
-        URL.revokeObjectURL(removed.previewUrl);
-    }
-
-    const nextFiles = [...form.gallery_files];
-    nextFiles.splice(index, 1);
-    form.gallery_files = nextFiles;
-}
-
-onBeforeUnmount(() => {
-    if (thumbnailPreview.value) {
-        URL.revokeObjectURL(thumbnailPreview.value);
-    }
-
-    selectedGalleryPreviews.value.forEach((item) => {
-        URL.revokeObjectURL(item.previewUrl);
-    });
+    return {
+        id: path || `gallery-${index}`,
+        path,
+        name,
+        previewUrl,
+        mimeType: inferMimeTypeFromPath(path || name),
+        removable: true,
+    };
 });
+
+function handleFile(file, field) {
+    form[field] = file ?? null;
+
+    if (field === 'thumbnail' && file) {
+        form.thumbnail_remove = false;
+    }
+}
+
+function handleGalleryChange(files) {
+    form.gallery_files = Array.isArray(files) ? files : [];
+}
+
+function removeThumbnail() {
+    form.thumbnail = null;
+    form.thumbnail_remove = true;
+}
+
+function removeGalleryItem(item) {
+    const path = item?.path || item?.id;
+
+    if (!path) {
+        return;
+    }
+
+    form.gallery_remove = Array.from(new Set([...form.gallery_remove, path]));
+}
+
+function inferNameFromPath(path, index) {
+    const filename = String(path ?? '')
+        .split('?')[0]
+        .split('/')
+        .filter(Boolean)
+        .pop();
+
+    if (filename) {
+        return filename;
+    }
+
+    return `image-${index + 1}`;
+}
+
+function resolveDisplayName(item, index, path) {
+    if (typeof item === 'string' || typeof item === 'number') {
+        const text = String(item).trim();
+
+        return text !== '' ? inferNameFromPath(text, index) : `image-${index + 1}`;
+    }
+
+    if (item && typeof item === 'object') {
+        for (const key of ['name', 'title', 'label', 'text', 'value', 'caption']) {
+            if (Object.prototype.hasOwnProperty.call(item, key)) {
+                const text = normalizeTextValue(item[key]);
+
+                if (text) {
+                    return text;
+                }
+            }
+        }
+    }
+
+    return inferNameFromPath(path, index);
+}
+
+function resolveStoredPath(item) {
+    if (typeof item === 'string' || typeof item === 'number') {
+        const text = String(item).trim();
+
+        return text !== '' ? text : '';
+    }
+
+    if (!item || typeof item !== 'object') {
+        return '';
+    }
+
+    for (const key of ['path', 'url', 'src', 'file', 'image', 'value']) {
+        if (Object.prototype.hasOwnProperty.call(item, key)) {
+            const text = normalizeTextValue(item[key]);
+
+            if (text) {
+                return text;
+            }
+        }
+    }
+
+    return '';
+}
+
+function normalizeTextValue(value) {
+    if (typeof value === 'string' || typeof value === 'number') {
+        const text = String(value).trim();
+
+        return text !== '' ? text : null;
+    }
+
+    if (Array.isArray(value)) {
+        for (const item of value) {
+            const text = normalizeTextValue(item);
+
+            if (text) {
+                return text;
+            }
+        }
+    }
+
+    if (value && typeof value === 'object') {
+        for (const key of ['name', 'title', 'label', 'text', 'value', 'caption', 'path', 'url', 'src', 'file', 'image']) {
+            if (Object.prototype.hasOwnProperty.call(value, key)) {
+                const text = normalizeTextValue(value[key]);
+
+                if (text) {
+                    return text;
+                }
+            }
+        }
+
+        for (const item of Object.values(value)) {
+            const text = normalizeTextValue(item);
+
+            if (text) {
+                return text;
+            }
+        }
+    }
+
+    return null;
+}
+
+function inferMimeTypeFromPath(path) {
+    return /\.(png|jpe?g|gif|webp|bmp|svg|avif)$/i.test(String(path)) ? 'image/*' : '';
+}
 
 function normalizeList(values) {
     const items = Array.isArray(values) ? values : [];
@@ -270,10 +338,12 @@ function submit() {
     };
 
     if (props.method === 'put') {
-        form.put(props.submitUrl, options);
+        form._method = 'put';
+        form.post(props.submitUrl, options);
         return;
     }
 
+    form._method = '';
     form.post(props.submitUrl, options);
 }
 </script>

@@ -91,7 +91,7 @@ class AdminPostController extends Controller
         $this->fillPost($post, $request, $data);
         $post->save();
 
-        return redirect()->route('admin.posts.index')->with('success', 'Post updated successfully.');
+        return redirect()->route('admin.posts.edit', $post)->with('success', 'Post updated successfully.');
     }
 
     public function destroy(Post $post): RedirectResponse

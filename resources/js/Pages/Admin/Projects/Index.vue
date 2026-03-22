@@ -28,20 +28,15 @@
                     <input v-model="filters.search" type="search" placeholder="Title, slug, description, or link" class="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/20" />
                 </div>
 
-                <div>
-                    <label class="mb-2 block text-sm font-medium text-slate-300">Status</label>
-                    <select v-model="filters.status" class="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/20">
-                        <option v-for="status in filterOptions.statuses" :key="status" :value="status">{{ status }}</option>
-                    </select>
-                </div>
+                <SelectField v-model="filters.status" label="Status">
+                    <option value="all">All statuses</option>
+                    <option v-for="status in filterOptions.statuses" :key="status" :value="status">{{ status }}</option>
+                </SelectField>
 
-                <div>
-                    <label class="mb-2 block text-sm font-medium text-slate-300">Year</label>
-                    <select v-model="filters.year" class="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/20">
-                        <option value="">All years</option>
-                        <option v-for="year in filterOptions.years" :key="year" :value="year">{{ year }}</option>
-                    </select>
-                </div>
+                <SelectField v-model="filters.year" label="Year">
+                    <option value="">All years</option>
+                    <option v-for="year in filterOptions.years" :key="year" :value="year">{{ year }}</option>
+                </SelectField>
 
                 <div class="flex items-end gap-2">
                     <button type="submit" class="inline-flex items-center gap-2 rounded-2xl bg-amber-400 px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-amber-300">
@@ -102,6 +97,7 @@ import { computed, reactive } from 'vue';
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import Pagination from '@/Components/Admin/Pagination.vue';
+import SelectField from '@/Components/Form/SelectField.vue';
 import { IconArrowLeft, IconEdit, IconPlus, IconRefresh, IconSearch, IconTrash } from '@tabler/icons-vue';
 
 const page = usePage();

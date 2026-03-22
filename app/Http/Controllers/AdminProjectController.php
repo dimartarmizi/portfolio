@@ -93,7 +93,7 @@ class AdminProjectController extends Controller
         $this->fillProject($project, $request, $data);
         $project->save();
 
-        return redirect()->route('admin.projects.index')->with('success', 'Project updated successfully.');
+        return redirect()->route('admin.projects.edit', $project)->with('success', 'Project updated successfully.');
     }
 
     public function destroy(Project $project): RedirectResponse
@@ -120,13 +120,8 @@ class AdminProjectController extends Controller
         $project->features = $this->normalizeTextList($data['features'] ?? []);
         $project->results = $this->normalizeTextList($data['results'] ?? []);
 
-        $gallery = $project->exists ? ($project->gallery ?? []) : [];
-        $gallery = array_values(array_filter(is_array($gallery) ? $gallery : []));
-
-        $galleryRemove = array_values(array_filter(array_map(
-            fn ($value) => is_string($value) ? trim($value) : null,
-            $request->input('gallery_remove', [])
-        )));
+        $gallery = $this->normalizeStoredPaths($project->exists ? ($project->gallery ?? []) : []);
+        $galleryRemove = $this->normalizeStoredPaths($request->input('gallery_remove', []));
 
         if ($galleryRemove) {
             foreach ($galleryRemove as $path) {

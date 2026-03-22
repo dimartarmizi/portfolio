@@ -67,10 +67,7 @@
                             <p v-if="form.errors.password" class="mt-2 text-sm text-rose-300">{{ form.errors.password }}</p>
                         </div>
 
-                        <label class="flex items-center gap-3 text-sm text-slate-300">
-                            <input v-model="form.remember" type="checkbox" class="h-4 w-4 rounded border-white/20 bg-slate-950 text-amber-400 focus:ring-amber-400/30" />
-                            Remember me
-                        </label>
+                        <ToggleSwitch v-model="form.remember" label="Remember me" hint="Keep me signed in on this device." />
 
                         <button
                             type="submit"
@@ -98,6 +95,7 @@
 <script setup>
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { IconArrowLeft, IconLogin2 } from '@tabler/icons-vue';
+import ToggleSwitch from '@/Components/Form/ToggleSwitch.vue';
 
 const form = useForm({
     login: '',
