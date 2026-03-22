@@ -147,7 +147,7 @@ function handleFile(event, field) {
 }
 
 function save() {
-    form.put('/admin/settings', {
+    form.post('/admin/settings', {
         preserveScroll: true,
         forceFormData: true,
     });

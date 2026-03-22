@@ -32,6 +32,8 @@ class AdminSettingController extends Controller
 
     public function update(Request $request): RedirectResponse
     {
+        $currentValues = Setting::query()->pluck('value', 'key')->all();
+
         $validated = $request->validate([
             'owner_name' => ['nullable', 'string', 'max:255'],
             'headline' => ['nullable', 'string', 'max:255'],
@@ -59,15 +61,15 @@ class AdminSettingController extends Controller
             }
         }
 
-        $this->saveSetting('owner_name', $validated['owner_name'] ?? null);
-        $this->saveSetting('headline', $validated['headline'] ?? null);
-        $this->saveSetting('description', $validated['description'] ?? null);
-        $this->saveSetting('footer', $validated['footer'] ?? null);
-        $this->saveSetting('contact_phone', $validated['contact_phone'] ?? null);
-        $this->saveSetting('contact_email', $validated['contact_email'] ?? null);
+        $this->saveSetting('owner_name', $this->keepExistingTextValue($validated['owner_name'] ?? null, $currentValues['owner_name'] ?? null));
+        $this->saveSetting('headline', $this->keepExistingTextValue($validated['headline'] ?? null, $currentValues['headline'] ?? null));
+        $this->saveSetting('description', $this->keepExistingTextValue($validated['description'] ?? null, $currentValues['description'] ?? null));
+        $this->saveSetting('footer', $this->keepExistingTextValue($validated['footer'] ?? null, $currentValues['footer'] ?? null));
+        $this->saveSetting('contact_phone', $this->keepExistingTextValue($validated['contact_phone'] ?? null, $currentValues['contact_phone'] ?? null));
+        $this->saveSetting('contact_email', $this->keepExistingTextValue($validated['contact_email'] ?? null, $currentValues['contact_email'] ?? null));
         $this->saveSetting('show_blog', $request->boolean('show_blog') ? '1' : '0');
         $this->saveSetting('show_profile_picture', $request->boolean('show_profile_picture') ? '1' : '0');
-        $this->saveSetting('social_links', $socialLinks);
+        $this->saveSetting('social_links', $socialLinks ?: ($currentValues['social_links'] ?? []));
 
         if ($request->hasFile('profile_picture')) {
             $path = $request->file('profile_picture')->store('settings', 'public');
@@ -90,5 +92,18 @@ class AdminSettingController extends Controller
         );
 
         cache()->forget('setting_' . $key);
+    }
+
+    private function keepExistingTextValue(mixed $incomingValue, mixed $currentValue): mixed
+    {
+        if (is_string($incomingValue)) {
+            $incomingValue = trim($incomingValue);
+
+            if ($incomingValue !== '') {
+                return $incomingValue;
+            }
+        }
+
+        return $currentValue;
     }
 }

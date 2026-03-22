@@ -42,16 +42,16 @@
 
                     <form class="space-y-5" @submit.prevent="submit">
                         <div>
-                            <label class="mb-2 block text-sm font-medium text-slate-300" for="email">Email</label>
+                            <label class="mb-2 block text-sm font-medium text-slate-300" for="login">Email atau username</label>
                             <input
-                                id="email"
-                                v-model="form.email"
-                                type="email"
-                                autocomplete="email"
+                                id="login"
+                                v-model="form.login"
+                                type="text"
+                                autocomplete="username"
                                 class="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/20"
-                                placeholder="admin@example.com"
+                                placeholder="email@example.com atau username"
                             />
-                            <p v-if="form.errors.email" class="mt-2 text-sm text-rose-300">{{ form.errors.email }}</p>
+                            <p v-if="form.errors.login" class="mt-2 text-sm text-rose-300">{{ form.errors.login }}</p>
                         </div>
 
                         <div>
@@ -100,7 +100,7 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 import { IconArrowLeft, IconLogin2 } from '@tabler/icons-vue';
 
 const form = useForm({
-    email: '',
+    login: '',
     password: '',
     remember: true,
 });

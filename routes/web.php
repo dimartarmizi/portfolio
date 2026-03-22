@@ -38,6 +38,6 @@ Route::middleware('auth')->group(function () {
 		Route::resource('posts', AdminPostController::class)->except(['show']);
 		Route::resource('experiences', AdminExperienceController::class)->except(['show']);
 		Route::get('/settings', [AdminSettingController::class, 'edit'])->name('settings.edit');
-		Route::put('/settings', [AdminSettingController::class, 'update'])->name('settings.update');
+		Route::match(['post', 'put'], '/settings', [AdminSettingController::class, 'update'])->name('settings.update');
 	});
 });

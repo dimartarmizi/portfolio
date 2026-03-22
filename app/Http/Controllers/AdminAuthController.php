@@ -19,13 +19,15 @@ class AdminAuthController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
+            'login' => ['required', 'string'],
             'password' => ['required', 'string'],
             'remember' => ['nullable', 'boolean'],
         ]);
 
+        $loginField = filter_var($credentials['login'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
         if (Auth::attempt([
-            'email' => $credentials['email'],
+            $loginField => $credentials['login'],
             'password' => $credentials['password'],
         ], $request->boolean('remember'))) {
             $request->session()->regenerate();
@@ -34,7 +36,7 @@ class AdminAuthController extends Controller
         }
 
         throw ValidationException::withMessages([
-            'email' => 'The provided credentials are incorrect.',
+            'login' => 'The provided credentials are incorrect.',
         ]);
     }
 
