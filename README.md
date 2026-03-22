@@ -6,7 +6,7 @@
 
 [![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://www.php.net/) [![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com/) [![Inertia](https://img.shields.io/badge/Inertia.js-9553E9?style=for-the-badge&logo=inertia&logoColor=white)](https://inertiajs.com/) [![Vue.js](https://img.shields.io/badge/Vue.js-4FC08D?style=for-the-badge&logo=vuedotjs&logoColor=white)](https://vuejs.org/) [![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/) [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 
-Portfolio template built with Laravel 12, Inertia, and Vue 3. This project includes public pages for profile, experience, projects, and blog content, plus an admin panel for managing site content and settings.
+Portfolio template built with Laravel 13, Inertia, and Vue 3. This project includes public pages for profile, experience, projects, and blog content, plus an admin panel for managing site content and settings.
 
 ![Portfolio Screenshot](public/images/screenshot.webp)
 
@@ -22,7 +22,7 @@ Portfolio template built with Laravel 12, Inertia, and Vue 3. This project inclu
 
 ## Tech Stack
 
-- Laravel 12
+- Laravel 13
 - Inertia.js
 - Vue 3
 - Vite
