@@ -18,8 +18,9 @@
 
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import { usePage } from '@inertiajs/inertia-vue3';
+import { computed } from 'vue';
+import { usePage } from '@inertiajs/vue3';
 
 const page = usePage();
-const post = page.props.value.post || {};
+const post = computed(() => page.props.post || {});
 </script>

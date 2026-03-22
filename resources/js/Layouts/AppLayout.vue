@@ -18,17 +18,41 @@
                 </div>
 
                 <nav id="desktop-menu" class="lg:col-span-8 text-right hidden lg:block">
-                    <Link href="/" class="text-slate-300 hover:text-white mx-3" :class="{ 'text-white': isActive('/') }">Home</Link>
-                    <Link href="/experiences" class="text-slate-300 hover:text-white mx-3" :class="{ 'text-white': isActive('/experiences') }">Experience</Link>
-                    <Link href="/projects" class="text-slate-300 hover:text-white mx-3" :class="{ 'text-white': isActive('/projects') }">Projects</Link>
-                    <Link v-if="showBlog" href="/blogs" class="text-slate-300 hover:text-white mx-3" :class="{ 'text-white': isActive('/blogs') }">Blog</Link>
+                    <Link href="/" class="inline-flex items-center gap-1.5 text-slate-300 hover:text-white mx-3" :class="{ 'text-white': isActive('/') }">
+                        <IconHome class="h-4 w-4" />
+                        <span>Home</span>
+                    </Link>
+                    <Link href="/experiences" class="inline-flex items-center gap-1.5 text-slate-300 hover:text-white mx-3" :class="{ 'text-white': isActive('/experiences') }">
+                        <IconBriefcase class="h-4 w-4" />
+                        <span>Experience</span>
+                    </Link>
+                    <Link href="/projects" class="inline-flex items-center gap-1.5 text-slate-300 hover:text-white mx-3" :class="{ 'text-white': isActive('/projects') }">
+                        <IconLayoutGrid class="h-4 w-4" />
+                        <span>Projects</span>
+                    </Link>
+                    <Link v-if="showBlog" href="/blogs" class="inline-flex items-center gap-1.5 text-slate-300 hover:text-white mx-3" :class="{ 'text-white': isActive('/blogs') }">
+                        <IconFileText class="h-4 w-4" />
+                        <span>Blog</span>
+                    </Link>
                 </nav>
 
                 <nav id="mobile-menu" :class="['lg:hidden', mobileOpen ? '' : 'hidden', 'flex', 'flex-col', 'text-center', 'bg-panel', 'p-4', 'rounded-md', 'gap-4', 'card']">
-                    <Link href="/" class="text-slate-300 hover:text-white">Home</Link>
-                    <Link href="/experiences" class="text-slate-300 hover:text-white">Experience</Link>
-                    <Link href="/projects" class="text-slate-300 hover:text-white">Projects</Link>
-                    <Link v-if="showBlog" href="/blogs" class="text-slate-300 hover:text-white">Blog</Link>
+                    <Link href="/" class="inline-flex items-center justify-center gap-2 text-slate-300 hover:text-white">
+                        <IconHome class="h-4 w-4" />
+                        <span>Home</span>
+                    </Link>
+                    <Link href="/experiences" class="inline-flex items-center justify-center gap-2 text-slate-300 hover:text-white">
+                        <IconBriefcase class="h-4 w-4" />
+                        <span>Experience</span>
+                    </Link>
+                    <Link href="/projects" class="inline-flex items-center justify-center gap-2 text-slate-300 hover:text-white">
+                        <IconLayoutGrid class="h-4 w-4" />
+                        <span>Projects</span>
+                    </Link>
+                    <Link v-if="showBlog" href="/blogs" class="inline-flex items-center justify-center gap-2 text-slate-300 hover:text-white">
+                        <IconFileText class="h-4 w-4" />
+                        <span>Blog</span>
+                    </Link>
                 </nav>
             </div>
         </header>
@@ -42,32 +66,36 @@
         <footer class="py-8 text-center text-slate-500 text-sm">
             <div class="container">{{ footer }}</div>
         </footer>
+
+        <ToastStack />
     </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
-import { Link, usePage } from '@inertiajs/inertia-vue3';
+import { Link, usePage } from '@inertiajs/vue3';
+import { IconBriefcase, IconFileText, IconHome, IconLayoutGrid } from '@tabler/icons-vue';
+import ToastStack from '@/Components/ToastStack.vue';
 
 const mobileOpen = ref(false);
 
 const page = usePage();
-const props = page.props;
+const app = computed(() => page.props.app ?? {});
 
 const ownerName = computed(() => {
-    try { return props.value.app?.owner_name ?? 'Your Name'; } catch (e) { return 'Your Name'; }
+    return app.value.owner_name ?? 'Your Name';
 });
 
 const headline = computed(() => {
-    try { return props.value.app?.headline ?? ''; } catch (e) { return ''; }
+    return app.value.headline ?? '';
 });
 
 const showBlog = computed(() => {
-    try { return !!props.value.app?.show_blog; } catch (e) { return false; }
+    return !!app.value.show_blog;
 });
 
 const footer = computed(() => {
-    try { return props.value.app?.footer ?? ''; } catch (e) { return false; }
+    return app.value.footer ?? '';
 });
 
 function isActive(path) {

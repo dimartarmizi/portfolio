@@ -61,7 +61,7 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key' => 'footer',
-                'value' => 'This is my Portfolio Website ❤️ Made with Laravel, Filament, Inertia, Vue, and Tailwind CSS by Dimar Tarmizi',
+                'value' => 'This is my Portfolio Website ❤️ Made with Laravel, Inertia, Vue, and Tailwind CSS by Dimar Tarmizi',
             ],
             [
                 'key' => 'show_blog',

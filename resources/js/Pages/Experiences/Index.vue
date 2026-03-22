@@ -12,7 +12,10 @@
           </ul>
         </div>
         <div class="mt-3">
-          <Link :href="`/experiences/${exp.id}`" class="text-accent">View details →</Link>
+          <Link :href="`/experiences/${exp.id}`" class="inline-flex items-center gap-1.5 text-accent">
+            <span>View details</span>
+            <IconArrowRight class="h-4 w-4" />
+          </Link>
         </div>
       </div>
     </div>
@@ -21,8 +24,10 @@
 
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import { usePage, Link } from '@inertiajs/inertia-vue3';
+import { computed } from 'vue';
+import { usePage, Link } from '@inertiajs/vue3';
+import { IconArrowRight } from '@tabler/icons-vue';
 
 const page = usePage();
-const experiences = page.props.value.experiences || [];
+const experiences = computed(() => page.props.experiences || []);
 </script>

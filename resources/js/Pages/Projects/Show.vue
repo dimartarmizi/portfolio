@@ -49,8 +49,9 @@
 
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import { usePage } from '@inertiajs/inertia-vue3';
+import { computed } from 'vue';
+import { usePage } from '@inertiajs/vue3';
 
 const page = usePage();
-const project = page.props.value.project || {};
+const project = computed(() => page.props.project || {});
 </script>
