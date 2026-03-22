@@ -36,7 +36,7 @@
                         <p v-if="form.errors.link" class="mt-2 text-sm text-rose-300">{{ form.errors.link }}</p>
                     </div>
 
-                    <SelectField v-model="form.status" label="Status">
+                    <SelectField v-model="form.status" label="Status" :error="form.errors.status">
                         <option value="completed">Completed</option>
                         <option value="ongoing">Ongoing</option>
                     </SelectField>
@@ -57,6 +57,7 @@
                             :allow-existing-removal="!!project.thumbnail_url"
                             button-label="Upload thumbnail"
                             helper-text="Recommended size is 16:9 for the best preview on cards and detail pages."
+                            :error="form.errors.thumbnail"
                             @change="file => handleFile(file, 'thumbnail')"
                             @existing-remove="removeThumbnail"
                         />
@@ -71,6 +72,7 @@
                             :allow-existing-removal="true"
                             button-label="Upload gallery images"
                             helper-text="Upload multiple images at once. New uploads will be added to the current gallery."
+                            :error="form.errors.gallery_files || form.errors['gallery_files.0']"
                             @change="files => handleGalleryChange(files)"
                             @existing-remove="removeGalleryItem"
                         />
@@ -81,11 +83,11 @@
                         <textarea v-model="form.description" rows="6" placeholder="Describe the project, goals, scope, and outcome." class="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/20"></textarea>
                     </div>
 
-                    <MultiTextListInput v-model="form.technologies" label="Technologies" />
+                    <MultiTextListInput v-model="form.technologies" label="Technologies" :error="form.errors.technologies" />
 
-                    <MultiTextListInput v-model="form.features" label="Features" />
+                    <MultiTextListInput v-model="form.features" label="Features" :error="form.errors.features" />
 
-                    <MultiTextListInput v-model="form.results" label="Results" />
+                    <MultiTextListInput v-model="form.results" label="Results" :error="form.errors.results" />
                 </div>
             </div>
         </section>

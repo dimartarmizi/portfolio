@@ -26,6 +26,7 @@
 		</label>
 
 		<p v-if="hint" class="mt-1 text-xs leading-5 text-slate-500">{{ hint }}</p>
+		<p v-if="error" class="text-sm text-rose-300">{{ error }}</p>
 
 		<div v-if="previewItems.length" class="grid gap-3 sm:grid-cols-2">
 			<div v-for="item in previewItems" :key="item.id" class="group relative overflow-hidden rounded-2xl border border-white/10 bg-slate-950/55 transition" :class="item.previewUrl ? 'hover:border-amber-400/30 hover:bg-slate-900/70' : ''">
@@ -111,6 +112,10 @@ const props = defineProps({
 	helperText: {
 		type: String,
 		default: 'Drop files here or click to browse.',
+	},
+	error: {
+		type: String,
+		default: '',
 	},
 });
 

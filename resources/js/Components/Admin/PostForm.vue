@@ -23,7 +23,7 @@
 							<input v-model="form.type" type="text" placeholder="tutorial, news, or opinion" class="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/20" />
 						</div>
 
-						<SelectField v-model="form.status" label="Status">
+						<SelectField v-model="form.status" label="Status" :error="form.errors.status">
 							<option value="draft">Draft</option>
 							<option value="published">Published</option>
 						</SelectField>
@@ -42,10 +42,10 @@
 
 				<div class="mt-6 space-y-5">
 					<div>
-						<FileUploadField label="Cover image" accept="image/*" :existing-url="post.cover_image_url" button-label="Upload cover image" helper-text="Use a clear banner image for the post header." @change="file => handleFile(file, 'cover_image')" />
+						<FileUploadField label="Cover image" accept="image/*" :existing-url="post.cover_image_url" button-label="Upload cover image" helper-text="Use a clear banner image for the post header." :error="form.errors.cover_image" @change="file => handleFile(file, 'cover_image')" />
 					</div>
 
-					<RichTextEditor v-model="form.content" label="Content" hint="Compose the article with headings, lists, links, and rich formatting." placeholder="Write the full article content here." />
+						<RichTextEditor v-model="form.content" label="Content" hint="Compose the article with headings, lists, links, and rich formatting." placeholder="Write the full article content here." :error="form.errors.content" />
 				</div>
 			</div>
 		</section>

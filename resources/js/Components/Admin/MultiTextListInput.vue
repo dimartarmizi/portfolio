@@ -19,6 +19,7 @@
 		</div>
 
 		<p v-if="hint" class="mb-3 text-xs text-slate-500">{{ hint }}</p>
+		<p v-if="error" class="text-sm text-rose-300">{{ error }}</p>
 	</div>
 </template>
 
@@ -46,6 +47,10 @@ const props = defineProps({
 	addLabel: {
 		type: String,
 		default: 'Add item',
+	},
+	error: {
+		type: String,
+		default: '',
 	},
 });
 

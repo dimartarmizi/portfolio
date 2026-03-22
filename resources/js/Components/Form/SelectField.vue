@@ -11,7 +11,7 @@
 		</div>
 
 		<label class="group relative block">
-			<select v-model="model" :name="name" :disabled="disabled" class="w-full appearance-none rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 pr-12 text-white outline-none transition focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/20 disabled:cursor-not-allowed disabled:opacity-60">
+			<select v-model="model" :name="name" :disabled="disabled" :class="selectClass">
 				<slot />
 			</select>
 
@@ -21,6 +21,7 @@
 		</label>
 
 		<p v-if="hint" class="mt-1 text-xs leading-5 text-slate-500">{{ hint }}</p>
+		<p v-if="error" class="mt-1 text-sm text-rose-300">{{ error }}</p>
 	</div>
 </template>
 
@@ -52,6 +53,10 @@ const props = defineProps({
 		type: Boolean,
 		default: false,
 	},
+	error: {
+		type: String,
+		default: '',
+	},
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -60,4 +65,11 @@ const model = computed({
 	get: () => props.modelValue,
 	set: (value) => emit('update:modelValue', value),
 });
+
+const selectClass = computed(() => [
+	'w-full appearance-none rounded-2xl border bg-slate-950/80 px-4 py-3 pr-12 text-white outline-none transition disabled:cursor-not-allowed disabled:opacity-60',
+	props.error
+		? 'border-rose-400/40 focus:border-rose-400/60 focus:ring-2 focus:ring-rose-400/20'
+		: 'border-white/10 focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/20',
+]);
 </script>

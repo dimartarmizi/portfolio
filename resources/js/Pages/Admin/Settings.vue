@@ -38,9 +38,9 @@
 					<h2 class="mt-2 text-xl font-semibold text-white">Visibility and contact data</h2>
 
 					<div class="mt-6 space-y-5">
-						<ToggleSwitch v-model="form.show_blog" label="Show blog section" />
+						<ToggleSwitch v-model="form.show_blog" label="Show blog section" :error="form.errors.show_blog" />
 
-						<ToggleSwitch v-model="form.show_profile_picture" label="Show profile picture" />
+						<ToggleSwitch v-model="form.show_profile_picture" label="Show profile picture" :error="form.errors.show_profile_picture" />
 
 						<div>
 							<label class="mb-2 block text-sm font-medium text-slate-300">Contact phone</label>
@@ -52,11 +52,11 @@
 							<input v-model="form.contact_email" type="email" placeholder="hello@example.com" class="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/20" />
 						</div>
 
-						<FileUploadField label="Profile picture" accept="image/*" :existing-url="settings.profile_picture_url" button-label="Upload profile picture" helper-text="PNG, JPG, or WEBP recommended. Best displayed as a square image." @change="file => handleFile(file, 'profile_picture')" />
+						<FileUploadField label="Profile picture" accept="image/*" :existing-url="settings.profile_picture_url" button-label="Upload profile picture" helper-text="PNG, JPG, or WEBP recommended. Best displayed as a square image." :error="form.errors.profile_picture" @change="file => handleFile(file, 'profile_picture')" />
 
-						<FileUploadField label="Favicon" accept="image/*,.ico,.svg" :existing-url="settings.favicon_url" button-label="Upload favicon" helper-text="ICO, PNG, SVG, or WEBP. Keep it square for best results." @change="file => handleFile(file, 'favicon')" />
+						<FileUploadField label="Favicon" accept="image/*,.ico,.svg" :existing-url="settings.favicon_url" button-label="Upload favicon" helper-text="ICO, PNG, SVG, or WEBP. Keep it square for best results." :error="form.errors.favicon" @change="file => handleFile(file, 'favicon')" />
 
-						<FileUploadField label="Resume file" :existing-url="settings.resume_file_url" button-label="Upload resume file" helper-text="PDF or document file for download by visitors." @change="file => handleFile(file, 'resume_file')" />
+						<FileUploadField label="Resume file" :existing-url="settings.resume_file_url" button-label="Upload resume file" helper-text="PDF or document file for download by visitors." :error="form.errors.resume_file" @change="file => handleFile(file, 'resume_file')" />
 					</div>
 				</div>
 			</section>

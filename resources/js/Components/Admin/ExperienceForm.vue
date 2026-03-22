@@ -28,7 +28,7 @@
 							<input v-model="form.location" type="text" placeholder="City, country, or remote" class="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/20" />
 						</div>
 
-						<SelectField v-model="form.employment_type" label="Employment type">
+						<SelectField v-model="form.employment_type" label="Employment type" :error="form.errors.employment_type">
 							<option value="Full-time">Full-time</option>
 							<option value="Part-time">Part-time</option>
 							<option value="Contract">Contract</option>
@@ -61,9 +61,9 @@
 						<textarea v-model="form.description" rows="6" placeholder="Summarize your responsibilities and achievements." class="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/20"></textarea>
 					</div>
 
-					<MultiTextListInput v-model="form.highlights" label="Highlights" />
+						<MultiTextListInput v-model="form.highlights" label="Highlights" :error="form.errors.highlights" />
 
-					<MultiTextListInput v-model="form.tech_stack" label="Tech stack" />
+						<MultiTextListInput v-model="form.tech_stack" label="Tech stack" :error="form.errors.tech_stack" />
 				</div>
 			</div>
 		</section>
