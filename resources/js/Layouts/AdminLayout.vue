@@ -130,6 +130,11 @@ const navItems = [
 
 function isActive(path) {
     const url = page.url ?? '';
+
+    if (path === '/admin') {
+        return url === '/admin';
+    }
+
     return url === path || url.startsWith(path + '/');
 }
 
