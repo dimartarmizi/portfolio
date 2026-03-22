@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SettingRequest;
 use App\Models\Setting;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -23,6 +24,7 @@ class AdminSettingController extends Controller
                 'show_blog' => setting('show_blog', '0') === '1',
                 'show_profile_picture' => setting('show_profile_picture', '0') === '1',
                 'profile_picture_url' => setting('profile_picture', null, true),
+                'favicon_url' => setting('favicon', null, true),
                 'resume_file_url' => setting('resume_file', null, true),
                 'social_links_json' => json_encode(setting('social_links', []), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES),
             ],
@@ -55,6 +57,12 @@ class AdminSettingController extends Controller
             $this->saveSetting('resume_file', $path);
         }
 
+        if ($request->hasFile('favicon')) {
+            $this->deleteStoredFile($currentValues['favicon'] ?? null);
+            $path = $request->file('favicon')->store('settings', 'public');
+            $this->saveSetting('favicon', $path);
+        }
+
         return redirect()->route('admin.settings.edit')->with('success', 'Settings updated successfully.');
     }
 
@@ -79,5 +87,14 @@ class AdminSettingController extends Controller
         }
 
         return $currentValue;
+    }
+
+    private function deleteStoredFile(mixed $path): void
+    {
+        if (! is_string($path) || $path === '') {
+            return;
+        }
+
+        Storage::disk('public')->delete($path);
     }
 }

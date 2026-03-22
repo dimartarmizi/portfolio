@@ -54,6 +54,8 @@
 
 						<FileUploadField label="Profile picture" accept="image/*" :existing-url="settings.profile_picture_url" button-label="Upload profile picture" helper-text="PNG, JPG, or WEBP recommended. Best displayed as a square image." @change="file => handleFile(file, 'profile_picture')" />
 
+						<FileUploadField label="Favicon" accept="image/*,.ico,.svg" :existing-url="settings.favicon_url" button-label="Upload favicon" helper-text="ICO, PNG, SVG, or WEBP. Keep it square for best results." @change="file => handleFile(file, 'favicon')" />
+
 						<FileUploadField label="Resume file" :existing-url="settings.resume_file_url" button-label="Upload resume file" helper-text="PDF or document file for download by visitors." @change="file => handleFile(file, 'resume_file')" />
 					</div>
 				</div>
@@ -126,6 +128,7 @@ const form = useForm({
 	show_blog: !!settings.show_blog,
 	show_profile_picture: !!settings.show_profile_picture,
 	profile_picture: null,
+	favicon: null,
 	resume_file: null,
 	social_links_json: settings.social_links_json ?? '[]',
 });

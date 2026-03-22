@@ -25,6 +25,7 @@ class SettingRequest extends FormRequest
             'show_profile_picture' => ['nullable', 'boolean'],
             'profile_picture' => ['nullable', 'file', 'image', 'max:4096'],
             'resume_file' => ['nullable', 'file', 'max:10240'],
+            'favicon' => ['nullable', 'file', 'mimetypes:image/png,image/svg+xml,image/webp,image/x-icon,image/vnd.microsoft.icon', 'extensions:ico,png,svg,webp', 'max:128'],
             'social_links_json' => ['nullable', 'string'],
         ];
     }
