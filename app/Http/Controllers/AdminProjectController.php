@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
-use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -69,9 +68,9 @@ class AdminProjectController extends Controller
         ]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(ProjectRequest $request): RedirectResponse
     {
-        $data = $this->validateRequest($request);
+        $data = $request->validated();
 
         $project = new Project();
         $this->fillProject($project, $request, $data);
@@ -87,9 +86,9 @@ class AdminProjectController extends Controller
         ]);
     }
 
-    public function update(Request $request, Project $project): RedirectResponse
+    public function update(ProjectRequest $request, Project $project): RedirectResponse
     {
-        $data = $this->validateRequest($request, $project->id);
+        $data = $request->validated();
 
         $this->fillProject($project, $request, $data);
         $project->save();
@@ -108,28 +107,6 @@ class AdminProjectController extends Controller
         return redirect()->route('admin.projects.index')->with('success', 'Project deleted successfully.');
     }
 
-    private function validateRequest(Request $request, ?int $projectId = null): array
-    {
-        return $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:255', Rule::unique('projects', 'slug')->ignore($projectId)],
-            'year' => ['nullable', 'integer', 'min:1900', 'max:2100'],
-            'made_at' => ['nullable', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'link' => ['nullable', 'url', 'max:255'],
-            'thumbnail' => ['nullable', 'image', 'max:4096'],
-            'gallery_files' => ['nullable', 'array'],
-            'gallery_files.*' => ['file', 'image', 'max:4096'],
-            'technologies' => ['nullable', 'array'],
-            'technologies.*' => ['nullable', 'string', 'max:255'],
-            'features' => ['nullable', 'array'],
-            'features.*' => ['nullable', 'string', 'max:255'],
-            'results' => ['nullable', 'array'],
-            'results.*' => ['nullable', 'string', 'max:255'],
-            'status' => ['required', 'in:ongoing,completed'],
-        ]);
-    }
-
     private function fillProject(Project $project, Request $request, array $data): void
     {
         $project->title = $data['title'];
@@ -146,6 +123,19 @@ class AdminProjectController extends Controller
         $gallery = $project->exists ? ($project->gallery ?? []) : [];
         $gallery = array_values(array_filter(is_array($gallery) ? $gallery : []));
 
+        $galleryRemove = array_values(array_filter(array_map(
+            fn ($value) => is_string($value) ? trim($value) : null,
+            $request->input('gallery_remove', [])
+        )));
+
+        if ($galleryRemove) {
+            foreach ($galleryRemove as $path) {
+                $this->deleteStoredFile($path);
+            }
+
+            $gallery = array_values(array_diff($gallery, $galleryRemove));
+        }
+
         foreach ($request->file('gallery_files', []) as $file) {
             $gallery[] = $this->storeFile($file);
         }
@@ -155,6 +145,9 @@ class AdminProjectController extends Controller
         if ($request->hasFile('thumbnail')) {
             $this->deleteStoredFile($project->thumbnail);
             $project->thumbnail = $this->storeFile($request->file('thumbnail'));
+        } elseif ($request->boolean('thumbnail_remove')) {
+            $this->deleteStoredFile($project->thumbnail);
+            $project->thumbnail = null;
         }
     }
 
@@ -169,6 +162,7 @@ class AdminProjectController extends Controller
             'description' => $project->description,
             'link' => $project->link,
             'status' => $project->status,
+            'thumbnail' => $project->thumbnail,
             'thumbnail_url' => $this->storageUrl($project->thumbnail),
             'gallery' => $project->gallery ?? [],
             'gallery_urls' => collect($project->gallery ?? [])
@@ -193,6 +187,7 @@ class AdminProjectController extends Controller
             'description' => '',
             'link' => '',
             'status' => 'completed',
+            'thumbnail' => null,
             'thumbnail_url' => null,
             'gallery' => [],
             'gallery_urls' => [],
@@ -327,7 +322,7 @@ class AdminProjectController extends Controller
         }
 
         if (is_array($value)) {
-            foreach (['path', 'url', 'src', 'file', 'value'] as $key) {
+            foreach (['path', 'url', 'src', 'file', 'image', 'value'] as $key) {
                 if (array_key_exists($key, $value)) {
                     $path = $this->normalizeStoredPath($value[$key]);
 

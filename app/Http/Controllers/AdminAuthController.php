@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -16,15 +16,11 @@ class AdminAuthController extends Controller
         return Inertia::render('Admin/Auth/Login');
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(LoginRequest $request): RedirectResponse
     {
-        $credentials = $request->validate([
-            'login' => ['required', 'string'],
-            'password' => ['required', 'string'],
-            'remember' => ['nullable', 'boolean'],
-        ]);
+        $credentials = $request->validated();
 
-        $loginField = filter_var($credentials['login'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        $loginField = $request->loginField();
 
         if (Auth::attempt([
             $loginField => $credentials['login'],
@@ -35,9 +31,9 @@ class AdminAuthController extends Controller
             return redirect()->intended(route('admin.dashboard'));
         }
 
-        throw ValidationException::withMessages([
+        return back()->withErrors([
             'login' => 'The provided credentials are incorrect.',
-        ]);
+        ])->onlyInput('login');
     }
 
     public function destroy(Request $request): RedirectResponse

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ExperienceRequest;
 use App\Models\Experience;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -54,9 +54,9 @@ class AdminExperienceController extends Controller
         ]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(ExperienceRequest $request): RedirectResponse
     {
-        $data = $this->validateRequest($request);
+        $data = $request->validated();
 
         $experience = new Experience();
         $this->fillExperience($experience, $data);
@@ -72,9 +72,9 @@ class AdminExperienceController extends Controller
         ]);
     }
 
-    public function update(Request $request, Experience $experience): RedirectResponse
+    public function update(ExperienceRequest $request, Experience $experience): RedirectResponse
     {
-        $data = $this->validateRequest($request);
+        $data = $request->validated();
 
         $this->fillExperience($experience, $data);
         $experience->save();
@@ -87,24 +87,6 @@ class AdminExperienceController extends Controller
         $experience->delete();
 
         return redirect()->route('admin.experiences.index')->with('success', 'Experience deleted successfully.');
-    }
-
-    private function validateRequest(Request $request): array
-    {
-        return $request->validate([
-            'position' => ['required', 'string', 'max:255'],
-            'company' => ['required', 'string', 'max:255'],
-            'company_link' => ['nullable', 'url', 'max:255'],
-            'location' => ['nullable', 'string', 'max:255'],
-            'start_date' => ['required', 'date'],
-            'end_date' => ['nullable', 'date', 'after_or_equal:start_date'],
-            'employment_type' => ['required', 'in:Full-time,Part-time,Contract,Internship,Freelance'],
-            'description' => ['nullable', 'string'],
-            'highlights' => ['nullable', 'array'],
-            'highlights.*' => ['nullable', 'string', 'max:255'],
-            'tech_stack' => ['nullable', 'array'],
-            'tech_stack.*' => ['nullable', 'string', 'max:255'],
-        ]);
     }
 
     private function fillExperience(Experience $experience, array $data): void

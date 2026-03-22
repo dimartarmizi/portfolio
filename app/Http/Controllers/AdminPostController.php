@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostRequest;
 use App\Models\Post;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -66,9 +66,9 @@ class AdminPostController extends Controller
         ]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(PostRequest $request): RedirectResponse
     {
-        $data = $this->validateRequest($request);
+        $data = $request->validated();
 
         $post = new Post();
         $this->fillPost($post, $request, $data);
@@ -84,9 +84,9 @@ class AdminPostController extends Controller
         ]);
     }
 
-    public function update(Request $request, Post $post): RedirectResponse
+    public function update(PostRequest $request, Post $post): RedirectResponse
     {
-        $data = $this->validateRequest($request, $post->id);
+        $data = $request->validated();
 
         $this->fillPost($post, $request, $data);
         $post->save();
@@ -100,19 +100,6 @@ class AdminPostController extends Controller
         $post->delete();
 
         return redirect()->route('admin.posts.index')->with('success', 'Post deleted successfully.');
-    }
-
-    private function validateRequest(Request $request, ?int $postId = null): array
-    {
-        return $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:255', Rule::unique('posts', 'slug')->ignore($postId)],
-            'content' => ['nullable', 'string'],
-            'type' => ['nullable', 'string', 'max:255'],
-            'status' => ['required', 'in:draft,published'],
-            'cover_image' => ['nullable', 'image', 'max:4096'],
-            'published_at' => ['nullable', 'date'],
-        ]);
     }
 
     private function fillPost(Post $post, Request $request, array $data): void

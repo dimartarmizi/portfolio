@@ -1,12 +1,12 @@
 <?php
 
-use App\Http\Controllers\AdminAuthController;
-use App\Http\Controllers\AdminContentController;
-use App\Http\Controllers\AdminDashboardController;
-use App\Http\Controllers\AdminExperienceController;
-use App\Http\Controllers\AdminPostController;
-use App\Http\Controllers\AdminProjectController;
-use App\Http\Controllers\AdminSettingController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ContentController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ExperienceController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\LandingController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,20 +24,20 @@ Route::get('/projects/{slug}', [LandingController::class, 'projectsShow'])->name
 Route::get('/dashboard', fn() => redirect()->route('admin.dashboard'))->name('dashboard');
 
 Route::middleware('guest')->group(function () {
-	Route::get('/admin/login', [AdminAuthController::class, 'create'])->name('login');
-	Route::post('/admin/login', [AdminAuthController::class, 'store'])->name('login.store');
+	Route::get('/admin/login', [AuthController::class, 'create'])->name('login');
+	Route::post('/admin/login', [AuthController::class, 'store'])->name('login.store');
 });
 
 Route::middleware('auth')->group(function () {
-	Route::post('/admin/logout', [AdminAuthController::class, 'destroy'])->name('logout');
+	Route::post('/admin/logout', [AuthController::class, 'destroy'])->name('logout');
 
 	Route::prefix('admin')->name('admin.')->group(function () {
-		Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
-		Route::get('/content', [AdminContentController::class, 'index'])->name('content.index');
-		Route::resource('projects', AdminProjectController::class)->except(['show']);
-		Route::resource('posts', AdminPostController::class)->except(['show']);
-		Route::resource('experiences', AdminExperienceController::class)->except(['show']);
-		Route::get('/settings', [AdminSettingController::class, 'edit'])->name('settings.edit');
-		Route::match(['post', 'put'], '/settings', [AdminSettingController::class, 'update'])->name('settings.update');
+		Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+		Route::get('/content', [ContentController::class, 'index'])->name('content.index');
+		Route::resource('projects', ProjectController::class)->except(['show']);
+		Route::resource('posts', PostController::class)->except(['show']);
+		Route::resource('experiences', ExperienceController::class)->except(['show']);
+		Route::get('/settings', [SettingController::class, 'edit'])->name('settings.edit');
+		Route::match(['post', 'put'], '/settings', [SettingController::class, 'update'])->name('settings.update');
 	});
 });

@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SettingRequest;
 use App\Models\Setting;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -30,36 +29,11 @@ class AdminSettingController extends Controller
         ]);
     }
 
-    public function update(Request $request): RedirectResponse
+    public function update(SettingRequest $request): RedirectResponse
     {
         $currentValues = Setting::query()->pluck('value', 'key')->all();
-
-        $validated = $request->validate([
-            'owner_name' => ['nullable', 'string', 'max:255'],
-            'headline' => ['nullable', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'footer' => ['nullable', 'string'],
-            'contact_phone' => ['nullable', 'string', 'max:255'],
-            'contact_email' => ['nullable', 'email', 'max:255'],
-            'show_blog' => ['nullable', 'boolean'],
-            'show_profile_picture' => ['nullable', 'boolean'],
-            'profile_picture' => ['nullable', 'file', 'image', 'max:4096'],
-            'resume_file' => ['nullable', 'file', 'max:10240'],
-            'social_links_json' => ['nullable', 'string'],
-        ]);
-
-        $socialLinks = [];
-        $socialLinksInput = trim((string) ($validated['social_links_json'] ?? ''));
-
-        if ($socialLinksInput !== '') {
-            $socialLinks = json_decode($socialLinksInput, true);
-
-            if (json_last_error() !== JSON_ERROR_NONE || ! is_array($socialLinks)) {
-                throw ValidationException::withMessages([
-                    'social_links_json' => 'Social links must be a valid JSON array.',
-                ]);
-            }
-        }
+        $validated = $request->validated();
+        $socialLinks = $request->socialLinks();
 
         $this->saveSetting('owner_name', $this->keepExistingTextValue($validated['owner_name'] ?? null, $currentValues['owner_name'] ?? null));
         $this->saveSetting('headline', $this->keepExistingTextValue($validated['headline'] ?? null, $currentValues['headline'] ?? null));
