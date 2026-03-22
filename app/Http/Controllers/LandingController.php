@@ -233,12 +233,22 @@ class LandingController extends Controller
             $gallery = json_decode($gallery, true) ?: [];
         }
 
-        $gallery = array_map(function ($g) {
-            return [
-                'image'   => isset($g['image']) ? $this->storageUrl($g['image']) : null,
-                'caption' => $g['caption'] ?? null,
+        $normalizedGallery = [];
+
+        foreach ($gallery as $g) {
+            $image = $this->normalizeStoredPath($g);
+
+            if (! $image) {
+                continue;
+            }
+
+            $normalizedGallery[] = [
+                'image' => $this->storageUrl($image),
+                'caption' => $this->normalizeTextValue(is_array($g) ? ($g['caption'] ?? null) : null),
             ];
-        }, $gallery);
+        }
+
+        $gallery = $normalizedGallery;
 
         $data = [
             'id'            => $p->id,
@@ -257,5 +267,67 @@ class LandingController extends Controller
         ];
 
         return Inertia::render('Projects/Show', ['project' => $data]);
+    }
+
+    private function normalizeStoredPath($value)
+    {
+        if (is_string($value) || is_numeric($value)) {
+            $path = trim((string) $value);
+
+            return $path !== '' ? $path : null;
+        }
+
+        if (is_array($value)) {
+            foreach (['image', 'path', 'url', 'src', 'file', 'value'] as $key) {
+                if (array_key_exists($key, $value)) {
+                    $path = $this->normalizeStoredPath($value[$key]);
+
+                    if ($path) {
+                        return $path;
+                    }
+                }
+            }
+
+            foreach ($value as $item) {
+                $path = $this->normalizeStoredPath($item);
+
+                if ($path) {
+                    return $path;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private function normalizeTextValue($value)
+    {
+        if (is_string($value) || is_numeric($value)) {
+            $text = trim((string) $value);
+
+            return $text !== '' ? $text : null;
+        }
+
+        if (is_array($value)) {
+            foreach (['name', 'title', 'label', 'text', 'value', 'caption'] as $key) {
+                if (array_key_exists($key, $value)) {
+                    $text = $this->normalizeTextValue($value[$key]);
+
+                    if ($text) {
+                        return $text;
+                    }
+                }
+            }
+
+            foreach ($value as $item) {
+                $text = $this->normalizeTextValue($item);
+
+                if ($text) {
+                    return $text;
+                }
+            }
+        }
+
+        return null;
     }
 }
