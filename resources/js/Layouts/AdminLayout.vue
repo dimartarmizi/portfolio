@@ -1,6 +1,6 @@
 <template>
-    <div class="min-h-screen bg-slate-950 text-slate-100">
-        <div class="absolute inset-0 pointer-events-none overflow-hidden">
+    <div class="relative min-h-screen overflow-x-hidden bg-slate-950 text-slate-100">
+        <div class="pointer-events-none fixed inset-0 overflow-hidden">
             <div class="absolute -top-24 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-amber-400/10 blur-3xl"></div>
             <div class="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-cyan-400/10 blur-3xl"></div>
         </div>
@@ -49,7 +49,7 @@
                         <div>
                             <div class="text-xs uppercase tracking-[0.3em] text-slate-500 xl:hidden">Admin Panel</div>
                             <h1 class="text-lg font-semibold text-white sm:text-2xl">{{ pageTitle }}</h1>
-                            <p class="mt-1 text-sm text-slate-400">Kelola konten dan pengaturan portfolio dari satu tempat.</p>
+                            <p class="mt-1 text-sm text-slate-400">Manage portfolio content and settings from one place.</p>
                         </div>
 
                         <div class="flex items-center gap-3">

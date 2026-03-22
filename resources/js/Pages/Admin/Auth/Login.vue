@@ -12,9 +12,9 @@
                 <section class="rounded-[2rem] border border-white/10 bg-white/5 p-8 backdrop-blur-xl">
                     <div class="max-w-xl">
                         <div class="text-xs uppercase tracking-[0.35em] text-slate-400">Admin Access</div>
-                        <h1 class="mt-5 text-4xl font-semibold tracking-tight text-white sm:text-5xl">Masuk ke panel admin baru</h1>
+                        <h1 class="mt-5 text-4xl font-semibold tracking-tight text-white sm:text-5xl">Log in to the new admin panel</h1>
                         <p class="mt-5 text-base leading-7 text-slate-300">
-                            Panel ini dibuat ulang tanpa Filament. Semua pengelolaan konten dan pengaturan situs dipusatkan di sini dengan Inertia, Vue, dan Tailwind terbaru.
+                            This panel was rebuilt without Filament. All content and site settings are managed here with Inertia, Vue, and the latest Tailwind.
                         </p>
 
                         <div class="mt-8 grid gap-4 sm:grid-cols-3">
@@ -42,14 +42,14 @@
 
                     <form class="space-y-5" @submit.prevent="submit">
                         <div>
-                            <label class="mb-2 block text-sm font-medium text-slate-300" for="login">Email atau username</label>
+                            <label class="mb-2 block text-sm font-medium text-slate-300" for="login">Email or username</label>
                             <input
                                 id="login"
                                 v-model="form.login"
                                 type="text"
                                 autocomplete="username"
                                 class="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/20"
-                                placeholder="email@example.com atau username"
+                                placeholder="email@example.com or username"
                             />
                             <p v-if="form.errors.login" class="mt-2 text-sm text-rose-300">{{ form.errors.login }}</p>
                         </div>
