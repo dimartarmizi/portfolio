@@ -62,6 +62,7 @@ const page = usePage();
 const toasts = ref([]);
 const timers = new Map();
 const lastSignature = ref('');
+const lastErrorSignature = ref('');
 
 const toastIcons = {
     success: IconCheck,
@@ -85,6 +86,7 @@ const toastProgressClasses = {
 };
 
 const flash = computed(() => page.props.flash ?? {});
+const validationErrors = computed(() => page.props.errors ?? {});
 
 watch(
     flash,
@@ -105,6 +107,28 @@ watch(
         lastSignature.value = signature;
 
         entries.forEach((entry) => pushToast(entry.type, entry.message));
+    },
+    { immediate: true, deep: true }
+);
+
+watch(
+    validationErrors,
+    (value) => {
+        const entries = Object.entries(value ?? {})
+            .filter(([, message]) => typeof message === 'string' && message.trim().length > 0)
+            .map(([field, message]) => ({ field, message: message.trim() }));
+
+        if (!entries.length) {
+            return;
+        }
+
+        const signature = JSON.stringify(entries);
+        if (signature === lastErrorSignature.value) {
+            return;
+        }
+
+        lastErrorSignature.value = signature;
+        pushToast('warning', 'Please check the form fields and try again.');
     },
     { immediate: true, deep: true }
 );
