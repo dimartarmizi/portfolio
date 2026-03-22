@@ -25,11 +25,11 @@ class ProjectRequest extends FormRequest
 
         return [
             'title' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:255', $slugRule],
+            'slug' => ['required', 'string', 'max:255', $slugRule],
             'year' => ['nullable', 'integer', 'min:1900', 'max:2100'],
             'made_at' => ['nullable', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
-            'link' => ['nullable', 'url', 'max:255'],
+            'link' => ['nullable', 'string', 'max:255'],
             'thumbnail' => ['nullable', 'image', 'max:4096'],
             'thumbnail_remove' => ['nullable', 'boolean'],
             'gallery_files' => ['nullable', 'array'],

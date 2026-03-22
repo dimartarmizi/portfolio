@@ -25,7 +25,7 @@ class PostRequest extends FormRequest
 
         return [
             'title' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:255', $slugRule],
+            'slug' => ['required', 'string', 'max:255', $slugRule],
             'content' => ['nullable', 'string'],
             'type' => ['nullable', 'string', 'max:255'],
             'status' => ['required', 'in:draft,published'],
