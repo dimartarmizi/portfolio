@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
+use App\Support\PortfolioData;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -38,7 +37,7 @@ class ProjectController extends Controller
 			->paginate(10)
 			->withQueryString();
 
-		$projects->getCollection()->transform(fn (Project $project) => $this->projectPayload($project));
+		$projects->getCollection()->transform(fn (Project $project) => PortfolioData::projectSummary($project));
 
 		return Inertia::render('Admin/Projects/Index', [
 			'projects' => $projects,
@@ -64,7 +63,7 @@ class ProjectController extends Controller
 	public function create(): Response
 	{
 		return Inertia::render('Admin/Projects/Create', [
-			'project' => $this->emptyProjectPayload(),
+			'project' => PortfolioData::emptyProjectPayload(),
 		]);
 	}
 
@@ -82,7 +81,7 @@ class ProjectController extends Controller
 	public function edit(Project $project): Response
 	{
 		return Inertia::render('Admin/Projects/Edit', [
-			'project' => $this->projectPayload($project),
+			'project' => PortfolioData::projectFormPayload($project),
 		]);
 	}
 
@@ -98,10 +97,12 @@ class ProjectController extends Controller
 
 	public function destroy(Project $project): RedirectResponse
 	{
-		$this->deleteStoredFile($project->thumbnail);
+		PortfolioData::deleteStoredFile($project->thumbnail);
+
 		foreach ($project->gallery ?? [] as $path) {
-			$this->deleteStoredFile($path);
+			PortfolioData::deleteStoredFile(PortfolioData::normalizeStoredPath($path));
 		}
+
 		$project->delete();
 
 		return redirect()->route('admin.projects.index')->with('success', 'Project deleted successfully.');
@@ -116,183 +117,38 @@ class ProjectController extends Controller
 		$project->description = $data['description'] ?? null;
 		$project->link = $data['link'] ?? null;
 		$project->status = $data['status'];
-		$project->technologies = $this->normalizeTextList($data['technologies'] ?? []);
-		$project->features = $this->normalizeTextList($data['features'] ?? []);
-		$project->results = $this->normalizeTextList($data['results'] ?? []);
+		$project->technologies = PortfolioData::normalizeTextList($data['technologies'] ?? []);
+		$project->features = PortfolioData::normalizeTextList($data['features'] ?? []);
+		$project->results = PortfolioData::normalizeTextList($data['results'] ?? []);
 
-		$gallery = $this->normalizeStoredPaths($project->exists ? ($project->gallery ?? []) : []);
-		$galleryRemove = $this->normalizeStoredPaths($request->input('gallery_remove', []));
+		$gallery = PortfolioData::normalizeStoredPaths($project->exists ? ($project->gallery ?? []) : []);
+		$galleryRemove = PortfolioData::normalizeStoredPaths($request->input('gallery_remove', []));
 
 		if ($galleryRemove) {
 			foreach ($galleryRemove as $path) {
-				$this->deleteStoredFile($path);
+				PortfolioData::deleteStoredFile($path);
 			}
 
 			$gallery = array_values(array_diff($gallery, $galleryRemove));
 		}
 
 		foreach ($request->file('gallery_files', []) as $file) {
-			$gallery[] = $this->storeFile($file);
+			$storedPath = PortfolioData::storeFile($file, 'projects');
+
+			if ($storedPath) {
+				$gallery[] = $storedPath;
+			}
 		}
 
 		$project->gallery = $gallery;
 
 		if ($request->hasFile('thumbnail')) {
-			$this->deleteStoredFile($project->thumbnail);
-			$project->thumbnail = $this->storeFile($request->file('thumbnail'));
+			PortfolioData::deleteStoredFile($project->thumbnail);
+			$project->thumbnail = PortfolioData::storeFile($request->file('thumbnail'), 'projects');
 		} elseif ($request->boolean('thumbnail_remove')) {
-			$this->deleteStoredFile($project->thumbnail);
+			PortfolioData::deleteStoredFile($project->thumbnail);
 			$project->thumbnail = null;
 		}
-	}
-
-	private function projectPayload(Project $project): array
-	{
-		return [
-			'id' => $project->id,
-			'title' => $project->title,
-			'slug' => $project->slug,
-			'year' => $project->year,
-			'made_at' => $project->made_at,
-			'description' => $project->description,
-			'link' => $project->link,
-			'status' => $project->status,
-			'thumbnail' => $project->thumbnail,
-			'thumbnail_url' => $this->storageUrl($project->thumbnail),
-			'gallery' => $project->gallery ?? [],
-			'gallery_urls' => collect($project->gallery ?? [])
-				->map(fn ($path) => $this->storageUrl($path))
-				->filter()
-				->values()
-				->all(),
-			'technologies' => $this->normalizeTextList($project->technologies ?? []),
-			'features' => $this->normalizeTextList($project->features ?? []),
-			'results' => $this->normalizeTextList($project->results ?? []),
-		];
-	}
-
-	private function emptyProjectPayload(): array
-	{
-		return [
-			'id' => null,
-			'title' => '',
-			'slug' => '',
-			'year' => null,
-			'made_at' => '',
-			'description' => '',
-			'link' => '',
-			'status' => 'completed',
-			'thumbnail' => null,
-			'thumbnail_url' => null,
-			'gallery' => [],
-			'gallery_urls' => [],
-			'technologies' => [],
-			'features' => [],
-			'results' => [],
-		];
-	}
-
-	private function normalizeTextList(array $values): array
-	{
-		$normalized = [];
-
-		foreach ($values as $value) {
-			$item = $this->normalizeTextValue($value);
-
-			if ($item !== null) {
-				$normalized[] = $item;
-			}
-		}
-
-		return array_values($normalized);
-	}
-
-	private function normalizeTextValue(mixed $value): ?string
-	{
-		if (is_string($value) || is_numeric($value)) {
-			$text = trim((string) $value);
-
-			return $text !== '' ? $text : null;
-		}
-
-		if (is_array($value)) {
-			foreach (['name', 'title', 'label', 'text', 'value'] as $key) {
-				if (array_key_exists($key, $value)) {
-					$text = $this->normalizeTextValue($value[$key]);
-
-					if ($text !== null) {
-						return $text;
-					}
-				}
-			}
-
-			foreach ($value as $item) {
-				$text = $this->normalizeTextValue($item);
-
-				if ($text !== null) {
-					return $text;
-				}
-			}
-		}
-
-		if (is_object($value)) {
-			foreach (['name', 'title', 'label', 'text', 'value'] as $key) {
-				if (isset($value->{$key})) {
-					$text = $this->normalizeTextValue($value->{$key});
-
-					if ($text !== null) {
-						return $text;
-					}
-				}
-			}
-
-			foreach (get_object_vars($value) as $item) {
-				$text = $this->normalizeTextValue($item);
-
-				if ($text !== null) {
-					return $text;
-				}
-			}
-		}
-
-		return null;
-	}
-
-	private function normalizeStoredPaths(array $values): array
-	{
-		return array_values(array_filter(array_map(function ($value) {
-			if (is_string($value) || is_numeric($value)) {
-				$text = trim((string) $value);
-
-				return $text !== '' ? $text : null;
-			}
-
-			if (is_array($value)) {
-				foreach (['path', 'url', 'src', 'file', 'image', 'value'] as $key) {
-					if (array_key_exists($key, $value)) {
-						$text = $this->normalizeTextValue($value[$key]);
-
-						if ($text !== null) {
-							return $text;
-						}
-					}
-				}
-			}
-
-			if (is_object($value)) {
-				foreach (['path', 'url', 'src', 'file', 'image', 'value'] as $key) {
-					if (isset($value->{$key})) {
-						$text = $this->normalizeTextValue($value->{$key});
-
-						if ($text !== null) {
-							return $text;
-						}
-					}
-				}
-			}
-
-			return null;
-		}, $values)));
 	}
 
 	private function resolveSlug(string $title, ?string $slug, ?int $ignoreId = null): string
@@ -310,52 +166,5 @@ class ProjectController extends Controller
 		}
 
 		return $candidate;
-	}
-
-	private function storeFile(?UploadedFile $file): ?string
-	{
-		return $file ? $file->store('projects', 'public') : null;
-	}
-
-	private function deleteStoredFile(?string $path): void
-	{
-		if (! $path || preg_match('/^https?:\/\//i', $path)) {
-			return;
-		}
-
-		Storage::disk('public')->delete($path);
-	}
-
-	private function storageUrl(mixed $path): ?string
-	{
-		if (is_array($path)) {
-			foreach (['path', 'url', 'src', 'file', 'image', 'value'] as $key) {
-				if (array_key_exists($key, $path)) {
-					return $this->storageUrl($path[$key]);
-				}
-			}
-
-			return null;
-		}
-
-		if (is_object($path)) {
-			foreach (['path', 'url', 'src', 'file', 'image', 'value'] as $key) {
-				if (isset($path->{$key})) {
-					return $this->storageUrl($path->{$key});
-				}
-			}
-
-			return null;
-		}
-
-		if (! $path) {
-			return null;
-		}
-
-		if (preg_match('/^https?:\/\//i', $path)) {
-			return $path;
-		}
-
-		return url('/storage/' . ltrim($path, '/'));
 	}
 }

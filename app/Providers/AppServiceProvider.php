@@ -29,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
                 return [
                     'owner_name' => setting('owner_name', null),
                     'headline' => setting('headline', null),
+                    'profile_picture' => setting('profile_picture', null, true),
                     'show_blog' => setting('show_blog', "0") === "1",
                     'show_profile_picture' => setting('show_profile_picture', "0") === "1",
                     'footer' => setting('footer', null),

@@ -2,7 +2,7 @@
     <AdminLayout>
         <Head title="Admin Dashboard" />
 
-        <section class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <section class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             <div v-for="item in statCards" :key="item.label" class="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-lg shadow-black/20">
                 <div class="text-sm text-slate-400">{{ item.label }}</div>
                 <div class="mt-3 text-3xl font-semibold text-white">{{ item.value }}</div>
@@ -11,19 +11,19 @@
         </section>
 
         <section class="mt-8 grid gap-6 xl:grid-cols-3">
-            <div class="rounded-[2rem] border border-white/10 bg-white/5 p-6 xl:col-span-2">
-                <div class="flex items-center justify-between gap-4">
+            <div class="rounded-[2rem] border border-white/10 bg-white/5 p-5 sm:p-6 xl:col-span-2">
+                <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                         <div class="text-xs uppercase tracking-[0.3em] text-slate-500">Overview</div>
                         <h2 class="mt-2 text-xl font-semibold text-white">Quick actions</h2>
                     </div>
-                    <Link href="/admin/settings" class="inline-flex items-center gap-2 rounded-xl bg-amber-400 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-amber-300">
+                    <Link href="/admin/settings" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-amber-400 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-amber-300 sm:w-auto">
                         <IconSettings class="h-4 w-4" />
                         <span>Edit settings</span>
                     </Link>
                 </div>
 
-                <div class="mt-6 grid gap-4 sm:grid-cols-3">
+                <div class="mt-6 grid gap-4 md:grid-cols-3">
                     <Link href="/admin/content" class="rounded-2xl border border-white/10 bg-slate-950/60 p-4 transition hover:border-amber-400/30 hover:bg-white/5">
                         <div class="flex items-center gap-2 text-sm text-slate-400">
                             <IconLayoutGrid class="h-4 w-4" />
@@ -51,7 +51,7 @@
                 </div>
             </div>
 
-            <div class="rounded-[2rem] border border-white/10 bg-white/5 p-6">
+            <div class="rounded-[2rem] border border-white/10 bg-white/5 p-5 sm:p-6">
                 <div class="text-xs uppercase tracking-[0.3em] text-slate-500">System</div>
                 <h2 class="mt-2 text-xl font-semibold text-white">Current configuration</h2>
                 <dl class="mt-6 space-y-4 text-sm">
@@ -72,10 +72,10 @@
         </section>
 
         <section class="mt-8 grid gap-6 xl:grid-cols-3">
-            <div class="rounded-[2rem] border border-white/10 bg-white/5 p-6 xl:col-span-2">
-                <div class="flex items-center justify-between">
+            <div class="rounded-[2rem] border border-white/10 bg-white/5 p-5 sm:p-6 xl:col-span-2">
+                <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <h2 class="text-xl font-semibold text-white">Recent projects</h2>
-                    <Link href="/admin/content" class="inline-flex items-center gap-2 text-sm text-amber-300 transition hover:text-amber-200">
+                    <Link href="/admin/content" class="inline-flex items-center gap-2 text-sm text-amber-300 transition hover:text-amber-200 self-start sm:self-auto">
                         <IconArrowRight class="h-4 w-4" />
                         <span>View all</span>
                     </Link>
@@ -88,7 +88,7 @@
                         </div>
                         <div class="mt-4 flex items-start justify-between gap-4">
                             <div>
-                                <h3 class="font-medium text-white">{{ project.title }}</h3>
+                                    <h3 class="font-medium text-white">{{ project.title }}</h3>
                                 <p class="mt-1 text-sm text-slate-400">{{ project.year || 'No year' }}</p>
                             </div>
                             <span class="rounded-full border border-white/10 px-3 py-1 text-xs text-slate-300">{{ project.status }}</span>
@@ -97,7 +97,7 @@
                 </div>
             </div>
 
-            <div class="rounded-[2rem] border border-white/10 bg-white/5 p-6">
+            <div class="rounded-[2rem] border border-white/10 bg-white/5 p-5 sm:p-6">
                 <h2 class="text-xl font-semibold text-white">Recent experiences</h2>
                 <div class="mt-6 space-y-4">
                     <article v-for="experience in recentExperiences" :key="experience.id" class="rounded-2xl border border-white/10 bg-slate-950/50 p-4">

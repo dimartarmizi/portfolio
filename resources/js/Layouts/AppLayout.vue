@@ -7,8 +7,15 @@
             <div class="container grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
                 <div class="lg:col-span-4 flex items-center justify-between">
                     <div>
-                        <Link href="/" class="text-2xl font-extrabold tracking-tight">{{ ownerName }}</Link>
-                        <div class="text-slate-400 mt-1">{{ headline }}</div>
+                        <div class="flex items-center gap-4">
+                            <div v-if="profilePicture" class="h-14 w-14 overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-lg shadow-black/20">
+                                <img :src="profilePicture" :alt="ownerName" class="h-full w-full object-cover" />
+                            </div>
+                            <div>
+                                <Link href="/" class="text-2xl font-extrabold tracking-tight">{{ ownerName }}</Link>
+                                <div class="text-slate-400 mt-1">{{ headline }}</div>
+                            </div>
+                        </div>
                     </div>
                     <button @click="mobileOpen = !mobileOpen" id="mobile-menu-button" class="lg:hidden text-slate-300 hover:text-white focus:outline-none">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -18,40 +25,28 @@
                 </div>
 
                 <nav id="desktop-menu" class="lg:col-span-8 text-right hidden lg:block">
-                    <Link href="/" class="inline-flex items-center gap-1.5 text-slate-300 hover:text-white mx-3" :class="{ 'text-white': isActive('/') }">
-                        <IconHome class="h-4 w-4" />
-                        <span>Home</span>
-                    </Link>
-                    <Link href="/experiences" class="inline-flex items-center gap-1.5 text-slate-300 hover:text-white mx-3" :class="{ 'text-white': isActive('/experiences') }">
-                        <IconBriefcase class="h-4 w-4" />
-                        <span>Experience</span>
-                    </Link>
-                    <Link href="/projects" class="inline-flex items-center gap-1.5 text-slate-300 hover:text-white mx-3" :class="{ 'text-white': isActive('/projects') }">
-                        <IconLayoutGrid class="h-4 w-4" />
-                        <span>Projects</span>
-                    </Link>
-                    <Link v-if="showBlog" href="/blogs" class="inline-flex items-center gap-1.5 text-slate-300 hover:text-white mx-3" :class="{ 'text-white': isActive('/blogs') }">
-                        <IconFileText class="h-4 w-4" />
-                        <span>Blog</span>
+                    <Link
+                        v-for="item in navItems"
+                        :key="item.href"
+                        :href="item.href"
+                        class="inline-flex items-center gap-1.5 text-slate-300 hover:text-white mx-3"
+                        :class="{ 'text-white': isActive(item.href) }"
+                    >
+                        <component :is="item.icon" class="h-4 w-4" />
+                        <span>{{ item.label }}</span>
                     </Link>
                 </nav>
 
                 <nav id="mobile-menu" :class="['lg:hidden', mobileOpen ? '' : 'hidden', 'flex', 'flex-col', 'text-center', 'bg-panel', 'p-4', 'rounded-md', 'gap-4', 'card']">
-                    <Link href="/" class="inline-flex items-center justify-center gap-2 text-slate-300 hover:text-white">
-                        <IconHome class="h-4 w-4" />
-                        <span>Home</span>
-                    </Link>
-                    <Link href="/experiences" class="inline-flex items-center justify-center gap-2 text-slate-300 hover:text-white">
-                        <IconBriefcase class="h-4 w-4" />
-                        <span>Experience</span>
-                    </Link>
-                    <Link href="/projects" class="inline-flex items-center justify-center gap-2 text-slate-300 hover:text-white">
-                        <IconLayoutGrid class="h-4 w-4" />
-                        <span>Projects</span>
-                    </Link>
-                    <Link v-if="showBlog" href="/blogs" class="inline-flex items-center justify-center gap-2 text-slate-300 hover:text-white">
-                        <IconFileText class="h-4 w-4" />
-                        <span>Blog</span>
+                    <Link
+                        v-for="item in navItems"
+                        :key="`mobile-${item.href}`"
+                        :href="item.href"
+                        class="inline-flex items-center justify-center gap-2 text-slate-300 hover:text-white"
+                        :class="{ 'text-white': isActive(item.href) }"
+                    >
+                        <component :is="item.icon" class="h-4 w-4" />
+                        <span>{{ item.label }}</span>
                     </Link>
                 </nav>
             </div>
@@ -96,6 +91,24 @@ const showBlog = computed(() => {
 
 const footer = computed(() => {
     return app.value.footer ?? '';
+});
+
+const profilePicture = computed(() => {
+    return app.value.profile_picture ?? '';
+});
+
+const navItems = computed(() => {
+    const items = [
+        { href: '/', label: 'Home', icon: IconHome },
+        { href: '/experiences', label: 'Experience', icon: IconBriefcase },
+        { href: '/projects', label: 'Projects', icon: IconLayoutGrid },
+    ];
+
+    if (showBlog.value) {
+        items.push({ href: '/blogs', label: 'Blog', icon: IconFileText });
+    }
+
+    return items;
 });
 
 function isActive(path) {

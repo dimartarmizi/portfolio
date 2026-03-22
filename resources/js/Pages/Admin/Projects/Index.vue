@@ -2,15 +2,8 @@
     <AdminLayout>
         <Head title="Projects" />
 
-        <section class="rounded-[2rem] border border-white/10 bg-white/5 p-6">
-            <div class="flex flex-wrap items-center justify-between gap-4">
-                <div>
-                    <div class="text-xs uppercase tracking-[0.3em] text-slate-500">Projects</div>
-                    <h2 class="mt-2 text-xl font-semibold text-white">Project records</h2>
-                    <p class="mt-2 text-sm text-slate-400">Create, edit, and delete project entries for the public portfolio.</p>
-                </div>
-
-                <div class="flex gap-3">
+        <SectionHeader section="Projects" title="Project records" description="Create, edit, and delete project entries for the public portfolio.">
+            <template #actions>
                     <Link href="/admin/content" class="inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2 text-sm text-slate-200 transition hover:bg-white/5">
                         <IconArrowLeft class="h-4 w-4" />
                         <span>Content hub</span>
@@ -19,8 +12,7 @@
                         <IconPlus class="h-4 w-4" />
                         <span>New project</span>
                     </Link>
-                </div>
-            </div>
+            </template>
 
             <form class="mt-6 grid gap-4 xl:grid-cols-[2fr_1fr_1fr_auto]" @submit.prevent="applyFilters">
                 <div>
@@ -50,8 +42,8 @@
                 </div>
             </form>
 
-            <div class="mt-6 overflow-hidden rounded-2xl border border-white/10">
-                <table class="w-full text-left text-sm">
+            <div class="mt-6 overflow-x-auto rounded-2xl border border-white/10">
+                <table class="min-w-[760px] w-full text-left text-sm">
                     <thead class="bg-slate-900/80 text-slate-400">
                         <tr>
                             <th class="px-4 py-3 font-medium">Title</th>
@@ -97,7 +89,7 @@
             </div>
 
             <Pagination :links="projectsMeta.links ?? []" />
-        </section>
+        </SectionHeader>
     </AdminLayout>
 </template>
 
@@ -105,6 +97,7 @@
 import { computed, reactive } from 'vue';
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
+import SectionHeader from '@/Components/Admin/SectionHeader.vue';
 import Pagination from '@/Components/Admin/Pagination.vue';
 import SelectField from '@/Components/Form/SelectField.vue';
 import { IconArrowLeft, IconEdit, IconPlus, IconRefresh, IconSearch, IconTrash } from '@tabler/icons-vue';

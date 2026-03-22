@@ -1,6 +1,10 @@
 <template>
   <AppLayout>
-    <h1 class="text-2xl text-slate-100 font-semibold mb-4">All Projects</h1>
+    <SectionHeading
+      eyebrow="Portfolio"
+      title="All Projects"
+      description="Selected builds and experiments from the portfolio."
+    />
     <div class="space-y-6">
       <div v-for="proj in projects" :key="proj.id" class="card">
         <div class="flex items-start gap-4">
@@ -28,6 +32,7 @@
 
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import SectionHeading from '@/Components/Public/SectionHeading.vue';
 import { computed } from 'vue';
 import { usePage, Link } from '@inertiajs/vue3';
 import { IconArrowRight } from '@tabler/icons-vue';

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ExperienceRequest;
 use App\Models\Experience;
+use App\Support\PortfolioData;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -33,7 +34,7 @@ class ExperienceController extends Controller
 			->paginate(10)
 			->withQueryString();
 
-		$experiences->getCollection()->transform(fn (Experience $experience) => $this->experiencePayload($experience));
+		$experiences->getCollection()->transform(fn (Experience $experience) => PortfolioData::experienceSummary($experience));
 
 		return Inertia::render('Admin/Experiences/Index', [
 			'experiences' => $experiences,
@@ -50,7 +51,7 @@ class ExperienceController extends Controller
 	public function create(): Response
 	{
 		return Inertia::render('Admin/Experiences/Create', [
-			'experience' => $this->emptyExperiencePayload(),
+			'experience' => PortfolioData::emptyExperiencePayload(),
 		]);
 	}
 
@@ -68,7 +69,7 @@ class ExperienceController extends Controller
 	public function edit(Experience $experience): Response
 	{
 		return Inertia::render('Admin/Experiences/Edit', [
-			'experience' => $this->experiencePayload($experience),
+			'experience' => PortfolioData::experienceFormPayload($experience),
 		]);
 	}
 
@@ -99,56 +100,7 @@ class ExperienceController extends Controller
 		$experience->end_date = $data['end_date'] ?? null;
 		$experience->employment_type = $data['employment_type'];
 		$experience->description = $data['description'] ?? null;
-		$experience->highlights = $this->normalizeTextList($data['highlights'] ?? []);
-		$experience->tech_stack = $this->normalizeTextList($data['tech_stack'] ?? []);
-	}
-
-	private function experiencePayload(Experience $experience): array
-	{
-		return [
-			'id' => $experience->id,
-			'position' => $experience->position,
-			'company' => $experience->company,
-			'company_link' => $experience->company_link,
-			'location' => $experience->location,
-			'start_date' => $experience->start_date?->format('Y-m-d') ?? '',
-			'end_date' => $experience->end_date?->format('Y-m-d') ?? '',
-			'employment_type' => $experience->employment_type,
-			'description' => $experience->description,
-			'highlights' => array_values($experience->highlights ?? []),
-			'tech_stack' => array_values($experience->tech_stack ?? []),
-		];
-	}
-
-	private function emptyExperiencePayload(): array
-	{
-		return [
-			'id' => null,
-			'position' => '',
-			'company' => '',
-			'company_link' => '',
-			'location' => '',
-			'start_date' => '',
-			'end_date' => '',
-			'employment_type' => 'Full-time',
-			'description' => '',
-			'highlights' => [],
-			'tech_stack' => [],
-		];
-	}
-
-	private function normalizeTextList(array $values): array
-	{
-		return array_values(array_filter(array_map(function ($value) {
-			if (is_string($value)) {
-				return trim($value);
-			}
-
-			if (is_numeric($value)) {
-				return trim((string) $value);
-			}
-
-			return null;
-		}, $values)));
+		$experience->highlights = PortfolioData::normalizeTextList($data['highlights'] ?? []);
+		$experience->tech_stack = PortfolioData::normalizeTextList($data['tech_stack'] ?? []);
 	}
 }

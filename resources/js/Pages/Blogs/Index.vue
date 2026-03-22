@@ -1,6 +1,10 @@
 <template>
   <AppLayout>
-    <h1 class="text-2xl text-slate-100 font-semibold mb-4">Latest Posts</h1>
+    <SectionHeading
+      eyebrow="Writing"
+      title="Latest Posts"
+      description="Short notes, articles, and updates from the portfolio."
+    />
     <div class="space-y-6">
       <article v-for="post in posts" :key="post.id" class="card">
         <div class="flex items-start gap-4">
@@ -29,6 +33,7 @@
 
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import SectionHeading from '@/Components/Public/SectionHeading.vue';
 import { computed } from 'vue';
 import { usePage, Link } from '@inertiajs/vue3';
 import { IconArrowRight } from '@tabler/icons-vue';

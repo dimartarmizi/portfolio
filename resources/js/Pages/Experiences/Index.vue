@@ -1,6 +1,10 @@
 <template>
   <AppLayout>
-    <h1 class="text-2xl text-slate-100 font-semibold mb-4">Work Experience</h1>
+    <SectionHeading
+      eyebrow="Career"
+      title="Work Experience"
+      description="A timeline of roles, responsibilities, and highlights."
+    />
     <div class="space-y-6">
       <div v-for="exp in experiences" :key="exp.id" class="card">
         <h3 class="text-lg font-semibold text-white">{{ exp.position }} — {{ exp.company }}</h3>
@@ -24,6 +28,7 @@
 
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import SectionHeading from '@/Components/Public/SectionHeading.vue';
 import { computed } from 'vue';
 import { usePage, Link } from '@inertiajs/vue3';
 import { IconArrowRight } from '@tabler/icons-vue';

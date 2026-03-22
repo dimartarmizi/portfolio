@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Inertia\Inertia;
 use App\Models\Experience;
-use App\Models\Project;
 use App\Models\Post;
+use App\Models\Project;
+use App\Support\PortfolioData;
+use Inertia\Inertia;
 
 class LandingController extends Controller
 {
@@ -13,42 +14,14 @@ class LandingController extends Controller
     {
         $experiences = Experience::orderBy('start_date', 'desc')
             ->get()
-            ->map(function ($e) {
-                $start = $e->start_date ? $e->start_date : null;
-                $end   = $e->end_date ? $e->end_date : null;
-
-                return [
-                    'id'              => $e->id,
-                    'position'        => $e->position,
-                    'company'         => $e->company,
-                    'company_link'    => $e->company_link,
-                    'location'        => $e->location,
-                    'start_date'      => $start ? ($start->toDateString()) : null,
-                    'end_date'        => $end ? ($end->toDateString()) : null,
-                    'date_range'      => $this->formatDateRange($start, $end),
-                    'employment_type' => $e->employment_type,
-                    'description'     => $e->description,
-                    'highlights'      => $e->highlights ?? [],
-                    'tech_stack'      => $e->tech_stack ?? [],
-                ];
-            })->toArray();
+            ->map(fn (Experience $experience) => PortfolioData::experienceSummary($experience))
+            ->toArray();
 
         $projects = Project::orderBy('created_at', 'desc')
             ->take(6)
             ->get()
-            ->map(function ($p) {
-                return [
-                    'id'                => $p->id,
-                    'year'              => $p->year,
-                    'title'             => $p->title,
-                    'slug'              => $p->slug,
-                    'made_at'           => $p->made_at,
-                    'description'       => $p->description,
-                    'short_description' => $this->truncateWords($p->description, 20),
-                    'link'              => $p->link,
-                    'thumbnail_url'     => $this->storageUrl($p->thumbnail),
-                ];
-            })->toArray();
+            ->map(fn (Project $project) => PortfolioData::projectSummary($project))
+            ->toArray();
 
         $showBlog = setting('show_blog', "0") === "1";
         $posts    = [];
@@ -57,23 +30,15 @@ class LandingController extends Controller
                 ->orderBy('published_at', 'desc')
                 ->take(5)
                 ->get()
-                ->map(function ($post) {
-                    return [
-                        'id'              => $post->id,
-                        'title'           => $post->title,
-                        'short_title'     => $this->truncateWords($post->title, 20),
-                        'slug'            => $post->slug,
-                        'cover_image_url' => $this->storageUrl($post->cover_image),
-                        'published_at'    => $post->published_at ? $post->published_at->toDateString() : null,
-                    ];
-                })->toArray();
+                ->map(fn (Post $post) => PortfolioData::postSummary($post))
+                ->toArray();
         }
 
         return Inertia::render('Index', [
             'owner_name'           => setting('owner_name', null),
             'headline'             => setting('headline', null),
-            'profile_picture'      => $this->storageUrl(setting('profile_picture', null)),
-            'resume_file'          => $this->storageUrl(setting('resume_file', null)),
+            'profile_picture'      => PortfolioData::storageUrl(setting('profile_picture', null)),
+            'resume_file'          => PortfolioData::storageUrl(setting('resume_file', null)),
             'description'          => setting('description', null),
             'social_links'         => setting('social_links', []),
             'footer'               => setting('footer', null),
@@ -85,52 +50,13 @@ class LandingController extends Controller
         ]);
     }
 
-    private function formatDateRange($start, $end)
-    {
-        if (!$start && !$end) return '';
-        $s = $start ? $start->format('Y') : null;
-        $e = $end ? $end->format('Y') : null;
-        if ($s && $e) return "$s — $e";
-        if ($s && !$e) return "$s — Present";
-        return $e ? (string) $e: '';
-    }
-
-    private function storageUrl($path)
-    {
-        if (!$path) return null;
-        if (preg_match('/^https?:\/\//i', $path)) return $path;
-        if (strpos($path, '/storage/') === 0) {
-            return url($path);
-        }
-        return url('/storage/' . ltrim($path, '/'));
-    }
-
-    private function truncateWords($text, $limit = 20)
-    {
-        if ($text === null || $text === '') return '';
-        $words = preg_split('/\s+/', trim($text));
-        $words = array_filter($words, function ($w) {
-            return $w !== '';
-        });
-        if (count($words) <= $limit) return implode(' ', $words);
-        return implode(' ', array_slice($words, 0, $limit)) . '...';
-    }
-
     public function blogsIndex()
     {
         $posts = Post::where('status', 'published')
             ->orderBy('published_at', 'desc')
             ->get()
-            ->map(function ($post) {
-                return [
-                    'id'              => $post->id,
-                    'title'           => $post->title,
-                    'short_title'     => $this->truncateWords($post->title, 20),
-                    'slug'            => $post->slug,
-                    'cover_image_url' => $this->storageUrl($post->cover_image),
-                    'published_at'    => $post->published_at ? $post->published_at->toDateString() : null,
-                ];
-            })->toArray();
+            ->map(fn (Post $post) => PortfolioData::postSummary($post))
+            ->toArray();
 
         return Inertia::render('Blogs/Index', ['posts' => $posts]);
     }
@@ -144,7 +70,7 @@ class LandingController extends Controller
             'title'           => $post->title,
             'slug'            => $post->slug,
             'content'         => $post->content,
-            'cover_image_url' => $this->storageUrl($post->cover_image),
+            'cover_image_url' => PortfolioData::storageUrl($post->cover_image),
             'published_at'    => $post->published_at ? $post->published_at->toDateString() : null,
         ];
 
@@ -155,49 +81,15 @@ class LandingController extends Controller
     {
         $experiences = Experience::orderBy('start_date', 'desc')
             ->get()
-            ->map(function ($e) {
-                $start = $e->start_date ? $e->start_date : null;
-                $end   = $e->end_date ? $e->end_date : null;
-
-                return [
-                    'id'              => $e->id,
-                    'position'        => $e->position,
-                    'company'         => $e->company,
-                    'company_link'    => $e->company_link,
-                    'location'        => $e->location,
-                    'start_date'      => $start ? ($start->toDateString()) : null,
-                    'end_date'        => $end ? ($end->toDateString()) : null,
-                    'date_range'      => $this->formatDateRange($start, $end),
-                    'employment_type' => $e->employment_type,
-                    'description'     => $e->description,
-                    'highlights'      => $e->highlights ?? [],
-                    'tech_stack'      => $e->tech_stack ?? [],
-                ];
-            })->toArray();
+            ->map(fn (Experience $experience) => PortfolioData::experienceSummary($experience))
+            ->toArray();
 
         return Inertia::render('Experiences/Index', ['experiences' => $experiences]);
     }
 
     public function experiencesShow($id)
     {
-        $e     = Experience::findOrFail($id);
-        $start = $e->start_date ? $e->start_date : null;
-        $end   = $e->end_date ? $e->end_date : null;
-
-        $data = [
-            'id'              => $e->id,
-            'position'        => $e->position,
-            'company'         => $e->company,
-            'company_link'    => $e->company_link,
-            'location'        => $e->location,
-            'start_date'      => $start ? ($start->toDateString()) : null,
-            'end_date'        => $end ? ($end->toDateString()) : null,
-            'date_range'      => $this->formatDateRange($start, $end),
-            'employment_type' => $e->employment_type,
-            'description'     => $e->description,
-            'highlights'      => $e->highlights ?? [],
-            'tech_stack'      => $e->tech_stack ?? [],
-        ];
+        $data = PortfolioData::experienceSummary(Experience::findOrFail($id));
 
         return Inertia::render('Experiences/Show', ['experience' => $data]);
     }
@@ -206,19 +98,8 @@ class LandingController extends Controller
     {
         $projects = Project::orderBy('created_at', 'desc')
             ->get()
-            ->map(function ($p) {
-                return [
-                    'id'                => $p->id,
-                    'year'              => $p->year,
-                    'title'             => $p->title,
-                    'slug'              => $p->slug,
-                    'made_at'           => $p->made_at,
-                    'description'       => $p->description,
-                    'short_description' => $this->truncateWords($p->description, 20),
-                    'link'              => $p->link,
-                    'thumbnail_url'     => $this->storageUrl($p->thumbnail),
-                ];
-            })->toArray();
+            ->map(fn (Project $project) => PortfolioData::projectSummary($project))
+            ->toArray();
 
         return Inertia::render('Projects/Index', ['projects' => $projects]);
     }
@@ -236,15 +117,15 @@ class LandingController extends Controller
         $normalizedGallery = [];
 
         foreach ($gallery as $g) {
-            $image = $this->normalizeStoredPath($g);
+            $image = PortfolioData::normalizeStoredPath($g);
 
             if (! $image) {
                 continue;
             }
 
             $normalizedGallery[] = [
-                'image' => $this->storageUrl($image),
-                'caption' => $this->normalizeTextValue(is_array($g) ? ($g['caption'] ?? null) : null),
+                'image' => PortfolioData::storageUrl($image),
+                'caption' => PortfolioData::normalizeTextValue(is_array($g) ? ($g['caption'] ?? null) : null),
             ];
         }
 
@@ -258,7 +139,7 @@ class LandingController extends Controller
             'made_at'       => $p->made_at,
             'description'   => $p->description,
             'link'          => $p->link,
-            'thumbnail_url' => $this->storageUrl($p->thumbnail),
+            'thumbnail_url' => PortfolioData::storageUrl($p->thumbnail),
             'gallery'       => $gallery,
             'technologies'  => $p->technologies ?? [],
             'features'      => $p->features ?? [],
@@ -267,67 +148,5 @@ class LandingController extends Controller
         ];
 
         return Inertia::render('Projects/Show', ['project' => $data]);
-    }
-
-    private function normalizeStoredPath($value)
-    {
-        if (is_string($value) || is_numeric($value)) {
-            $path = trim((string) $value);
-
-            return $path !== '' ? $path : null;
-        }
-
-        if (is_array($value)) {
-            foreach (['image', 'path', 'url', 'src', 'file', 'value'] as $key) {
-                if (array_key_exists($key, $value)) {
-                    $path = $this->normalizeStoredPath($value[$key]);
-
-                    if ($path) {
-                        return $path;
-                    }
-                }
-            }
-
-            foreach ($value as $item) {
-                $path = $this->normalizeStoredPath($item);
-
-                if ($path) {
-                    return $path;
-                }
-            }
-        }
-
-        return null;
-    }
-
-    private function normalizeTextValue($value)
-    {
-        if (is_string($value) || is_numeric($value)) {
-            $text = trim((string) $value);
-
-            return $text !== '' ? $text : null;
-        }
-
-        if (is_array($value)) {
-            foreach (['name', 'title', 'label', 'text', 'value', 'caption'] as $key) {
-                if (array_key_exists($key, $value)) {
-                    $text = $this->normalizeTextValue($value[$key]);
-
-                    if ($text) {
-                        return $text;
-                    }
-                }
-            }
-
-            foreach ($value as $item) {
-                $text = $this->normalizeTextValue($item);
-
-                if ($text) {
-                    return $text;
-                }
-            }
-        }
-
-        return null;
     }
 }

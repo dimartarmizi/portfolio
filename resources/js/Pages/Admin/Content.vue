@@ -2,7 +2,7 @@
     <AdminLayout>
         <Head title="Content Library" />
 
-        <section class="grid gap-4 md:grid-cols-3">
+        <section class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             <div class="rounded-3xl border border-white/10 bg-white/5 p-5">
                 <div class="text-sm text-slate-400">Projects</div>
                 <div class="mt-3 text-3xl font-semibold text-white">{{ counts.projects ?? 0 }}</div>
@@ -30,47 +30,49 @@
         </section>
 
         <section class="mt-6 grid gap-6 xl:grid-cols-3">
-            <div class="rounded-[2rem] border border-white/10 bg-white/5 p-6 xl:col-span-2">
-                <div class="flex items-center justify-between gap-4">
+            <div class="min-w-0 rounded-[2rem] border border-white/10 bg-white/5 p-5 sm:p-6 xl:col-span-2">
+                <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
                     <div>
                         <div class="text-xs uppercase tracking-[0.3em] text-slate-500">Projects</div>
                         <h2 class="mt-2 text-xl font-semibold text-white">Latest project records</h2>
                     </div>
-                    <span class="rounded-full border border-white/10 px-3 py-1 text-sm text-slate-300">{{ projects.length }} items</span>
+                    <span class="inline-flex w-fit rounded-full border border-white/10 px-3 py-1 text-sm text-slate-300">{{ projects.length }} items</span>
                 </div>
 
-                <div class="mt-6 overflow-hidden rounded-2xl border border-white/10">
-                    <table class="w-full text-left text-sm">
-                        <thead class="bg-slate-900/80 text-slate-400">
-                            <tr>
-                                <th class="px-4 py-3 font-medium">Title</th>
-                                <th class="px-4 py-3 font-medium">Year</th>
-                                <th class="px-4 py-3 font-medium">Status</th>
-                                <th class="px-4 py-3 font-medium">Slug</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-white/5 bg-slate-950/50">
-                            <tr v-for="project in projects" :key="project.id">
-                                <td class="px-4 py-3 text-white">{{ project.title }}</td>
-                                <td class="px-4 py-3 text-slate-300">{{ project.year || '—' }}</td>
-                                <td class="px-4 py-3 text-slate-300">{{ project.status }}</td>
-                                <td class="px-4 py-3 text-slate-500">
-                                    <a
-                                        :href="`/projects/${project.slug}`"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        class="inline-flex max-w-full items-center gap-2 rounded-lg border border-white/10 px-2 py-1 text-amber-300 transition hover:border-amber-400/30 hover:bg-amber-400/10 hover:text-amber-200"
-                                    >
-                                        <span class="truncate">{{ project.slug }}</span>
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="mt-6 rounded-2xl border border-white/10">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-[720px] w-full text-left text-sm whitespace-nowrap">
+                            <thead class="bg-slate-900/80 text-slate-400">
+                                <tr>
+                                    <th class="px-4 py-3 font-medium">Title</th>
+                                    <th class="px-4 py-3 font-medium">Year</th>
+                                    <th class="px-4 py-3 font-medium">Status</th>
+                                    <th class="px-4 py-3 font-medium">Slug</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-white/5 bg-slate-950/50">
+                                <tr v-for="project in projects" :key="project.id">
+                                    <td class="px-4 py-3 text-white">{{ project.title }}</td>
+                                    <td class="px-4 py-3 text-slate-300">{{ project.year || '—' }}</td>
+                                    <td class="px-4 py-3 text-slate-300">{{ project.status }}</td>
+                                    <td class="px-4 py-3 text-slate-500">
+                                        <a
+                                            :href="`/projects/${project.slug}`"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            class="inline-flex max-w-full items-center gap-2 rounded-lg border border-white/10 px-2 py-1 text-amber-300 transition hover:border-amber-400/30 hover:bg-amber-400/10 hover:text-amber-200"
+                                        >
+                                            <span class="truncate">{{ project.slug }}</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
-            <div class="rounded-[2rem] border border-white/10 bg-white/5 p-6">
+            <div class="rounded-[2rem] border border-white/10 bg-white/5 p-5 sm:p-6">
                 <div class="text-xs uppercase tracking-[0.3em] text-slate-500">Posts</div>
                 <h2 class="mt-2 text-xl font-semibold text-white">Recent blog items</h2>
 
@@ -84,16 +86,16 @@
             </div>
         </section>
 
-        <section class="mt-8 rounded-[2rem] border border-white/10 bg-white/5 p-6">
-            <div class="flex items-center justify-between gap-4">
+        <section class="mt-8 rounded-[2rem] border border-white/10 bg-white/5 p-5 sm:p-6">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
                 <div>
                     <div class="text-xs uppercase tracking-[0.3em] text-slate-500">Experience</div>
                     <h2 class="mt-2 text-xl font-semibold text-white">Career timeline</h2>
                 </div>
-                <span class="rounded-full border border-white/10 px-3 py-1 text-sm text-slate-300">{{ experiences.length }} entries</span>
+                <span class="inline-flex w-fit rounded-full border border-white/10 px-3 py-1 text-sm text-slate-300">{{ experiences.length }} entries</span>
             </div>
 
-            <div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <div class="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
                 <article v-for="experience in experiences" :key="experience.id" class="rounded-2xl border border-white/10 bg-slate-950/50 p-4">
                     <div class="text-sm text-slate-500">{{ experience.employment_type }}</div>
                     <h3 class="mt-2 font-medium text-white">{{ experience.position }}</h3>

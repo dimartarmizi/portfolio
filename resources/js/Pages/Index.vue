@@ -7,6 +7,9 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 <aside class="lg:col-span-4 flex flex-col items-start gap-8 lg:sticky lg:top-20 lg:max-h-[calc(100vh-10rem)] lg:overflow-auto">
                     <div class="w-full">
+                        <div v-if="profile_picture" class="mb-5 h-24 w-24 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-xl shadow-black/20">
+                            <img :src="profile_picture" :alt="owner_name" class="h-full w-full object-cover" />
+                        </div>
                         <h1 class="text-3xl font-extrabold tracking-tight">{{ owner_name }}</h1>
                         <p class="mt-2 text-slate-400">{{ headline }}</p>
                     </div>
@@ -48,7 +51,7 @@
                     </section>
 
                     <section id="experience" class="mb-12">
-                        <h2 class="text-slate-200 font-semibold mb-6">Experience</h2>
+                        <SectionHeading title="Experience" compact />
                         <div class="space-y-8">
                             <div v-for="exp in experiences" :key="exp.id" class="grid grid-cols-12 gap-4 hover-box">
                                 <a :href="exp.company_link || '#'" class="contents">
@@ -69,7 +72,7 @@
                                 </a>
                             </div>
                         </div>
-                        <a :href=resume_file class="flex items-center text-accent hover:text-white mt-5">
+                        <a v-if="resume_file" :href="resume_file" class="flex items-center text-accent hover:text-white mt-5">
                             <span>View Full Resume</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-2" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M1.5 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 1 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H2a.5.5 0 0 1-.5-.5z" />
@@ -78,7 +81,7 @@
                     </section>
 
                     <section id="projects" class="mb-12">
-                        <h2 class="text-slate-200 font-semibold mb-6">Projects</h2>
+                        <SectionHeading title="Projects" compact />
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
                             <div v-for="project in projects" :key="project.id" class="hover-box">
                                 <Link :href="`/projects/${project.slug}` || '#'" class="contents" target="_blank" rel="noopener noreferrer">
@@ -97,7 +100,7 @@
                     </section>
 
                     <section id="blog" v-if="show_blog" class="mb-12">
-                        <h2 class="text-slate-200 font-semibold mb-6">Blog</h2>
+                        <SectionHeading title="Blog" compact />
                         <ul class="space-y-5">
                             <li v-for="post in posts" :key="post.id" class="flex items-start gap-4 hover-box">
                                 <a :href="`/blogs/${post.slug}`" class="contents">
@@ -129,6 +132,7 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
 import { ref, onMounted, onBeforeUnmount } from 'vue';
+import SectionHeading from '@/Components/Public/SectionHeading.vue';
 
 const { owner_name, headline, profile_picture, resume_file, description, social_links, footer, experiences, projects, posts, show_blog } = defineProps({
     owner_name: { type: String },
