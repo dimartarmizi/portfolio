@@ -31,7 +31,7 @@ Portfolio template built with Laravel 13, Inertia, and Vue 3. This project inclu
 
 ## Requirements
 
-- PHP 8.2 or newer
+- PHP 8.3 or newer
 - Composer
 - Node.js and npm
 - A database supported by Laravel
@@ -54,10 +54,18 @@ php artisan key:generate
 ```
 
 4. Configure your database connection in the .env file.
-5. Run migrations and seeders if needed.
+5. Run migrations and choose one of the following options:
+
+- Use sample seed data for a ready-made demo portfolio.
 
 ```bash
 php artisan migrate --seed
+```
+
+- Start with a fresh database and add your own content later.
+
+```bash
+php artisan migrate
 ```
 
 6. Build the frontend assets or run development mode.
@@ -93,6 +101,10 @@ npm run build
 ## Reuse
 
 You are free to use, modify, and adapt this template for your own portfolio or other projects. If you reuse it for public or commercial work, review the content, branding, and security settings before deployment.
+
+## Inspiration
+
+The landing page for this portfolio template was inspired by the design style of [brittanychiang.com](https://brittanychiang.com/). The rest of the template and implementation are original to this project.
 
 ## License
 

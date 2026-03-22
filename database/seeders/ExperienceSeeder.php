@@ -9,91 +9,78 @@ class ExperienceSeeder extends Seeder
 {
     public function run(): void
     {
-        Experience::create([
-            'position'        => 'Software Engineer',
-            'company'         => 'Universitas Islam Indragiri',
-            'company_link'    => 'https://unisi.ac.id',
-            'location'        => 'Riau, Indonesia',
-            'start_date'      => '2024-08-01',
+        Experience::updateOrCreate([
+            'company' => 'Northwind Studio',
+            'position' => 'Senior Software Engineer',
+            'start_date' => '2024-01-01',
+        ], [
+            'company_link'    => 'https://example.com/studio',
+            'location'        => 'Remote',
             'end_date'        => null,
             'employment_type' => 'Full-time',
-            'description'     => "Responsible for architecture, platform ownership and delivery of university web systems, SSO design, and operational reliability improvements.",
+            'description'     => 'Responsible for building and maintaining internal web platforms, API services, and reusable UI systems for client-facing products.',
             'highlights'      => [
-                ['highlight' => 'Sole developer of a fully integrated ecosystem of university web applications (SSO, API Gateway, E-Office, HR System, Academic System), centralizing data, automating workflows, and improving operational efficiency.'],
-                ['highlight' => 'Contributed to the university’s paperless campus vision by digitizing administrative and academic processes.'],
-                ['highlight' => 'Managed full server lifecycle, including VPS setup, domain, Cloudflare, SSL/TLS, and ongoing infrastructure maintenance.'],
-                ['highlight' => 'Strengthened digital infrastructure and service accessibility while integrating third-party applications.'],
-                ['highlight' => 'Implemented Google Workspace for Education to enhance collaboration and digital communication for faculty, staff, and students.'],
+                ['highlight' => 'Built a shared component library and design system for multiple products.'],
+                ['highlight' => 'Implemented authentication, role management, and API integrations.'],
+                ['highlight' => 'Improved deployment workflows and platform reliability.'],
             ],
             'tech_stack' => [
-                ['tech' => 'Ubuntu'],
-                ['tech' => 'Webmin'],
-                ['tech' => 'Apache'],
-                ['tech' => 'MariaDB'],
-                ['tech' => 'PHP'],
-                ['tech' => 'Javascript'],
                 ['tech' => 'Laravel'],
                 ['tech' => 'Vue.js'],
-                ['tech' => 'Tailwind'],
-                ['tech' => 'Bootstrap'],
+                ['tech' => 'Tailwind CSS'],
+                ['tech' => 'MySQL'],
+                ['tech' => 'Docker'],
                 ['tech' => 'Git'],
-                ['tech' => 'Wordpress'],
-                ['tech' => 'Open Journal Systems (OJS)'],
-                ['tech' => 'EPrints'],
-                ['tech' => 'Google Workspace Management'],
             ],
         ]);
 
-        Experience::create([
-            'position'        => 'Web Programmer',
-            'company'         => 'PT. Riau Sakti United Plantations (Sambu Group)',
+        Experience::updateOrCreate([
+            'company' => 'Bluebird Labs',
+            'position' => 'Web Developer',
+            'start_date' => '2022-06-01',
+        ], [
             'company_link'    => null,
-            'location'        => 'Riau, Indonesia',
-            'start_date'      => '2023-10-01',
-            'end_date'        => '2024-07-31',
-            'employment_type' => 'Full-time',
-            'description'     => "Contributed to development and operational support for business web systems, with emphasis on quality assurance and data integrity.",
+            'location'        => 'Hybrid',
+            'end_date'        => '2023-12-31',
+            'employment_type' => 'Contract',
+            'description'     => 'Worked on customer portals and operational tools, with a focus on reliability, testing, and maintainable features.',
             'highlights'      => [
-                ['highlight' => 'Developed and maintained PHP-based web applications.'],
-                ['highlight' => 'Analyzed user requirements and conducted testing.'],
-                ['highlight' => 'Maintained databases and supported system operations.']
+                ['highlight' => 'Delivered features for dashboard and reporting workflows.'],
+                ['highlight' => 'Supported QA, bug fixing, and release preparation.'],
+                ['highlight' => 'Maintained database-driven business processes.'],
+            ],
+            'tech_stack' => [
+                ['tech' => 'Laravel'],
+                ['tech' => 'PHP'],
+                ['tech' => 'MySQL'],
+                ['tech' => 'JavaScript'],
+                ['tech' => 'Git'],
+                ['tech' => 'Testing'],
+            ],
+        ]);
+
+        Experience::updateOrCreate([
+            'company' => 'Atlas Digital Center',
+            'position' => 'Technical Support Specialist',
+            'start_date' => '2021-02-01',
+        ], [
+            'company_link'    => 'https://example.com/center',
+            'location'        => 'On-site',
+            'end_date'        => '2022-05-31',
+            'employment_type' => 'Full-time',
+            'description'     => 'Maintained a content management platform and helped teams manage documentation, publishing, and support requests.',
+            'highlights'      => [
+                ['highlight' => 'Helped teams publish content and manage internal knowledge pages.'],
+                ['highlight' => 'Supported platform setup, updates, and day-to-day maintenance.'],
+                ['highlight' => 'Improved response times for common support tasks.'],
             ],
             'tech_stack' => [
                 ['tech' => 'PHP'],
-                ['tech' => 'CodeIgniter'],
                 ['tech' => 'Laravel'],
                 ['tech' => 'MySQL'],
-                ['tech' => 'Postgre'],
                 ['tech' => 'HTML'],
                 ['tech' => 'CSS'],
-                ['tech' => 'JavaScript'],
-                ['tech' => 'jQuery'],
-                ['tech' => 'Git']
-            ],
-        ]);
-
-        Experience::create([
-            'position'        => 'IT Specialist',
-            'company'         => 'Indra Institute Research & Publication',
-            'company_link'    => 'https://indrainstitute.id',
-            'location'        => 'Riau, Indonesia',
-            'start_date'      => '2022-12-01',
-            'end_date'        => '2023-09-30',
-            'employment_type' => 'Full-time',
-            'description'     => "Operated and customized the OJS-based journal platform, improving availability and user experience while delivering OJS services to partner institutions.",
-            'highlights'      => [
-                ['highlight' => 'Manage the academic journal platform using Open Journal Systems (OJS), including server setup, hosting, UI design, and theme customization.'],
-                ['highlight' => 'Maintained reliable journal services, improving accessibility and consistency of academic publications.'],
-                ['highlight' => 'Provided OJS setup and customization services to other institutions, supporting digital transformation and knowledge dissemination beyond the organization.']
-            ],
-            'tech_stack' => [
-                ['tech' => 'PHP'],
-                ['tech' => 'Open Journal Systems (OJS)'],
-                ['tech' => 'MySQL'],
-                ['tech' => 'Apache'],
-                ['tech' => 'HTML'],
-                ['tech' => 'CSS'],
-                ['tech' => 'Smarty']
+                ['tech' => 'Support Tools'],
             ],
         ]);
     }
