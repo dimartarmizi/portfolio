@@ -66,7 +66,16 @@
                             <td class="px-4 py-3 text-white">{{ project.title }}</td>
                             <td class="px-4 py-3 text-slate-300">{{ project.year || '—' }}</td>
                             <td class="px-4 py-3 text-slate-300">{{ project.status }}</td>
-                            <td class="px-4 py-3 text-slate-500">{{ project.slug }}</td>
+                            <td class="px-4 py-3 text-slate-500">
+                                <a
+                                    :href="projectSlugUrl(project.slug)"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="inline-flex max-w-full items-center gap-2 rounded-lg border border-white/10 px-2 py-1 text-amber-300 transition hover:border-amber-400/30 hover:bg-amber-400/10 hover:text-amber-200"
+                                >
+                                    <span class="truncate">{{ project.slug }}</span>
+                                </a>
+                            </td>
                             <td class="px-4 py-3">
                                 <div class="flex justify-end gap-2">
                                     <Link :href="`/admin/projects/${project.id}/edit`" class="inline-flex items-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs text-slate-200 transition hover:bg-white/5">
@@ -125,6 +134,10 @@ function resetFilters() {
     filters.status = 'all';
     filters.year = '';
     applyFilters();
+}
+
+function projectSlugUrl(slug) {
+    return `/projects/${slug}`;
 }
 
 function destroyProject(id) {

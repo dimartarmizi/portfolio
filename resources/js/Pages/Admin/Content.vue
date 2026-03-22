@@ -8,7 +8,7 @@
                 <div class="mt-3 text-3xl font-semibold text-white">{{ counts.projects ?? 0 }}</div>
                 <Link href="/admin/projects" class="mt-4 inline-flex items-center gap-2 text-sm text-amber-300 transition hover:text-amber-200">
                     <IconArrowRight class="h-4 w-4" />
-                    <span>Open projects CRUD</span>
+                    <span>Open Projects</span>
                 </Link>
             </div>
             <div class="rounded-3xl border border-white/10 bg-white/5 p-5">
@@ -16,7 +16,7 @@
                 <div class="mt-3 text-3xl font-semibold text-white">{{ counts.posts ?? 0 }}</div>
                 <Link href="/admin/posts" class="mt-4 inline-flex items-center gap-2 text-sm text-amber-300 transition hover:text-amber-200">
                     <IconArrowRight class="h-4 w-4" />
-                    <span>Open posts CRUD</span>
+                    <span>Open Posts</span>
                 </Link>
             </div>
             <div class="rounded-3xl border border-white/10 bg-white/5 p-5">
@@ -24,7 +24,7 @@
                 <div class="mt-3 text-3xl font-semibold text-white">{{ counts.experiences ?? 0 }}</div>
                 <Link href="/admin/experiences" class="mt-4 inline-flex items-center gap-2 text-sm text-amber-300 transition hover:text-amber-200">
                     <IconArrowRight class="h-4 w-4" />
-                    <span>Open experiences CRUD</span>
+                    <span>Open Experiences</span>
                 </Link>
             </div>
         </section>
@@ -54,7 +54,16 @@
                                 <td class="px-4 py-3 text-white">{{ project.title }}</td>
                                 <td class="px-4 py-3 text-slate-300">{{ project.year || '—' }}</td>
                                 <td class="px-4 py-3 text-slate-300">{{ project.status }}</td>
-                                <td class="px-4 py-3 text-slate-500">{{ project.slug }}</td>
+                                <td class="px-4 py-3 text-slate-500">
+                                    <a
+                                        :href="`/projects/${project.slug}`"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="inline-flex max-w-full items-center gap-2 rounded-lg border border-white/10 px-2 py-1 text-amber-300 transition hover:border-amber-400/30 hover:bg-amber-400/10 hover:text-amber-200"
+                                    >
+                                        <span class="truncate">{{ project.slug }}</span>
+                                    </a>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -92,21 +101,6 @@
                 </article>
             </div>
         </section>
-
-        <div class="mt-6 flex flex-wrap gap-3">
-            <Link href="/admin/projects" class="inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2 text-sm text-slate-200 transition hover:bg-white/5">
-                <IconBriefcase class="h-4 w-4" />
-                <span>Manage projects</span>
-            </Link>
-            <Link href="/admin/posts" class="inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2 text-sm text-slate-200 transition hover:bg-white/5">
-                <IconFileText class="h-4 w-4" />
-                <span>Manage posts</span>
-            </Link>
-            <Link href="/admin/experiences" class="inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2 text-sm text-slate-200 transition hover:bg-white/5">
-                <IconHome class="h-4 w-4" />
-                <span>Manage experiences</span>
-            </Link>
-        </div>
     </AdminLayout>
 </template>
 
