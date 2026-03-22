@@ -16,21 +16,18 @@
                             <li class="nav-item">
                                 <span class="nav-indicator" aria-hidden="true"></span>
                                 <a href="#about" class="nav-link inline-flex items-center gap-1.5 hover:text-white">
-                                    <IconArrowRight class="h-3.5 w-3.5" />
                                     <span>About</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <span class="nav-indicator" aria-hidden="true"></span>
                                 <a href="#experience" class="nav-link inline-flex items-center gap-1.5 hover:text-white">
-                                    <IconArrowRight class="h-3.5 w-3.5" />
                                     <span>Experience</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <span class="nav-indicator" aria-hidden="true"></span>
                                 <a href="#projects" class="nav-link inline-flex items-center gap-1.5 hover:text-white">
-                                    <IconArrowRight class="h-3.5 w-3.5" />
                                     <span>Projects</span>
                                 </a>
                             </li>
@@ -132,7 +129,6 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
 import { ref, onMounted, onBeforeUnmount } from 'vue';
-import { IconArrowRight } from '@tabler/icons-vue';
 
 const { owner_name, headline, profile_picture, resume_file, description, social_links, footer, experiences, projects, posts, show_blog } = defineProps({
     owner_name: { type: String },
