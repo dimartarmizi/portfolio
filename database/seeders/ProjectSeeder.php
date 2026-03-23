@@ -32,7 +32,7 @@ class ProjectSeeder extends Seeder
                 'results' => [
                     ['result' => 'Ready-to-edit starter content for a personal portfolio'],
                 ],
-                'status' => 'completed',
+                'status' => 'Completed',
             ],
             [
                 'title' => 'Team Task Board',
@@ -56,7 +56,7 @@ class ProjectSeeder extends Seeder
                 'results' => [
                     ['result' => 'Simple workflow overview for small teams'],
                 ],
-                'status' => 'completed',
+                'status' => 'Completed',
             ],
             [
                 'title' => 'Client Dashboard',
@@ -80,7 +80,7 @@ class ProjectSeeder extends Seeder
                 'results' => [
                     ['result' => 'Clear summary view for client operations'],
                 ],
-                'status' => 'ongoing',
+                'status' => 'Ongoing',
             ],
             [
                 'title' => 'Knowledge Base',
@@ -104,7 +104,7 @@ class ProjectSeeder extends Seeder
                 'results' => [
                     ['result' => 'Faster access to common help articles'],
                 ],
-                'status' => 'completed',
+                'status' => 'Completed',
             ],
             [
                 'title' => 'Booking Manager',
@@ -128,7 +128,7 @@ class ProjectSeeder extends Seeder
                 'results' => [
                     ['result' => 'Simplified booking management for a service workflow'],
                 ],
-                'status' => 'completed',
+                'status' => 'Completed',
             ],
             [
                 'title' => 'Content Hub',
@@ -152,7 +152,7 @@ class ProjectSeeder extends Seeder
                 'results' => [
                     ['result' => 'Flexible content publishing setup'],
                 ],
-                'status' => 'completed',
+                'status' => 'Completed',
             ],
         ];
 

@@ -3,8 +3,11 @@
         <Head title="Admin Dashboard" />
 
         <section class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            <div v-for="item in statCards" :key="item.label" class="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-lg shadow-black/20">
-                <div class="text-sm text-slate-400">{{ item.label }}</div>
+            <div v-for="item in statCards" :key="item.label" class="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 shadow-lg shadow-black/20">
+                <div class="flex items-start justify-between">
+                    <div class="text-sm text-slate-400">{{ item.label }}</div>
+                    <component :is="item.icon" class="h-6 w-6 text-slate-500" />
+                </div>
                 <div class="mt-3 text-3xl font-semibold text-white">{{ item.value }}</div>
                 <div class="mt-2 text-sm text-slate-500">{{ item.caption }}</div>
             </div>
@@ -115,7 +118,7 @@
 import { computed } from 'vue';
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
-import { IconArrowRight, IconExternalLink, IconLayoutGrid, IconSettings } from '@tabler/icons-vue';
+import { IconArrowRight, IconExternalLink, IconLayoutGrid, IconSettings, IconBriefcase, IconArticle, IconHistory } from '@tabler/icons-vue';
 
 const page = usePage();
 const stats = computed(() => page.props.stats ?? {});
@@ -125,9 +128,9 @@ const appFlags = computed(() => page.props.app ?? {});
 const siteName = computed(() => appFlags.value.owner_name ?? 'Portfolio');
 
 const statCards = computed(() => [
-    { label: 'Projects', value: stats.value.projects ?? 0, caption: 'Portfolio projects available' },
-    { label: 'Posts', value: stats.value.posts ?? 0, caption: 'Published blog entries' },
-    { label: 'Experiences', value: stats.value.experiences ?? 0, caption: 'Career timeline items' },
-    { label: 'Settings', value: stats.value.settings ?? 0, caption: 'Stored site settings' },
+    { label: 'Projects', value: stats.value.projects ?? 0, caption: 'Portfolio projects available', icon: IconBriefcase },
+    { label: 'Posts', value: stats.value.posts ?? 0, caption: 'Published blog entries', icon: IconArticle },
+    { label: 'Experiences', value: stats.value.experiences ?? 0, caption: 'Career timeline items', icon: IconHistory },
+    { label: 'Settings', value: stats.value.settings ?? 0, caption: 'Stored site settings', icon: IconSettings },
 ]);
 </script>
