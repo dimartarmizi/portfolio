@@ -25,6 +25,17 @@ class SettingController extends Controller
 				'show_profile_picture' => setting('show_profile_picture', '0') === '1',
 				'profile_picture_url' => setting('profile_picture', null, true),
 				'favicon_url' => setting('favicon', null, true),
+				'seo_title' => setting('seo_title', ''),
+				'seo_description' => setting('seo_description', setting('description', '')),
+				'seo_blog_description' => setting('seo_blog_description', 'Notes, articles, and updates from the portfolio.'),
+				'seo_projects_description' => setting('seo_projects_description', 'Selected builds and experiments from the portfolio.'),
+				'seo_experience_description' => setting('seo_experience_description', 'A timeline of roles, responsibilities, and highlights.'),
+				'seo_keywords' => setting('seo_keywords', ''),
+				'seo_author' => setting('seo_author', setting('owner_name', '')),
+				'seo_twitter_site' => setting('seo_twitter_site', ''),
+				'seo_twitter_creator' => setting('seo_twitter_creator', ''),
+				'seo_image_url' => setting('seo_image', null, true),
+				'seo_custom_meta_json' => $this->formatJsonValue(setting('seo_custom_meta_json', '[]')),
 				'resume_file_url' => setting('resume_file', null, true),
 				'social_links_json' => json_encode(setting('social_links', []), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES),
 			],
@@ -46,10 +57,26 @@ class SettingController extends Controller
 		$this->saveSetting('show_blog', $request->boolean('show_blog') ? '1' : '0');
 		$this->saveSetting('show_profile_picture', $request->boolean('show_profile_picture') ? '1' : '0');
 		$this->saveSetting('social_links', $socialLinks ?: ($currentValues['social_links'] ?? []));
+		$this->saveSetting('seo_title', $this->keepExistingTextValue($validated['seo_title'] ?? null, $currentValues['seo_title'] ?? null));
+		$this->saveSetting('seo_description', $this->keepExistingTextValue($validated['seo_description'] ?? null, $currentValues['seo_description'] ?? null));
+		$this->saveSetting('seo_blog_description', $this->keepExistingTextValue($validated['seo_blog_description'] ?? null, $currentValues['seo_blog_description'] ?? null));
+		$this->saveSetting('seo_projects_description', $this->keepExistingTextValue($validated['seo_projects_description'] ?? null, $currentValues['seo_projects_description'] ?? null));
+		$this->saveSetting('seo_experience_description', $this->keepExistingTextValue($validated['seo_experience_description'] ?? null, $currentValues['seo_experience_description'] ?? null));
+		$this->saveSetting('seo_keywords', $this->keepExistingTextValue($validated['seo_keywords'] ?? null, $currentValues['seo_keywords'] ?? null));
+		$this->saveSetting('seo_author', $this->keepExistingTextValue($validated['seo_author'] ?? null, $currentValues['seo_author'] ?? null));
+		$this->saveSetting('seo_twitter_site', $this->keepExistingTextValue($validated['seo_twitter_site'] ?? null, $currentValues['seo_twitter_site'] ?? null));
+		$this->saveSetting('seo_twitter_creator', $this->keepExistingTextValue($validated['seo_twitter_creator'] ?? null, $currentValues['seo_twitter_creator'] ?? null));
+		$this->saveSetting('seo_custom_meta_json', $this->keepExistingTextValue($validated['seo_custom_meta_json'] ?? null, $currentValues['seo_custom_meta_json'] ?? null));
 
 		if ($request->hasFile('profile_picture')) {
 			$path = $request->file('profile_picture')->store('settings', 'public');
 			$this->saveSetting('profile_picture', $path);
+		}
+
+		if ($request->hasFile('seo_image')) {
+			$this->deleteStoredFile($currentValues['seo_image'] ?? null);
+			$path = $request->file('seo_image')->store('settings', 'public');
+			$this->saveSetting('seo_image', $path);
 		}
 
 		if ($request->hasFile('resume_file')) {
@@ -96,5 +123,24 @@ class SettingController extends Controller
 		}
 
 		Storage::disk('public')->delete($path);
+	}
+
+	private function formatJsonValue(mixed $value): string
+	{
+		if (is_array($value)) {
+			return json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+		}
+
+		if (! is_string($value)) {
+			return '[]';
+		}
+
+		$decoded = json_decode($value, true);
+
+		if (json_last_error() !== JSON_ERROR_NONE || ! is_array($decoded)) {
+			return $value;
+		}
+
+		return json_encode($decoded, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 	}
 }

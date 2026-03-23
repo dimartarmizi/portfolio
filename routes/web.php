@@ -11,6 +11,7 @@ use App\Http\Controllers\LandingController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LandingController::class, 'index'])->name('index');
+Route::get('/sitemap.xml', [LandingController::class, 'sitemap'])->name('sitemap');
 
 Route::get('/blogs', [LandingController::class, 'blogsIndex'])->name('blogs.index');
 Route::get('/blogs/{slug}', [LandingController::class, 'blogsShow'])->name('blogs.show');

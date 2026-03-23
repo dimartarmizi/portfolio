@@ -61,6 +61,74 @@
 				</div>
 			</section>
 
+			<section class="rounded-[2rem] border border-white/10 bg-white/5 p-6">
+				<div class="text-xs uppercase tracking-[0.3em] text-slate-500">SEO</div>
+				<h2 class="mt-2 text-xl font-semibold text-white">Search and social metadata</h2>
+				<p class="mt-3 max-w-3xl text-sm text-slate-400">
+					Set default SEO values here. Individual pages still override title, description, image, canonical URL, and robots when controllers send page-specific metadata.
+				</p>
+
+				<div class="mt-6 grid gap-5 xl:grid-cols-2">
+					<div>
+						<label class="mb-2 block text-sm font-medium text-slate-300">SEO title</label>
+						<input v-model="form.seo_title" type="text" placeholder="Default title for the site" class="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/20" />
+					</div>
+
+					<div>
+						<label class="mb-2 block text-sm font-medium text-slate-300">SEO author</label>
+						<input v-model="form.seo_author" type="text" placeholder="Your name or brand" class="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/20" />
+					</div>
+
+					<div class="xl:col-span-2">
+						<label class="mb-2 block text-sm font-medium text-slate-300">SEO description</label>
+						<textarea v-model="form.seo_description" rows="4" placeholder="Used for search snippets and social previews." class="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/20"></textarea>
+					</div>
+
+					<div class="xl:col-span-2 grid gap-5 xl:grid-cols-3">
+						<div>
+							<label class="mb-2 block text-sm font-medium text-slate-300">Blog description</label>
+							<textarea v-model="form.seo_blog_description" rows="4" placeholder="SEO description for /blogs" class="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/20"></textarea>
+						</div>
+
+						<div>
+							<label class="mb-2 block text-sm font-medium text-slate-300">Projects description</label>
+							<textarea v-model="form.seo_projects_description" rows="4" placeholder="SEO description for /projects" class="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/20"></textarea>
+						</div>
+
+						<div>
+							<label class="mb-2 block text-sm font-medium text-slate-300">Experience description</label>
+							<textarea v-model="form.seo_experience_description" rows="4" placeholder="SEO description for /experiences" class="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/20"></textarea>
+						</div>
+					</div>
+
+					<div class="xl:col-span-2">
+						<label class="mb-2 block text-sm font-medium text-slate-300">SEO keywords</label>
+						<input v-model="form.seo_keywords" type="text" placeholder="portfolio, developer, projects" class="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/20" />
+					</div>
+
+					<div>
+						<label class="mb-2 block text-sm font-medium text-slate-300">Twitter site</label>
+						<input v-model="form.seo_twitter_site" type="text" placeholder="@yourhandle" class="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/20" />
+					</div>
+
+					<div>
+						<label class="mb-2 block text-sm font-medium text-slate-300">Twitter creator</label>
+						<input v-model="form.seo_twitter_creator" type="text" placeholder="@yourhandle" class="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/20" />
+					</div>
+
+					<div class="xl:col-span-2">
+						<FileUploadField label="SEO social image" accept="image/*" :existing-url="settings.seo_image_url" button-label="Upload SEO image" helper-text="Used for Open Graph and Twitter cards. Recommended size: 1200x630." :error="form.errors.seo_image" @change="file => handleFile(file, 'seo_image')" />
+					</div>
+
+					<div class="xl:col-span-2">
+						<label class="mb-2 block text-sm font-medium text-slate-300">Custom meta JSON</label>
+						<p class="mb-3 text-sm text-slate-400">Add extra meta tags as JSON array objects with fields like name, property, content, http_equiv, charset, or media.</p>
+						<textarea v-model="form.seo_custom_meta_json" rows="10" placeholder='[{"name":"google-site-verification","content":"..."}]' class="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 font-mono text-sm text-white outline-none focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/20"></textarea>
+						<p v-if="form.errors.seo_custom_meta_json" class="mt-2 text-sm text-rose-300">{{ form.errors.seo_custom_meta_json }}</p>
+					</div>
+				</div>
+			</section>
+
 			<section class="grid gap-6 xl:grid-cols-2">
 				<div class="rounded-[2rem] border border-white/10 bg-white/5 p-6">
 					<div class="text-xs uppercase tracking-[0.3em] text-slate-500">Social</div>
@@ -128,6 +196,17 @@ const form = useForm({
 	show_blog: !!settings.show_blog,
 	show_profile_picture: !!settings.show_profile_picture,
 	profile_picture: null,
+	seo_title: settings.seo_title ?? '',
+	seo_description: settings.seo_description ?? '',
+	seo_blog_description: settings.seo_blog_description ?? '',
+	seo_projects_description: settings.seo_projects_description ?? '',
+	seo_experience_description: settings.seo_experience_description ?? '',
+	seo_keywords: settings.seo_keywords ?? '',
+	seo_author: settings.seo_author ?? '',
+	seo_twitter_site: settings.seo_twitter_site ?? '',
+	seo_twitter_creator: settings.seo_twitter_creator ?? '',
+	seo_image: null,
+	seo_custom_meta_json: settings.seo_custom_meta_json ?? '[]',
 	favicon: null,
 	resume_file: null,
 	social_links_json: settings.social_links_json ?? '[]',

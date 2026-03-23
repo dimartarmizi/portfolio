@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Setting;
+use Illuminate\Database\Seeder;
 
 class SettingSeeder extends Seeder
 {
@@ -62,6 +62,50 @@ class SettingSeeder extends Seeder
             [
                 'key' => 'footer',
                 'value' => 'Portfolio template built with Laravel, Inertia, Vue, and Tailwind CSS.',
+            ],
+            [
+                'key' => 'seo_title',
+                'value' => 'Your Name',
+            ],
+            [
+                'key' => 'seo_description',
+                'value' => 'Portfolio website showcasing projects, work experience, and selected writing.',
+            ],
+            [
+                'key' => 'seo_blog_description',
+                'value' => 'Notes, articles, and updates from the portfolio.',
+            ],
+            [
+                'key' => 'seo_projects_description',
+                'value' => 'Selected builds and experiments from the portfolio.',
+            ],
+            [
+                'key' => 'seo_experience_description',
+                'value' => 'A timeline of roles, responsibilities, and highlights.',
+            ],
+            [
+                'key' => 'seo_keywords',
+                'value' => 'portfolio, developer, projects, experience, blog',
+            ],
+            [
+                'key' => 'seo_author',
+                'value' => 'Your Name',
+            ],
+            [
+                'key' => 'seo_twitter_site',
+                'value' => '',
+            ],
+            [
+                'key' => 'seo_twitter_creator',
+                'value' => '',
+            ],
+            [
+                'key' => 'seo_image',
+                'value' => null,
+            ],
+            [
+                'key' => 'seo_custom_meta_json',
+                'value' => '[]',
             ],
             [
                 'key' => 'show_blog',

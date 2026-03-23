@@ -1,4 +1,6 @@
 <template>
+    <SeoHead :seo="seo" />
+
     <div class="antialiased text-slate-100 relative z-10 min-h-screen flex flex-col">
         <div class="mouse-gradient" aria-hidden="true">
             <div class="g g1"></div>
@@ -71,11 +73,13 @@ import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
 import { IconBriefcase, IconFileText, IconHome, IconLayoutGrid } from '@tabler/icons-vue';
 import ToastStack from '@/Components/ToastStack.vue';
+import SeoHead from '@/Components/SeoHead.vue';
 
 const mobileOpen = ref(false);
 
 const page = usePage();
 const app = computed(() => page.props.app ?? {});
+const seo = computed(() => page.props.seo ?? {});
 
 const ownerName = computed(() => {
     return app.value.owner_name ?? 'Your Name';

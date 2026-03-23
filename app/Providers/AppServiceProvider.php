@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Support\PortfolioData;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -34,6 +35,9 @@ class AppServiceProvider extends ServiceProvider
                     'show_profile_picture' => setting('show_profile_picture', "0") === "1",
                     'footer' => setting('footer', null),
                 ];
+            },
+            'seo' => function () {
+                return PortfolioData::seo();
             },
         ]);
     }
