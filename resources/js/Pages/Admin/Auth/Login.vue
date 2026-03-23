@@ -8,34 +8,9 @@
         <Head title="Admin Login" />
 
         <div class="relative mx-auto flex min-h-screen max-w-7xl items-center px-4 py-10 sm:px-6 lg:px-8">
-            <div class="grid w-full gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-                <section class="rounded-[2rem] border border-white/10 bg-white/5 p-8 backdrop-blur-xl">
-                    <div class="max-w-xl">
-                        <div class="text-xs uppercase tracking-[0.35em] text-slate-400">Admin Access</div>
-                        <h1 class="mt-5 text-4xl font-semibold tracking-tight text-white sm:text-5xl">Log in to the new admin panel</h1>
-                        <p class="mt-5 text-base leading-7 text-slate-300">
-                            This panel was rebuilt without Filament. All content and site settings are managed here with Inertia, Vue, and the latest Tailwind.
-                        </p>
-
-                        <div class="mt-8 grid gap-4 sm:grid-cols-3">
-                            <div class="rounded-2xl border border-white/10 bg-slate-950/60 p-4">
-                                <div class="text-2xl font-semibold text-amber-300">3</div>
-                                <div class="mt-1 text-sm text-slate-400">Sections</div>
-                            </div>
-                            <div class="rounded-2xl border border-white/10 bg-slate-950/60 p-4">
-                                <div class="text-2xl font-semibold text-cyan-300">Vue 3</div>
-                                <div class="mt-1 text-sm text-slate-400">Frontend</div>
-                            </div>
-                            <div class="rounded-2xl border border-white/10 bg-slate-950/60 p-4">
-                                <div class="text-2xl font-semibold text-emerald-300">v4</div>
-                                <div class="mt-1 text-sm text-slate-400">Tailwind</div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
+            <div class="mx-auto w-full max-w-md">
                 <section class="rounded-[2rem] border border-white/10 bg-slate-900/80 p-8 shadow-2xl shadow-black/30 backdrop-blur-xl">
-                    <div class="mb-8">
+                    <div class="mb-8 text-center">
                         <div class="text-sm uppercase tracking-[0.35em] text-slate-500">Sign in</div>
                         <h2 class="mt-3 text-2xl font-semibold text-white">Use your account credentials</h2>
                     </div>
@@ -67,7 +42,22 @@
                             <p v-if="form.errors.password" class="mt-2 text-sm text-rose-300">{{ form.errors.password }}</p>
                         </div>
 
-                        <ToggleSwitch v-model="form.remember" label="Remember me" hint="Keep me signed in on this device." />
+                        <div class="flex items-center gap-3">
+                            <div class="relative flex items-center">
+                                <input
+                                    id="remember"
+                                    v-model="form.remember"
+                                    type="checkbox"
+                                    class="peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-white/20 bg-slate-950/80 checked:border-amber-400 checked:bg-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-400/20 focus:ring-offset-1 focus:ring-offset-slate-900 transition-all"
+                                />
+                                <svg class="absolute left-1/2 top-1/2 pointer-events-none h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 text-slate-950 opacity-0 peer-checked:opacity-100 transition-opacity" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </div>
+                            <label class="block text-sm font-medium text-slate-300 cursor-pointer select-none" for="remember">
+                                Remember me
+                            </label>
+                        </div>
 
                         <button
                             type="submit"
@@ -78,12 +68,11 @@
                             {{ form.processing ? 'Signing in...' : 'Enter dashboard' }}
                         </button>
 
-                        <div class="flex items-center justify-between text-sm text-slate-400">
+                        <div class="flex items-center justify-center text-sm text-slate-400">
                             <Link href="/" class="inline-flex items-center gap-2 transition hover:text-white">
                                 <IconArrowLeft class="h-4 w-4" />
                                 <span>Back to site</span>
                             </Link>
-                            <span>Protected admin area</span>
                         </div>
                     </form>
                 </section>
@@ -95,7 +84,6 @@
 <script setup>
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { IconArrowLeft, IconLogin2 } from '@tabler/icons-vue';
-import ToggleSwitch from '@/Components/Form/ToggleSwitch.vue';
 
 const form = useForm({
     login: '',

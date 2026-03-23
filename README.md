@@ -90,6 +90,14 @@ The command above runs the Laravel server, queue listener, log viewer, and Vite 
 npm run build
 ```
 
+## Admin Panel
+
+If you seeded the database during installation (`php artisan migrate --seed`), you can access the admin panel (typically at `/login` or `/admin`) using the following default credentials:
+
+- **Email:** `admin@example.com`
+- **Username:** `admin`
+- **Password:** `pass`
+
 ## Project Structure
 
 - `app/Http/Controllers` contains controllers for public pages and the admin area.
